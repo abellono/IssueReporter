@@ -1,0 +1,16 @@
+/* 
+  IssueReporter-Localizable.strings
+  Pods
+
+  Created by Hakon Hanesand on 7/27/15.
+
+*/
+
+"Camera" = "Ta bilde";
+"Photo library" = "Bibliotek";
+"Cancel" = "Avbryt";
+"Pick image" = "Velg bilde";
+
+"What went wrong?" = "Hva gikk galt?";
+"New Issue" = "Ny Issue";
+"Title" = "Tittel";

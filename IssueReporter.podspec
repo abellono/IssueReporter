@@ -1,15 +1,6 @@
-#
-# Be sure to run `pod lib lint IssueReporter.podspec' to ensure this is a
-# valid spec and remove all comments before submitting the spec.
-#
-# Any lines starting with a # are optional, but encouraged
-#
-# To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html
-#
-
 Pod::Spec.new do |s|
   s.name             = "IssueReporter"
-  s.version          = "0.1.0"
+  s.version          = "0.1.12"
   s.summary          = "A short description of IssueReporter."
   s.description      = <<-DESC
                        An optional longer description of IssueReporter
@@ -24,15 +15,15 @@ Pod::Spec.new do |s|
   s.source           = { :git => "https://github.com/<GITHUB_USERNAME>/IssueReporter.git", :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.platform     = :ios, '7.0'
+  s.platform     = :ios, '8.4'
   s.requires_arc = true
 
   s.source_files = 'Pod/Classes/**/*'
   s.resource_bundles = {
-    'IssueReporter' => ['Pod/Assets/*.png']
+    'IssueReporter' => ['Pod/Assets/*.{png,strings}']
   }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
+  s.dependency 'AFNetworking', '~> 2.5'
 end

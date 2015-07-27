@@ -11,7 +11,6 @@
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
-		6003F598195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F596195388D20070C39A /* InfoPlist.strings */; };
 		6003F59A195388D20070C39A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F599195388D20070C39A /* main.m */; };
 		6003F59E195388D20070C39A /* NJHAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F59D195388D20070C39A /* NJHAppDelegate.m */; };
 		6003F5A7195388D20070C39A /* NJHViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5A6195388D20070C39A /* NJHViewController.m */; };
@@ -19,10 +18,11 @@
 		6003F5B0195388D20070C39A /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F5AF195388D20070C39A /* XCTest.framework */; };
 		6003F5B1195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
-		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
+		6ED697061B66400D00AACE32 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6ED697051B66400D00AACE32 /* Main.storyboard */; };
+		6ED6970B1B66422F00AACE32 /* IssueReporterDemo-Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6ED697091B66422F00AACE32 /* IssueReporterDemo-Localizable.strings */; };
+		6ED697161B664F1A00AACE32 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6ED697151B664F1A00AACE32 /* Launch Screen.xib */; };
 		7EF3EC798F22ABAB7D1D17C4 /* Pods_IssueReporter_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C786214C50CCD16E16F2022 /* Pods_IssueReporter_Tests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,12 +41,11 @@
 		1F6C2E941B48045B094491E0 /* IssueReporter.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = IssueReporter.podspec; path = ../IssueReporter.podspec; sourceTree = "<group>"; };
 		2A3F69CF57CA9266F7D5F801 /* Pods-IssueReporter_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IssueReporter_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-IssueReporter_Example/Pods-IssueReporter_Example.release.xcconfig"; sourceTree = "<group>"; };
 		3C079B2695C556A7164C6F3D /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
-		6003F58A195388D20070C39A /* IssueReporter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = IssueReporter.app; path = IssueReporter_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6003F58A195388D20070C39A /* IssueReporter_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IssueReporter_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		6003F591195388D20070C39A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		6003F595195388D20070C39A /* IssueReporter-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "IssueReporter-Info.plist"; sourceTree = "<group>"; };
-		6003F597195388D20070C39A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6003F599195388D20070C39A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6003F59B195388D20070C39A /* IssueReporter-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IssueReporter-Prefix.pch"; sourceTree = "<group>"; };
 		6003F59C195388D20070C39A /* NJHAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NJHAppDelegate.h; sourceTree = "<group>"; };
@@ -54,14 +53,16 @@
 		6003F5A5195388D20070C39A /* NJHViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NJHViewController.h; sourceTree = "<group>"; };
 		6003F5A6195388D20070C39A /* NJHViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NJHViewController.m; sourceTree = "<group>"; };
 		6003F5A8195388D20070C39A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		6003F5AE195388D20070C39A /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = Tests.xctest; path = IssueReporter_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6003F5AE195388D20070C39A /* IssueReporter_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IssueReporter_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F5AF195388D20070C39A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		6003F5B7195388D20070C39A /* Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tests-Info.plist"; sourceTree = "<group>"; };
-		6003F5B9195388D20070C39A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6003F5BB195388D20070C39A /* Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
 		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
+		6ED697051B66400D00AACE32 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		6ED6970A1B66422F00AACE32 /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = "nb.lproj/IssueReporterDemo-Localizable.strings"; sourceTree = "<group>"; };
+		6ED6970C1B66423E00AACE32 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = "en.lproj/IssueReporterDemo-Localizable.strings"; sourceTree = "<group>"; };
+		6ED697151B664F1A00AACE32 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 		851EB7E5ED8D30240EE6BF8C /* Pods-IssueReporter_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IssueReporter_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-IssueReporter_Tests/Pods-IssueReporter_Tests.release.xcconfig"; sourceTree = "<group>"; };
-		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		BBB8FF59870775391874EE3F /* Pods_IssueReporter_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IssueReporter_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF93C29AEC6C625092589AA8 /* Pods-IssueReporter_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IssueReporter_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-IssueReporter_Tests/Pods-IssueReporter_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		F6B6CE7F61F783B8256E0DB6 /* Pods-IssueReporter_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IssueReporter_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-IssueReporter_Example/Pods-IssueReporter_Example.debug.xcconfig"; sourceTree = "<group>"; };
@@ -108,8 +109,8 @@
 		6003F58B195388D20070C39A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6003F58A195388D20070C39A /* IssueReporter.app */,
-				6003F5AE195388D20070C39A /* Tests.xctest */,
+				6003F58A195388D20070C39A /* IssueReporter_Example.app */,
+				6003F5AE195388D20070C39A /* IssueReporter_Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -130,13 +131,15 @@
 		6003F593195388D20070C39A /* Example for IssueReporter */ = {
 			isa = PBXGroup;
 			children = (
+				6ED697091B66422F00AACE32 /* IssueReporterDemo-Localizable.strings */,
 				6003F59C195388D20070C39A /* NJHAppDelegate.h */,
 				6003F59D195388D20070C39A /* NJHAppDelegate.m */,
-				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
 				6003F5A5195388D20070C39A /* NJHViewController.h */,
 				6003F5A6195388D20070C39A /* NJHViewController.m */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
+				6ED697051B66400D00AACE32 /* Main.storyboard */,
+				6ED697151B664F1A00AACE32 /* Launch Screen.xib */,
 			);
 			name = "Example for IssueReporter";
 			path = IssueReporter;
@@ -146,7 +149,6 @@
 			isa = PBXGroup;
 			children = (
 				6003F595195388D20070C39A /* IssueReporter-Info.plist */,
-				6003F596195388D20070C39A /* InfoPlist.strings */,
 				6003F599195388D20070C39A /* main.m */,
 				6003F59B195388D20070C39A /* IssueReporter-Prefix.pch */,
 			);
@@ -166,7 +168,6 @@
 			isa = PBXGroup;
 			children = (
 				6003F5B7195388D20070C39A /* Tests-Info.plist */,
-				6003F5B8195388D20070C39A /* InfoPlist.strings */,
 				606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */,
 			);
 			name = "Supporting Files";
@@ -213,7 +214,7 @@
 			);
 			name = IssueReporter_Example;
 			productName = IssueReporter;
-			productReference = 6003F58A195388D20070C39A /* IssueReporter.app */;
+			productReference = 6003F58A195388D20070C39A /* IssueReporter_Example.app */;
 			productType = "com.apple.product-type.application";
 		};
 		6003F5AD195388D20070C39A /* IssueReporter_Tests */ = {
@@ -234,7 +235,7 @@
 			);
 			name = IssueReporter_Tests;
 			productName = IssueReporterTests;
-			productReference = 6003F5AE195388D20070C39A /* Tests.xctest */;
+			productReference = 6003F5AE195388D20070C39A /* IssueReporter_Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -257,8 +258,8 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				nb,
 				en,
-				Base,
 			);
 			mainGroup = 6003F581195388D10070C39A;
 			productRefGroup = 6003F58B195388D20070C39A /* Products */;
@@ -276,9 +277,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
+				6ED697061B66400D00AACE32 /* Main.storyboard in Resources */,
+				6ED697161B664F1A00AACE32 /* Launch Screen.xib in Resources */,
+				6ED6970B1B66422F00AACE32 /* IssueReporterDemo-Localizable.strings in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
-				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,7 +288,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -415,20 +416,13 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		6003F596195388D20070C39A /* InfoPlist.strings */ = {
+		6ED697091B66422F00AACE32 /* IssueReporterDemo-Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				6003F597195388D20070C39A /* en */,
+				6ED6970A1B66422F00AACE32 /* nb */,
+				6ED6970C1B66423E00AACE32 /* en */,
 			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		6003F5B8195388D20070C39A /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6003F5B9195388D20070C39A /* en */,
-			);
-			name = InfoPlist.strings;
+			name = "IssueReporterDemo-Localizable.strings";
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -466,7 +460,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -499,7 +493,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;

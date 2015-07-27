@@ -8,22 +8,18 @@
 
 #import "NJHViewController.h"
 
-@interface NJHViewController ()
+static NSString * const kNJHTableName = @"IssueReporterDemo-Localizable";
 
+@interface NJHViewController ()
+@property (weak, nonatomic) IBOutlet UILabel *shakeLabel;
 @end
 
 @implementation NJHViewController
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    
+    self.shakeLabel.text = NSLocalizedStringFromTableInBundle(self.shakeLabel.text, kNJHTableName, [NSBundle bundleForClass:self.class], nil);
 }
 
 @end
