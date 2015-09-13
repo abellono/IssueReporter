@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
                        DESC
   s.homepage         = "https://github.com/abellono/IssueReporter"
   s.license          = 'MIT'
-  s.author           = { "Hakon Hanesand" => "hakon@hanesand.no"}
+  s.author           = { "Hakon Hanesand" => "hakon@hanesand.no", "Nikolai Heum" => "nikolaiheum@gmail.com"}
   s.source           = { :git => "https://github.com/abellono/IssueReporter.git", :tag => s.version.to_s }
 
   s.platform     = :ios, '8.0'
