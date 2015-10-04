@@ -34,7 +34,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: 79f7eb1a0fcfa7beb409332b2ca49afe9ce53b05
-  IssueReporter: 0637bdf0f92245fc1eac3e9eface2bb881aaaebf
+  IssueReporter: 6c71916c75207626877ba438b02aa94af7e8510e
   Kiwi: f49c9d54b28917df5928fe44968a39ed198cb8a8
 
 COCOAPODS: 0.38.2
