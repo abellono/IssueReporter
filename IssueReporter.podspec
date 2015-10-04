@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "IssueReporter"
-  s.version          = "0.1.14"
+  s.version          = "0.2.1"
   s.summary          = "An extremely lightweight but powerful plugin to use in your iOS application that can create new GitHub issues when the phone is shaken."
   s.description      = <<-DESC
                         An extremely lightweight library that only relies on AFNetworking to allow creating new issues on Github. After proper configuration, this library
@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
   s.author           = { "Hakon Hanesand" => "hakon@hanesand.no"}
   s.source           = { :git => "https://github.com/abellono/IssueReporter.git", :tag => s.version.to_s }
 
-  s.platform     = :ios, '8.0'
+  s.platform     = :ios, '8.4'
   s.requires_arc = true
 
   s.source_files = 'Pod/Classes/**/*'
