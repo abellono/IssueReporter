@@ -19,25 +19,32 @@ NSString * const kNJHSHakeNotificationName = @"CONJUShakeNotification";
 #pragma mark - Listen for shake
 
 + (void)load {
-    Method original = class_getInstanceMethod([self class], @selector(motionEnded:withEvent:));
-    Method dhcPrefixed = class_getInstanceMethod([self class],@selector(NJH_motionEnded:withEvent:));
-    
-    method_exchangeImplementations(original, dhcPrefixed);
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        Class class = [self class];
+
+        Method originalMethod = class_getInstanceMethod(class, @selector(motionEnded:withEvent:));
+        Method swizzledMethod = class_getInstanceMethod(class, @selector(njh_motionEnded:withEvent:));
+        
+        // Since we know both methods exist (we are implementing them) we can simply exchange their implementations
+        method_exchangeImplementations(originalMethod, swizzledMethod);
+    });
 }
 
-- (void)NJH_motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
-    
+- (void)njh_motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
+    // Will not create an infinite loop, as this will call the `original` implementation
+    if ([UIWindow instancesRespondToSelector:@selector(njh_motionEnded:withEvent:)]) {
+        [self njh_motionEnded:motion withEvent:event];
+    }
+
     if (event.type == UIEventTypeMotion && event.subtype == UIEventSubtypeMotionShake) {
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kNJHSHakeNotificationName object:nil]];
-    }
-    
-    if ([UIWindow instancesRespondToSelector:@selector(NJH_motionEnded:withEvent:)]) {
-        [self NJH_motionEnded:motion withEvent:event];
     }
 }
 
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
-    // Needed (?)
+    // We need to implement this so we can call it from our swizzled implementation
+    // Had we not done this, further subclasses of UIWindow would no longer recieve this method
 }
 
 @end
