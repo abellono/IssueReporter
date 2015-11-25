@@ -10,7 +10,7 @@
 
 @implementation UIImage (NJH_AutoRotation)
 
-//http://stackoverflow.com/a/21586796/4080860
+// http://stackoverflow.com/a/21586796/4080860
 - (UIImage *)njh_rotateImageInPreparationForDataConversion {
     if(!(self.imageOrientation == UIImageOrientationUp || self.imageOrientation == UIImageOrientationUpMirrored)) {
         CGSize imgsize = self.size;
