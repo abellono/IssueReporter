@@ -49,7 +49,7 @@ static NSString * const kNJHPictureCollectionViewCellReuseIdentifier =    @"Coll
  *  we have to first get the current bundle with bundleForClass, and then move to this sub bundle
  */
 static NSString * const kNJHResourceBundleName =                          @"/IssueReporter.bundle";
-static NSString * const kNJHJPEGFileExtension =                           @".jpg";
+static NSString * const kNJHJPEGFileExtension =                           @"jpg";
 static NSString * const kNJHFirstCellImageName =                          @"picture";
 
 static NSString * const kNJHActionMenuCameraString =                      @"Camera";
@@ -59,8 +59,8 @@ static NSString * const kNJHActionMenuTitlePickImageString =              @"Pick
 
 @interface NJHImageCollectionViewController () <UICollectionViewDelegateFlowLayout>
 
-@property (nonatomic) NSMutableArray *localImageURLs;
-@property (nonatomic) NSMutableArray *images;
+@property (nonatomic) NSMutableArray<NSURL *> *localImageURLs;
+@property (nonatomic) NSMutableArray<UIImage *> *images;
 
 @end
 
@@ -75,14 +75,6 @@ static NSString * const kNJHActionMenuTitlePickImageString =              @"Pick
     }
     
     return self;
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    
-    for (NSURL *imagePath in self.localImageURLs) {
-        [[NSFileManager defaultManager] removeItemAtURL:imagePath error:nil];
-    }
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -137,7 +129,7 @@ static NSString * const kNJHActionMenuTitlePickImageString =              @"Pick
         QLPreviewController *previewController = [QLPreviewController new];
         previewController.dataSource = self;
         previewController.currentPreviewItemIndex = indexPath.row - kNJHAddPictureCollectionViewCellOffset;
-        [self presentViewController:previewController animated:YES completion:nil];
+        [self.navigationController presentViewController:previewController animated:YES completion:nil];
     }
 }
 

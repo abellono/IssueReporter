@@ -20,6 +20,7 @@
 // Categories
 #import "UIBarButtonItem+NJH_CustomBarButton.h"
 #import "UIColor+NJH_Color.h"
+#import "NSFileManager+NJHFileManager.h"
 
 static NSString * const kNJHTableName = @"IssueReporter-Localizable";
 
@@ -96,6 +97,8 @@ static CGFloat kNJHTextFieldInset = 14;
 }
 
 - (void)dismissIssueReporter {
+    [NSFileManager njh_clearDocumentsDirectory];
+    
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
