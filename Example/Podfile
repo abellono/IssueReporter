@@ -4,9 +4,3 @@ use_frameworks!
 target 'IssueReporter_Example', :exclusive => true do
   pod "IssueReporter", :path => "../"
 end
-
-target 'IssueReporter_Tests', :exclusive => true do
-  pod "IssueReporter", :path => "../"
-
-  pod 'Kiwi'
-end
