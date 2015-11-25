@@ -29,7 +29,6 @@ static NSString * const kNJHBaseAPIURL = @"https://api.github.com/";
     dispatch_once(&onceToken, ^{
         NSURL *URL = [NSURL URLWithString:kNJHBaseAPIURL];
         _sharedClient = [[self alloc] initWithBaseURL:URL];
-       
     });
     
     return _sharedClient;
@@ -67,17 +66,15 @@ static NSString * const kNJHBaseAPIURL = @"https://api.github.com/";
         parameters[@"labels"] = issue.labels;
     }
     
-    [self POST:path
-    parameters:parameters
-       success:^(NSURLSessionDataTask *task, id responseObject) {
-           if (success) {
-               success(YES);
-           }
-       } failure:^(NSURLSessionDataTask *task, NSError *error) {
-           if (errorHandler) {
-               errorHandler(error);
-           }
-       }];
+    [self POST:path parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
+        if (success) {
+            success(YES);
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        if (errorHandler) {
+            errorHandler(error);
+        }
+    }];
 }
 
 - (void)setGithubAPIKey:(NSString *)string {
