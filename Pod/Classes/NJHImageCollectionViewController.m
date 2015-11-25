@@ -27,7 +27,7 @@ static int const kNJHCollectionViewVerticalSpace = 1;
 /**
  *  Used to calculate a correct size for the image cells in order to optimally fit the aspect ratio for an image
  */
-static double const kNJH16x9AspectRatio = 0.5625;
+static double const kNJH16x9AspectRatio = 9.0 / 16.0;
 
 /**
  *  The index of the special collection view cell that the user can click to upload a new image
@@ -57,7 +57,7 @@ static NSString * const kNJHActionMenuPhotoLibrarySting =                 @"Phot
 static NSString * const kNJHActionMenuCancelString =                      @"Cancel";
 static NSString * const kNJHActionMenuTitlePickImageString =              @"Pick image";
 
-@interface NJHImageCollectionViewController ()
+@interface NJHImageCollectionViewController () <UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic) NSMutableArray *localImageURLs;
 @property (nonatomic) NSMutableArray *images;
@@ -75,14 +75,6 @@ static NSString * const kNJHActionMenuTitlePickImageString =              @"Pick
     }
     
     return self;
-}
-
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    
-    UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)self.collectionViewLayout;
-    CGFloat height = CGRectGetHeight(self.collectionView.frame) - 2 * kNJHCollectionViewVerticalSpace;
-    flowLayout.itemSize = CGSizeMake(height * kNJH16x9AspectRatio, height);
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -114,7 +106,7 @@ static NSString * const kNJHActionMenuTitlePickImageString =              @"Pick
 - (UICollectionViewCell *)buildAddPictureCollectionViewCellForCollectionView:(UICollectionView *)collectionView atIndexPath:(NSIndexPath *)indexPath {
     NJHImageCollectionViewCell *collectionViewCell = [collectionView dequeueReusableCellWithReuseIdentifier:kNJHAddPictureCollectionViewCellReuseIdentifier forIndexPath:indexPath];
     
-    // Get the correct bundle from out bundle directory
+    // Get the correct bundle from our directory
     NSBundle *cocoapodsBundle = [NSBundle bundleWithPath:[[NSBundle bundleForClass:[NJHReporter class]].bundlePath stringByAppendingString:kNJHResourceBundleName]];
     UIImage *image = [UIImage imageNamed:kNJHFirstCellImageName inBundle:cocoapodsBundle compatibleWithTraitCollection:nil];
     
@@ -127,6 +119,13 @@ static NSString * const kNJHActionMenuTitlePickImageString =              @"Pick
     NJHImageCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:[kNJHPictureCollectionViewCellReuseIdentifier stringByAppendingString:[NSString stringWithFormat:@"%ld", (long)indexPath.row]] forIndexPath:indexPath];
     cell.imageView.image = self.images[indexPath.row - kNJHAddPictureCollectionViewCellOffset];
     return cell;
+}
+
+#pragma mark - UICollectionViewDelegateFlowLayout
+
+- (CGSize)collectionView:(UICollectionView *)cv layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    CGFloat height = CGRectGetHeight(self.collectionView.frame) - 2 * kNJHCollectionViewVerticalSpace;
+    return CGSizeMake(height * kNJH16x9AspectRatio, height);
 }
 
 #pragma mark - UICollectionViewDelegate
@@ -195,7 +194,7 @@ static NSString * const kNJHActionMenuTitlePickImageString =              @"Pick
     UIImage *flippedImage = [image njh_rotateImageInPreparationForDataConversion];
     NSData *imageData = UIImageJPEGRepresentation(flippedImage, kNJHCompressionRatio);
     
-    [self.delegate userDidPickImageData:imageData];
+    [self.imageDelegate userDidPickImageData:imageData];
     [self saveImageData:imageData];
     
     [self.collectionView reloadData];

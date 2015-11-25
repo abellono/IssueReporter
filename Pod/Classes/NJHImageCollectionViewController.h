@@ -23,7 +23,7 @@
 
 @interface NJHImageCollectionViewController : UICollectionViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate, QLPreviewControllerDataSource>
 
-@property (nonatomic, weak) id <NJHImageCollectionViewControllerDelegate> delegate;
+@property (nonatomic, weak) id <NJHImageCollectionViewControllerDelegate> imageDelegate;
 
 /**
  *  Called when the user chooses a new image to include in the issue. This method saves that image to disk for QuickLook and tells the delegate to upload it to Imgur
