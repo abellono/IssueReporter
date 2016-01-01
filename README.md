@@ -20,9 +20,11 @@ it, simply add the following line to your Podfile:
 pod "IssueReporter"
 ```
 
-## Author
+## Authors
 
-Hakon Hanesand, hakon@hanesand.no
+Hakon Hanesand, hakon@abello.no
+Nikolai Heum, heum@abello.no
+
 
 ## License
 
