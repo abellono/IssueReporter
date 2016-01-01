@@ -23,6 +23,7 @@ pod "IssueReporter"
 ## Authors
 
 Hakon Hanesand, hakon@abello.no
+
 Nikolai Heum, heum@abello.no
 
 
