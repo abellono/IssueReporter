@@ -48,7 +48,7 @@ static CGFloat kNJHTextFieldInset = 14;
 @implementation NJHReporterViewController
 
 + (instancetype)instanceWithScreenshot:(UIImage *)image {
-    NSBundle *resourcesBundle = [NSBundle bundleWithPath:[NSString stringWithFormat:@"%@/IssueReporter.bundle", [NSBundle bundleForClass:self.class].bundlePath]];
+    NSBundle *resourcesBundle = [NSBundle bundleWithPath:[NSString stringWithFormat:@"%@/IssueReporterResources.bundle", [NSBundle bundleForClass:self.class].bundlePath]];
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:NSStringFromClass([self class]) bundle:resourcesBundle];
     NJHReporterViewController *reporterViewController = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([self class])];
