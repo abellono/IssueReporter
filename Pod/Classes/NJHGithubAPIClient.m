@@ -66,11 +66,11 @@ static NSString * const kNJHBaseAPIURL = @"https://api.github.com/";
         parameters[@"labels"] = issue.labels;
     }
     
-    [self POST:path parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
+    [self POST:path parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (success) {
             success(YES);
         }
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         if (errorHandler) {
             errorHandler(error);
         }
