@@ -42,11 +42,11 @@ static NSString * const kNJHBaseAPIURL = @"https://api.imgur.com/3/";
     parameters[@"image"] = [imageData base64EncodedStringWithOptions:kNilOptions];
     parameters[@"type"] = @"base64";
     
-    [self POST:@"upload" parameters:parameters.copy success:^(NSURLSessionDataTask *task, id responseObject) {
+    [self POST:@"upload" parameters:parameters.copy progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (success) {
             success(responseObject[@"data"][@"link"]);
         }
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         if (errorHandler) {
             errorHandler(error);
         }
