@@ -10,7 +10,9 @@
 
 @interface NJHImgurAPIClient : AFHTTPSessionManager
 
-+ (instancetype)sharedClient;
++ (NJHImgurAPIClient *)sharedClient;
+
++ (BOOL)isAPIKeySet;
 
 /**
  *  Uploads the an image to Imgur
@@ -22,11 +24,10 @@
 - (void)uploadImageData:(NSData *)imageData success:(void (^)(NSString *imageURL))successBlock error:(void (^)(NSError *))errorHandler;
 
 /**
- *  Sets the API key to use with all requests to Imgur
- *
- *  @param key The imgur API key, which can be obtained by registering an application at http://api.imgur.com/oauth2/addclient . The checkbox
- *             labeled "Anonymous usage without user authorization" should be checked when you are making your application.
+ *  The imgur API key, which can be obtained by registering an application at https://api.imgur.com/oauth2/addclient . The checkbox
+ *  labeled "Anonymous usage without user authorization" should be checked and the "Authorization callback URL" does not matter, but needs
+ *  to be filled in with a domain name. (example.com works)
  */
-- (void)setImgurAPIKey:(NSString *)key;
+@property (nonatomic, copy) NSString *imgurAPIKey;
 
 @end
