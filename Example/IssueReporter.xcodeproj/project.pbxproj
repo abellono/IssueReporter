@@ -194,7 +194,7 @@
 				ORGANIZATIONNAME = "Hakon Hanesand";
 				TargetAttributes = {
 					6003F589195388D20070C39A = {
-						DevelopmentTeam = XE46VNG5UN;
+						DevelopmentTeam = XY9C7NEN6S;
 					};
 				};
 			};
