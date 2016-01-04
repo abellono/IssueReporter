@@ -86,6 +86,10 @@ static void *ABEImageUploadCountObservingContext = &ABEImageUploadCountObserving
     [self.issueManager addObserver:self forKeyPath:NSStringFromSelector(@selector(imagesToUpload)) options:NSKeyValueObservingOptionInitial context:ABEImageUploadCountObservingContext];
 }
 
+- (void)dealloc {
+    [self.issueManager removeObserver:self forKeyPath:NSStringFromSelector(@selector(imagesToUpload)) context:ABEImageUploadCountObservingContext];
+}
+
 /**
  *  Adds a spacer on the left side of the top text field and adds a border around the text view
  */
