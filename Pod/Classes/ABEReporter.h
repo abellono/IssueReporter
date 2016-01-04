@@ -1,5 +1,5 @@
 //
-//  NJHReporter.h
+//  ABEReporter.h
 //  nettdating
 //
 //  Created by Nikolai Johan Heum on 24.05.15.
@@ -8,7 +8,7 @@
 
 @import UIKit;
 
-@protocol NJHReporterInformationDelegate <NSObject>
+@protocol ABEReporterInformationDelegate <NSObject>
 
 /**
  *  Called when the user shakes the phone to make an issue to ask for more information to send with the issue (must be string values)
@@ -26,7 +26,7 @@
 
 @end
 
-@interface NJHReporter : NSObject <UINavigationControllerDelegate>
+@interface ABEReporter : NSObject <UINavigationControllerDelegate>
 
 /**
  *  @return The shared instance for this class
@@ -59,7 +59,7 @@
 /**
  *  The object to ask for extra information when the user shakes the device, see the comment in the protocol above to see what is already sent
  */
-@property (nonatomic) id <NJHReporterInformationDelegate> delegate;
+@property (nonatomic) id <ABEReporterInformationDelegate> delegate;
 
 /**
  *  Returns the extra key value pair to append to the issues that are sent to Github to aid in debugging

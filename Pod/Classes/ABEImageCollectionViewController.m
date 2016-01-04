@@ -7,53 +7,53 @@
 //
 
 // View Controllers
-#import "NJHImageCollectionViewController.h"
+#import "ABEImageCollectionViewController.h"
 
 // Views
-#import "NJHImageCollectionViewCell.h"
+#import "ABEImageCollectionViewCell.h"
 
 // Categories
-#import "UIImage+NJH_AutoRotation.h"
-#import "NSURL+NJH_RandomImageURL.h"
+#import "UIImage+ABEAutoRotation.h"
+#import "NSURL+ABERandomImageURL.h"
 #import "NSBundle+ABEBundle.h"
 #import "NSThread+ABEMainThreadRunner.h"
 
 // Helpers
-#import "NJHReporter.h"
+#import "ABEReporter.h"
 #import "ABEIssueManager.h"
 
 /**
  *  The space that is added above and below the collection view cells
  */
-static int const kNJHCollectionViewVerticalSpace = 1;
+static int const kABECollectionViewVerticalSpace = 1;
 
 /**
  *  Used to calculate a correct size for the image cells in order to optimally fit the aspect ratio for an image
  */
-static double const kNJH16x9AspectRatio = 9.0 / 16.0;
+static double const kABE16x9AspectRatio = 9.0 / 16.0;
 
 /**
  *  The index of the special collection view cell that the user can click to upload a new image
  */
-static int const kNJHAddPictureCollectionViewCellIndex = 0;
+static int const kABEAddPictureCollectionViewCellIndex = 0;
 
 /**
  *  The offset we use to transition between the model and index paths recieved from the collection view
  */
-static int const kNJHAddPictureCollectionViewCellOffset = 1;
+static int const kABEAddPictureCollectionViewCellOffset = 1;
 
-static NSString * const kNJHAddPictureCollectionViewCellReuseIdentifier = @"CollectionViewAddPictureIdentifier";
-static NSString * const kNJHPictureCollectionViewCellReuseIdentifier =    @"CollectionViewPictureIdentifier";
+static NSString * const kABEAddPictureCollectionViewCellReuseIdentifier = @"CollectionViewAddPictureIdentifier";
+static NSString * const kABEPictureCollectionViewCellReuseIdentifier =    @"CollectionViewPictureIdentifier";
 
-static NSString * const kNJHJPEGFileExtension =                           @"jpg";
-static NSString * const kNJHFirstCellImageName =                          @"picture";
+static NSString * const kABEJPEGFileExtension =                           @"jpg";
+static NSString * const kABEFirstCellImageName =                          @"picture";
 
-static NSString * const kNJHActionMenuCameraString =                      @"Camera";
-static NSString * const kNJHActionMenuPhotoLibrarySting =                 @"Photo library";
-static NSString * const kNJHActionMenuCancelString =                      @"Cancel";
-static NSString * const kNJHActionMenuTitlePickImageString =              @"Pick image";
+static NSString * const kABEActionMenuCameraString =                      @"Camera";
+static NSString * const kABEActionMenuPhotoLibrarySting =                 @"Photo library";
+static NSString * const kABEActionMenuCancelString =                      @"Cancel";
+static NSString * const kABEActionMenuTitlePickImageString =              @"Pick image";
 
-@implementation NJHImageCollectionViewController
+@implementation ABEImageCollectionViewController
 
 #pragma mark - UICollectionViewDataSource
 
@@ -62,11 +62,11 @@ static NSString * const kNJHActionMenuTitlePickImageString =              @"Pick
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.issueManager.images.count + kNJHAddPictureCollectionViewCellOffset;
+    return self.issueManager.images.count + kABEAddPictureCollectionViewCellOffset;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == kNJHAddPictureCollectionViewCellIndex) {
+    if (indexPath.row == kABEAddPictureCollectionViewCellIndex) {
         return [self buildAddPictureCollectionViewCellForCollectionView:collectionView atIndexPath:indexPath];
     } else {
         return [self buildPictureCollectionViewCellForCollectionView:collectionView atIndexPath:indexPath];
@@ -74,28 +74,28 @@ static NSString * const kNJHActionMenuTitlePickImageString =              @"Pick
 }
 
 - (UICollectionViewCell *)buildAddPictureCollectionViewCellForCollectionView:(UICollectionView *)collectionView atIndexPath:(NSIndexPath *)indexPath {
-    NJHImageCollectionViewCell *collectionViewCell = [collectionView dequeueReusableCellWithReuseIdentifier:kNJHAddPictureCollectionViewCellReuseIdentifier forIndexPath:indexPath];
-    collectionViewCell.imageView.image = [UIImage imageNamed:kNJHFirstCellImageName inBundle:[NSBundle abe_bundleForLibrary] compatibleWithTraitCollection:nil];
+    ABEImageCollectionViewCell *collectionViewCell = [collectionView dequeueReusableCellWithReuseIdentifier:kABEAddPictureCollectionViewCellReuseIdentifier forIndexPath:indexPath];
+    collectionViewCell.imageView.image = [UIImage imageNamed:kABEFirstCellImageName inBundle:[NSBundle abe_bundleForLibrary] compatibleWithTraitCollection:nil];
     return collectionViewCell;
 }
 
 - (UICollectionViewCell *)buildPictureCollectionViewCellForCollectionView:(UICollectionView *)collectionView atIndexPath:(NSIndexPath *)indexPath {
-    NJHImageCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kNJHPictureCollectionViewCellReuseIdentifier forIndexPath:indexPath];
-    cell.imageView.image = self.issueManager.images[indexPath.row - kNJHAddPictureCollectionViewCellOffset];
+    ABEImageCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kABEPictureCollectionViewCellReuseIdentifier forIndexPath:indexPath];
+    cell.imageView.image = self.issueManager.images[indexPath.row - kABEAddPictureCollectionViewCellOffset];
     return cell;
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout
 
 - (CGSize)collectionView:(UICollectionView *)cv layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    CGFloat height = CGRectGetHeight(self.collectionView.frame) - 2 * kNJHCollectionViewVerticalSpace;
-    return CGSizeMake(height * kNJH16x9AspectRatio, height);
+    CGFloat height = CGRectGetHeight(self.collectionView.frame) - 2 * kABECollectionViewVerticalSpace;
+    return CGSizeMake(height * kABE16x9AspectRatio, height);
 }
 
 #pragma mark - UICollectionViewDelegate
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == kNJHAddPictureCollectionViewCellIndex) {
+    if (indexPath.row == kABEAddPictureCollectionViewCellIndex) {
         UIImagePickerController *picker = [UIImagePickerController new];
         picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
         picker.delegate = self;
@@ -103,7 +103,7 @@ static NSString * const kNJHActionMenuTitlePickImageString =              @"Pick
     } else {
         QLPreviewController *previewController = [QLPreviewController new];
         previewController.dataSource = self;
-        previewController.currentPreviewItemIndex = indexPath.row - kNJHAddPictureCollectionViewCellOffset;
+        previewController.currentPreviewItemIndex = indexPath.row - kABEAddPictureCollectionViewCellOffset;
         [self.navigationController presentViewController:previewController animated:YES completion:nil];
     }
 }

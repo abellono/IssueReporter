@@ -1,20 +1,20 @@
 //
-//  UIWindow+NJHShakeNotifier.m
+//  UIWindow+ABEShakeNotifier.m
 //  IssueReporter
 //
 //  Created by Nikolai Johan Heum on 16.03.15.
 //  Copyright (c) 2015 Abello. All rights reserved.
 //
 
-#import "UIWindow+NJH_ShakeNotifier.h"
+#import "UIWindow+ABEShakeNotifier.h"
 
 @import Foundation;
 @import UIKit;
 @import ObjectiveC;
 
-NSString * const kNJHSHakeNotificationName = @"CONJUShakeNotification";
+NSString * const kABESHakeNotificationName = @"CONJUShakeNotification";
 
-@implementation UIWindow (NJH_ShakeNotifier)
+@implementation UIWindow (ABEShakeNotifier)
 
 #pragma mark - Listen for shake
 
@@ -38,7 +38,7 @@ NSString * const kNJHSHakeNotificationName = @"CONJUShakeNotification";
     }
 
     if (event.type == UIEventTypeMotion && event.subtype == UIEventSubtypeMotionShake) {
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kNJHSHakeNotificationName object:nil]];
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kABESHakeNotificationName object:nil]];
     }
 }
 

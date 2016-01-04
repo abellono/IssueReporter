@@ -1,5 +1,5 @@
 //
-//  UIWindow+NJHShakeNotifier.h
+//  UIWindow+ABEShakeNotifier.h
 //  IssueReporter
 //
 //  Created by Nikolai Johan Heum on 16.03.15.
@@ -8,8 +8,8 @@
 
 @import UIKit;
 
-extern NSString * const kNJHSHakeNotificationName;
+extern NSString * const kABESHakeNotificationName;
 
-@interface UIWindow (NJH_ShakeNotifier)
+@interface UIWindow (ABEShakeNotifier)
 
 @end

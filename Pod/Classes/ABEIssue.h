@@ -1,5 +1,5 @@
 //
-//  NJHIssue.h
+//  ABEIssue.h
 //  IssueReporter
 //
 //  Created by Nikolai Johan Heum on 04.05.15.
@@ -8,7 +8,7 @@
 
 @import Foundation;
 
-@interface NJHIssue : NSObject
+@interface ABEIssue : NSObject
 
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *issueDescription;

@@ -1,14 +1,14 @@
 //
-//  NSFileManager+NJHFileManager.m
+//  NSFileManager+ABEFileManager.m
 //  Pods
 //
 //  Created by Hakon Hanesand on 11/25/15.
 //
 //
 
-#import "NSFileManager+NJHFileManager.h"
+#import "NSFileManager+ABEFileManager.h"
 
-@implementation NSFileManager (NJHFileManager)
+@implementation NSFileManager (ABEFileManager)
 
 + (void)njh_clearDocumentsDirectory {
     NSFileManager *fm = [NSFileManager defaultManager];

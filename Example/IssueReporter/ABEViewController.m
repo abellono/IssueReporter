@@ -6,17 +6,17 @@
 //  Copyright (c) 2015 Hakon Hanesand. All rights reserved.
 //
 
-#import "NJHViewController.h"
+#import "ABEViewController.h"
 
-#import "IssueReporter/NJHReporter.h"
+#import <IssueReporter/ABEReporter.h>
 
 static NSString * const kNJHTableName = @"IssueReporterDemo-Localizable";
 
-@interface NJHViewController ()
+@interface ABEViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *shakeLabel;
 @end
 
-@implementation NJHViewController
+@implementation ABEViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -25,7 +25,7 @@ static NSString * const kNJHTableName = @"IssueReporterDemo-Localizable";
 }
 
 - (IBAction)tap:(id)sender {
-    [[NJHReporter reporter] showReporterView];
+    [[ABEReporter reporter] showReporterView];
 }
 
 @end

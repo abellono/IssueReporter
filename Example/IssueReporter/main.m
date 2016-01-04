@@ -7,11 +7,12 @@
 //
 
 @import UIKit;
-#import "NJHAppDelegate.h"
+
+#import "ABEAppDelegate.h"
 
 int main(int argc, char * argv[])
 {
     @autoreleasepool {
-        return UIApplicationMain(argc, argv, nil, NSStringFromClass([NJHAppDelegate class]));
+        return UIApplicationMain(argc, argv, nil, NSStringFromClass([ABEAppDelegate class]));
     }
 }

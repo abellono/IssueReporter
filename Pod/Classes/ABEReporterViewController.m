@@ -1,5 +1,5 @@
 //
-//  NJHReporterViewController.m
+//  ABEReporterViewController.m
 //  IssueReporter
 //
 //  Created by Nikolai Johan Heum on 04.05.15.
@@ -7,59 +7,59 @@
 //
 
 // View Controllers
-#import "NJHReporterViewController.h"
+#import "ABEReporterViewController.h"
 
 // Model
-#import "NJHIssue.h"
+#import "ABEIssue.h"
 
 // Helpers
-#import "NJHGithubAPIClient.h"
-#import "NJHImgurAPIClient.h"
-#import "NJHReporter.h"
+#import "ABEGithubAPIClient.h"
+#import "ABEImgurAPIClient.h"
+#import "ABEReporter.h"
 #import "ABEIssueManager.h"
 
 // Categories
-#import "UIBarButtonItem+NJH_CustomBarButton.h"
-#import "UIColor+NJH_Color.h"
-#import "NSFileManager+NJHFileManager.h"
+#import "UIBarButtonItem+ABECustomBarButton.h"
+#import "UIColor+ABEColor.h"
+#import "NSFileManager+ABEFileManager.h"
 #import "NSBundle+ABEBundle.h"
 #import "UIAlertController+ABEErrorAlertController.h"
 #import "NSThread+ABEMainThreadRunner.h"
 
-static NSString * const kNJHTableName = @"IssueReporter-Localizable";
+static NSString * const kABETableName = @"IssueReporter-Localizable";
 
-static NSString * const kNJHPlaceHolderString = @"What went wrong?";
-static NSString * const kNJHTitle =             @"New issue";
+static NSString * const kABEPlaceHolderString = @"What went wrong?";
+static NSString * const kABETitle =             @"New issue";
 static NSString * const kSaveImageName =        @"save";
 
-static int const kNJHdescriptionTextViewCornerRadius   = 4;
-static double const kNJHdescriptionTextViewBorderWidth = 0.5;
+static int const kABEdescriptionTextViewCornerRadius   = 4;
+static double const kABEdescriptionTextViewBorderWidth = 0.5;
 
-static CGFloat const kNJHTextFieldInset = 14;
+static CGFloat const kABETextFieldInset = 14;
 
 static void *ABEImageUploadCountObservingContext = &ABEImageUploadCountObservingContext;
 
-@interface NJHReporterViewController () <UITextFieldDelegate>
+@interface ABEReporterViewController () <UITextFieldDelegate>
 
 @property (nonatomic, weak) IBOutlet UITextView *descriptionTextView;
 @property (nonatomic, weak) IBOutlet UITextField *titleTextField;
 @property (nonatomic, weak) IBOutlet UILabel *placeHolderLabel;
 
-@property (nonatomic, weak) NJHImageCollectionViewController *imageCollectionViewController;
+@property (nonatomic, weak) ABEImageCollectionViewController *imageCollectionViewController;
 @property (nonatomic) ABEIssueManager *issueManager;
 @end
 
-@implementation NJHReporterViewController
+@implementation ABEReporterViewController
 
 + (instancetype)instance {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:NSStringFromClass([self class]) bundle:[NSBundle abe_bundleForLibrary]];
-    NJHReporterViewController *reporterViewController = [storyboard instantiateInitialViewController];
+    ABEReporterViewController *reporterViewController = [storyboard instantiateInitialViewController];
     return reporterViewController;
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     if (self = [super initWithCoder:aDecoder]) {
-        self.title = kNJHTitle;
+        self.title = kABETitle;
     }
     
     return self;
@@ -98,14 +98,14 @@ static void *ABEImageUploadCountObservingContext = &ABEImageUploadCountObserving
  *  Adds a spacer on the left side of the top text field and adds a border around the text view
  */
 - (void)configureTextViews {
-    UIView *spacerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kNJHTextFieldInset, kNJHTextFieldInset)];
+    UIView *spacerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kABETextFieldInset, kABETextFieldInset)];
     self.titleTextField.leftViewMode = UITextFieldViewModeAlways;
     self.titleTextField.leftView = spacerView;
     
     self.descriptionTextView.layer.borderColor = [UIColor njh_greyBorderColor].CGColor;
-    self.descriptionTextView.layer.cornerRadius = kNJHdescriptionTextViewCornerRadius;
-    self.descriptionTextView.layer.borderWidth = kNJHdescriptionTextViewBorderWidth;
-    self.descriptionTextView.textContainerInset = UIEdgeInsetsMake(kNJHTextFieldInset, kNJHTextFieldInset, 0, kNJHTextFieldInset);
+    self.descriptionTextView.layer.cornerRadius = kABEdescriptionTextViewCornerRadius;
+    self.descriptionTextView.layer.borderWidth = kABEdescriptionTextViewBorderWidth;
+    self.descriptionTextView.textContainerInset = UIEdgeInsetsMake(kABETextFieldInset, kABETextFieldInset, 0, kABETextFieldInset);
 }
 
 - (void)configureBlueBar {
@@ -116,9 +116,9 @@ static void *ABEImageUploadCountObservingContext = &ABEImageUploadCountObserving
 - (void)setupLocalization {
     NSBundle *bundle = [NSBundle bundleForClass:self.class];
     
-    self.titleTextField.text = NSLocalizedStringFromTableInBundle(self.titleTextField.text, kNJHTableName, bundle, nil);
-    self.placeHolderLabel.text = NSLocalizedStringFromTableInBundle(self.placeHolderLabel.text, kNJHTableName, bundle, nil);
-    self.title = NSLocalizedStringFromTableInBundle(self.title, kNJHTableName, bundle, nil);
+    self.titleTextField.text = NSLocalizedStringFromTableInBundle(self.titleTextField.text, kABETableName, bundle, nil);
+    self.placeHolderLabel.text = NSLocalizedStringFromTableInBundle(self.placeHolderLabel.text, kABETableName, bundle, nil);
+    self.title = NSLocalizedStringFromTableInBundle(self.title, kABETableName, bundle, nil);
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {

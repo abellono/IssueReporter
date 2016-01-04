@@ -1,5 +1,5 @@
 //
-//  NJHImgurAPIClient.h
+//  ABEImgurAPIClient.h
 //  IssueReporter
 //
 //  Created by Nikolai Johan Heum on 04.05.15.
@@ -8,9 +8,9 @@
 
 #import <AFNetworking/AFNetworking.h>
 
-@interface NJHImgurAPIClient : AFHTTPSessionManager
+@interface ABEImgurAPIClient : AFHTTPSessionManager
 
-+ (NJHImgurAPIClient *)sharedClient;
++ (ABEImgurAPIClient *)sharedClient;
 
 + (BOOL)isAPIKeySet;
 

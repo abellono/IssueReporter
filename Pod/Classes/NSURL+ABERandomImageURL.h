@@ -8,7 +8,7 @@
 
 @import Foundation;
 
-@interface NSURL (NJH_RandomImageURL)
+@interface NSURL (ABERandomImageURL)
 
 - (NSURL *)njh_URLByAddingRandomImagePathWithExtension:(NSString *)string;
 

@@ -8,15 +8,15 @@
 
 #import "ABEIssueManager.h"
 
-#import "NJHIssue.h"
-#import "NJHGithubAPIClient.h"
+#import "ABEIssue.h"
+#import "ABEGithubAPIClient.h"
 
-#import "NJHImgurAPIClient.h"
+#import "ABEImgurAPIClient.h"
 #import "UIAlertController+ABEErrorAlertController.h"
-#import "UIImage+NJH_AutoRotation.h"
-#import "NSURL+NJH_RandomImageURL.h"
+#import "UIImage+ABEAutoRotation.h"
+#import "NSURL+ABERandomImageURL.h"
 
-static double const kNJHCompressionRatio = 0.5;
+static double const kABECompressionRatio = 0.5;
 
 @interface ABEIssueManager ()
 @property (nonatomic, weak) UIViewController *viewController;
@@ -31,7 +31,7 @@ static double const kNJHCompressionRatio = 0.5;
         _imagesToUpload = [NSMutableArray new];
         _images = [NSMutableArray new];
         _localImageURLs = [NSMutableArray new];
-        _issue = [NJHIssue new];
+        _issue = [ABEIssue new];
         _viewController = viewController;
         
         [self p_processReferenceView:referenceView];
@@ -53,7 +53,7 @@ static double const kNJHCompressionRatio = 0.5;
 
 - (void)addImageToIssue:(UIImage *)image {
     UIImage *flippedImage = [image njh_rotateImageInPreparationForDataConversion];
-    NSData *imageData = UIImageJPEGRepresentation(flippedImage, kNJHCompressionRatio);
+    NSData *imageData = UIImageJPEGRepresentation(flippedImage, kABECompressionRatio);
     
     [self.images addObject:image];
     [self p_addImageDataToIssue:imageData];
@@ -74,7 +74,7 @@ static double const kNJHCompressionRatio = 0.5;
     }
     
     __weak typeof(self) weakSelf = self;
-    [[NJHImgurAPIClient sharedClient] uploadImageData:imageData success:^(NSString *imageURL) {
+    [[ABEImgurAPIClient sharedClient] uploadImageData:imageData success:^(NSString *imageURL) {
         __strong typeof(self) self = weakSelf;
         [self p_didUploadImageWithData:imageData atURL:imageURL];
     } error:^(NSError *error) {
@@ -110,7 +110,7 @@ static double const kNJHCompressionRatio = 0.5;
 }
 
 - (void)saveIssueWithCompletion:(void (^)())completion {
-    [[NJHGithubAPIClient sharedClient] saveIssue:self.issue success:^{
+    [[ABEGithubAPIClient sharedClient] saveIssue:self.issue success:^{
         completion();
     } error:^(NSError *error) {
         UIAlertController *alertController = [UIAlertController abe_alertControllerFromError:error];

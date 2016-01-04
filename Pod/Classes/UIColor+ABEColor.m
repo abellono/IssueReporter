@@ -1,14 +1,14 @@
 //
-//  UIColor+NJH_Color.m
+//  UIColor+ABEColor.m
 //  IssueReporter
 //
 //  Created by Hakon Hanesand on 7/26/15.
 //  Copyright (c) 2015 Abello. All rights reserved.
 //
 
-#import "UIColor+NJH_Color.h"
+#import "UIColor+ABEColor.h"
 
-@implementation UIColor (NJH_Color)
+@implementation UIColor (ABEColor)
 
 + (UIColor *)njh_greyBorderColor {
     return [UIColor colorWithWhite:0.8 alpha:1];

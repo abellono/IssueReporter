@@ -1,5 +1,5 @@
 //
-//  UIColor+NJH_Color.h
+//  UIColor+ABEColor.h
 //  IssueReporter
 //
 //  Created by Hakon Hanesand on 7/26/15.
@@ -8,7 +8,7 @@
 
 @import UIKit;
 
-@interface UIColor (NJH_Color)
+@interface UIColor (ABEColor)
 
 + (UIColor *)njh_greyBorderColor;
 

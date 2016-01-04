@@ -1,5 +1,5 @@
 //
-//  NJHGitHubIssueAPIClient.h
+//  ABEGitHubIssueAPIClient.h
 //  IssueReporter
 //
 //  Created by Nikolai Johan Heum on 04.05.15.
@@ -8,10 +8,10 @@
 
 #import <AFNetworking/AFNetworking.h>
 
-@class NJHIssue;
-@class NJHMilestone;
+@class ABEIssue;
+@class ABEMilestone;
 
-@interface NJHGithubAPIClient : AFHTTPSessionManager
+@interface ABEGithubAPIClient : AFHTTPSessionManager
 
 + (instancetype)sharedClient;
 
@@ -25,7 +25,7 @@
  *
  *  @param issue The issue to save
  */
-- (void)saveIssue:(NJHIssue *)issue success:(void (^)())success error:(void (^)(NSError *error))errorHandler;
+- (void)saveIssue:(ABEIssue *)issue success:(void (^)())success error:(void (^)(NSError *error))errorHandler;
 
 /**
  *  Sets the API key to use with all Github API requests. Generate a new key by going to https://github.com/settings/tokens and clicking generate new token. If you are planning to

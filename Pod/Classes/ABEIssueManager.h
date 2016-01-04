@@ -8,13 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
-@class NJHIssue;
+@class ABEIssue;
 
 @interface ABEIssueManager : NSObject
 
 - (instancetype)initWithReferenceView:(UIView *)referenceView viewController:(UIViewController *)viewController;
 
-@property (nonatomic) NJHIssue *issue;
+@property (nonatomic) ABEIssue *issue;
 
 // Called when the manager finishes saving an image to disk
 @property (nonatomic, copy) void (^completionBlock)();

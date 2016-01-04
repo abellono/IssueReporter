@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 Abello. All rights reserved.
 //
 
-#import "NSURL+NJH_RandomImageURL.h"
+#import "NSURL+ABERandomImageURL.h"
 
-@implementation NSURL (NJH_RandomImageURL)
+@implementation NSURL (ABERandomImageURL)
 
 - (NSURL *)njh_URLByAddingRandomImagePathWithExtension:(NSString *)string {
     return [self URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@", [NSUUID UUID].UUIDString, string]];

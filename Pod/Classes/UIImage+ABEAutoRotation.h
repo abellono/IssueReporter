@@ -8,7 +8,7 @@
 
 @import UIKit;
 
-@interface UIImage (NJH_AutoRotation)
+@interface UIImage (ABEAutoRotation)
 
 - (UIImage *)njh_rotateImageInPreparationForDataConversion;
 

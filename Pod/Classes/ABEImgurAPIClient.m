@@ -1,25 +1,25 @@
 //
-//  NJHImgurAPIClient.m
+//  ABEImgurAPIClient.m
 //  IssueReporter
 //
 //  Created by Nikolai Johan Heum on 04.05.15.
 //  Copyright (c) 2015 Abello. All rights reserved.
 //
 
-#import "NJHImgurAPIClient.h"
-#import "NJHReporter.h"
+#import "ABEImgurAPIClient.h"
+#import "ABEReporter.h"
 
-static NSString * const kNJHBaseAPIURL = @"https://api.imgur.com/3/";
+static NSString * const kABEBaseAPIURL = @"https://api.imgur.com/3/";
 
-@implementation NJHImgurAPIClient
+@implementation ABEImgurAPIClient
 
-+ (NJHImgurAPIClient *)sharedClient {
++ (ABEImgurAPIClient *)sharedClient {
     
-    static NJHImgurAPIClient *_sharedClient = nil;
+    static ABEImgurAPIClient *_sharedClient = nil;
     static dispatch_once_t onceToken;
     
     dispatch_once(&onceToken, ^{
-        NSURL *URL = [NSURL URLWithString:kNJHBaseAPIURL];
+        NSURL *URL = [NSURL URLWithString:kABEBaseAPIURL];
         _sharedClient = [[self alloc] initWithBaseURL:URL];
         
     });
@@ -41,7 +41,7 @@ static NSString * const kNJHBaseAPIURL = @"https://api.imgur.com/3/";
 
 - (void)uploadImageData:(NSData *)imageData success:(void (^)(NSString *imageURL))success error:(void (^)(NSError *))errorHandler {
     
-    if (![NJHImgurAPIClient isAPIKeySet]) {
+    if (![ABEImgurAPIClient isAPIKeySet]) {
         NSDictionary *userInfo = @{NSLocalizedDescriptionKey : @"Authentication required for Imgur",
                                    NSLocalizedRecoverySuggestionErrorKey : @"Did you set the imgur client key in your appdelegate using `setupWithRepositoryName:gitHubAccessToken:imgurClientID:`? If you do not have a key, go to https://api.imgur.com/oauth2/addclient and create one. This error has also been printed to the console."};
         

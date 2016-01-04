@@ -1,5 +1,5 @@
 //
-//  NJHAppDelegate.h
+//  ABEViewController.h
 //  IssueReporter
 //
 //  Created by Hakon Hanesand on 07/27/2015.
@@ -8,8 +8,6 @@
 
 @import UIKit;
 
-@interface NJHAppDelegate : UIResponder <UIApplicationDelegate>
-
-@property (strong, nonatomic) UIWindow *window;
+@interface ABEViewController : UIViewController
 
 @end

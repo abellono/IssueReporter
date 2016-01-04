@@ -1,19 +1,19 @@
 //
-//  NJHAppDelegate.m
+//  ABEAppDelegate.m
 //  IssueReporter
 //
 //  Created by Hakon Hanesand on 07/27/2015.
 //  Copyright (c) 2015 Hakon Hanesand. All rights reserved.
 //
 
-#import <IssueReporter/NJHReporter.h>
+#import <IssueReporter/ABEReporter.h>
 
-#import "NJHAppDelegate.h"
+#import "ABEAppDelegate.h"
 
-@implementation NJHAppDelegate
+@implementation ABEAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [NJHReporter setupWithRepositoryName:@"user/repo" gitHubAccessToken:@"long_github_token_here" imgurClientID:@"shorter_imgur_client_id"];
+    [ABEReporter setupWithRepositoryName:@"user/repo" gitHubAccessToken:@"long_github_token_here" imgurClientID:@"shorter_imgur_client_id"];
     
     return YES;
 }

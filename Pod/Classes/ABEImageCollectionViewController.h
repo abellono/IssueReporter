@@ -12,7 +12,7 @@
 
 @class ABEIssueManager;
 
-@interface NJHImageCollectionViewController : UICollectionViewController <UIImagePickerControllerDelegate, QLPreviewControllerDataSource, UICollectionViewDelegateFlowLayout, UINavigationControllerDelegate>
+@interface ABEImageCollectionViewController : UICollectionViewController <UIImagePickerControllerDelegate, QLPreviewControllerDataSource, UICollectionViewDelegateFlowLayout, UINavigationControllerDelegate>
 
 @property (nonatomic) ABEIssueManager *issueManager;
 

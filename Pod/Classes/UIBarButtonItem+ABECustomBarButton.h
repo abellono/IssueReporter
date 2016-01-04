@@ -1,5 +1,5 @@
 //
-//  UIBarButtonItem+NJHBarButton.h
+//  UIBarButtonItem+ABEBarButton.h
 //  nettdating
 //
 //  Created by Nikolai Johan Heum on 24.05.15.
@@ -8,7 +8,7 @@
 
 @import UIKit;
 
-@interface UIBarButtonItem (NJH_CustomBarButton)
+@interface UIBarButtonItem (ABECustomBarButton)
 
 // A button item with a X button as image
 + (instancetype)njh_backButtonWithTarget:(id)target andColor:(UIColor *)color action:(SEL)action;

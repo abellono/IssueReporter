@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 Abello. All rights reserved.
 //
 
-#import "UIImage+NJH_AutoRotation.h"
+#import "UIImage+ABEAutoRotation.h"
 
-@implementation UIImage (NJH_AutoRotation)
+@implementation UIImage (ABEAutoRotation)
 
 // http://stackoverflow.com/a/21586796/4080860
 - (UIImage *)njh_rotateImageInPreparationForDataConversion {

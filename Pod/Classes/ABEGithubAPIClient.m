@@ -1,33 +1,33 @@
 //
-//  NJHGitHubIssueAPIClient.m
+//  ABEGitHubIssueAPIClient.m
 //  IssueReporter
 //
 //  Created by Nikolai Johan Heum on 04.05.15.
 //  Copyright (c) 2015 Abello. All rights reserved.
 //
 
-#import "NJHGithubAPIClient.h"
+#import "ABEGithubAPIClient.h"
 
-#import "NJHIssue.h"
-#import "NJHReporter.h"
+#import "ABEIssue.h"
+#import "ABEReporter.h"
 
-static NSString * const kNJHBaseAPIURL = @"https://api.github.com/";
+static NSString * const kABEBaseAPIURL = @"https://api.github.com/";
 
-@interface NJHGithubAPIClient ()
+@interface ABEGithubAPIClient ()
 
 @property (nonatomic) NSString *githubToken;
 
 @end
 
-@implementation NJHGithubAPIClient
+@implementation ABEGithubAPIClient
 
 + (instancetype)sharedClient {
     
-    static NJHGithubAPIClient *_sharedClient = nil;
+    static ABEGithubAPIClient *_sharedClient = nil;
     static dispatch_once_t onceToken;
     
     dispatch_once(&onceToken, ^{
-        NSURL *URL = [NSURL URLWithString:kNJHBaseAPIURL];
+        NSURL *URL = [NSURL URLWithString:kABEBaseAPIURL];
         _sharedClient = [[self alloc] initWithBaseURL:URL];
     });
     
@@ -42,7 +42,7 @@ static NSString * const kNJHBaseAPIURL = @"https://api.github.com/";
     return self;
 }
 
-- (void)saveIssue:(NJHIssue *)issue success:(void (^)())success error:(void (^)(NSError *error))errorHandler {
+- (void)saveIssue:(ABEIssue *)issue success:(void (^)())success error:(void (^)(NSError *error))errorHandler {
     
     NSMutableString *path1 = @"repos".mutableCopy;
     [path1 appendFormat:@"/%@", self.repositoryName];
