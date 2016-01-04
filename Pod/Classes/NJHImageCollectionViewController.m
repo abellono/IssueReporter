@@ -15,9 +15,11 @@
 // Categories
 #import "UIImage+NJH_AutoRotation.h"
 #import "NSURL+NJH_RandomImageURL.h"
+#import "NSBundle+ABEBundle.h"
 
 // Helpers
 #import "NJHReporter.h"
+#import "ABEIssueManager.h"
 
 /**
  *  The space that is added above and below the collection view cells
@@ -39,16 +41,9 @@ static int const kNJHAddPictureCollectionViewCellIndex = 0;
  */
 static int const kNJHAddPictureCollectionViewCellOffset = 1;
 
-static double const kNJHCompressionRatio = 0.7;
-
 static NSString * const kNJHAddPictureCollectionViewCellReuseIdentifier = @"CollectionViewAddPictureIdentifier";
 static NSString * const kNJHPictureCollectionViewCellReuseIdentifier =    @"CollectionViewPictureIdentifier";
 
-/**
- *  This is the name of the resource bundle that is specified in our podspec. It is a bundle countained in our framework bundle, meaning that if we want to get to it,
- *  we have to first get the current bundle with bundleForClass, and then move to this sub bundle
- */
-static NSString * const kNJHResourceBundleName =                          @"/IssueReporter.bundle";
 static NSString * const kNJHJPEGFileExtension =                           @"jpg";
 static NSString * const kNJHFirstCellImageName =                          @"picture";
 
@@ -57,25 +52,7 @@ static NSString * const kNJHActionMenuPhotoLibrarySting =                 @"Phot
 static NSString * const kNJHActionMenuCancelString =                      @"Cancel";
 static NSString * const kNJHActionMenuTitlePickImageString =              @"Pick image";
 
-@interface NJHImageCollectionViewController () <UICollectionViewDelegateFlowLayout>
-
-@property (nonatomic) NSMutableArray<NSURL *> *localImageURLs;
-@property (nonatomic) NSMutableArray<UIImage *> *images;
-
-@end
-
 @implementation NJHImageCollectionViewController
-
-#pragma mark UICollectionViewDataSource
-
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    if (self = [super initWithCoder:aDecoder]) {
-        _images = [NSMutableArray new];
-        _localImageURLs = [NSMutableArray new];
-    }
-    
-    return self;
-}
 
 #pragma mark - UICollectionViewDataSource
 
@@ -84,7 +61,7 @@ static NSString * const kNJHActionMenuTitlePickImageString =              @"Pick
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return [self.images count] + kNJHAddPictureCollectionViewCellOffset;
+    return self.issueManager.images.count + kNJHAddPictureCollectionViewCellOffset;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -97,19 +74,13 @@ static NSString * const kNJHActionMenuTitlePickImageString =              @"Pick
 
 - (UICollectionViewCell *)buildAddPictureCollectionViewCellForCollectionView:(UICollectionView *)collectionView atIndexPath:(NSIndexPath *)indexPath {
     NJHImageCollectionViewCell *collectionViewCell = [collectionView dequeueReusableCellWithReuseIdentifier:kNJHAddPictureCollectionViewCellReuseIdentifier forIndexPath:indexPath];
-    
-    // Get the correct bundle from our directory
-    NSBundle *cocoapodsBundle = [NSBundle bundleWithPath:[[NSBundle bundleForClass:[NJHReporter class]].bundlePath stringByAppendingString:kNJHResourceBundleName]];
-    UIImage *image = [UIImage imageNamed:kNJHFirstCellImageName inBundle:cocoapodsBundle compatibleWithTraitCollection:nil];
-    
-    collectionViewCell.imageView.image = image;
-    
+    collectionViewCell.imageView.image = [UIImage imageNamed:kNJHFirstCellImageName inBundle:[NSBundle abe_bundleForLibrary] compatibleWithTraitCollection:nil];
     return collectionViewCell;
 }
 
 - (UICollectionViewCell *)buildPictureCollectionViewCellForCollectionView:(UICollectionView *)collectionView atIndexPath:(NSIndexPath *)indexPath {
-    NJHImageCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:[kNJHPictureCollectionViewCellReuseIdentifier stringByAppendingString:[NSString stringWithFormat:@"%ld", (long)indexPath.row]] forIndexPath:indexPath];
-    cell.imageView.image = self.images[indexPath.row - kNJHAddPictureCollectionViewCellOffset];
+    NJHImageCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kNJHPictureCollectionViewCellReuseIdentifier forIndexPath:indexPath];
+    cell.imageView.image = self.issueManager.images[indexPath.row - kNJHAddPictureCollectionViewCellOffset];
     return cell;
 }
 
@@ -124,7 +95,10 @@ static NSString * const kNJHActionMenuTitlePickImageString =              @"Pick
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == kNJHAddPictureCollectionViewCellIndex) {
-        [self presentImagePickerActionMenu];
+        UIImagePickerController *picker = [UIImagePickerController new];
+        picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        picker.delegate = self;
+        [self presentViewController:picker animated:YES completion:nil];
     } else {
         QLPreviewController *previewController = [QLPreviewController new];
         previewController.dataSource = self;
@@ -133,70 +107,33 @@ static NSString * const kNJHActionMenuTitlePickImageString =              @"Pick
     }
 }
 
-- (void)presentImagePickerActionMenu {
-    __weak typeof(self) weakSelf = self;
-    void (^imagePickerPresenter)(UIImagePickerControllerSourceType sourceType) = ^void(UIImagePickerControllerSourceType sourceType) {
-        UIImagePickerController *picker = [UIImagePickerController new];
-        picker.sourceType = sourceType;
-        picker.delegate = weakSelf;
-        [weakSelf presentViewController:picker animated:YES completion:nil];
-    };
-    
-    UIAlertAction *imageFromCameraAction = [UIAlertAction actionWithTitle:kNJHActionMenuCameraString style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        imagePickerPresenter(UIImagePickerControllerSourceTypeCamera);
-    }];
-    
-    UIAlertAction *imageFromCameraRoll = [UIAlertAction actionWithTitle:kNJHActionMenuPhotoLibrarySting style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        imagePickerPresenter(UIImagePickerControllerSourceTypePhotoLibrary);
-    }];
-    
-    UIAlertAction *cancel = [UIAlertAction actionWithTitle:kNJHActionMenuCancelString style:UIAlertActionStyleCancel handler:nil];
-    
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:kNJHActionMenuTitlePickImageString message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-    
-    [alertController addAction:imageFromCameraAction];
-    [alertController addAction:imageFromCameraRoll];
-    [alertController addAction:cancel];
-    
-    [self presentViewController:alertController animated:YES completion:nil];
-}
-
 #pragma mark - QLPreviewControllerDataSource
 
 - (NSInteger)numberOfPreviewItemsInPreviewController:(QLPreviewController *)controller {
-    return [self.localImageURLs count];
+    return self.issueManager.localImageURLs.count;
 }
 
 - (id<QLPreviewItem>)previewController:(QLPreviewController *)controller previewItemAtIndex:(NSInteger)index {
-    return self.localImageURLs[index];
+    return self.issueManager.localImageURLs[index];
 }
 
 #pragma mark - UIImagePickerControllerDelegate
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    [self didPickImage:info[UIImagePickerControllerOriginalImage]];
+    [self.issueManager addImageToIssue:info[UIImagePickerControllerOriginalImage]];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-#pragma mark - Image Handling
-
-- (void)didPickImage:(UIImage *)image {
-    [self.images addObject:image];
+- (void)setIssueManager:(ABEIssueManager *)issueManager {
+    _issueManager = issueManager;
     
-    UIImage *flippedImage = [image njh_rotateImageInPreparationForDataConversion];
-    NSData *imageData = UIImageJPEGRepresentation(flippedImage, kNJHCompressionRatio);
-    
-    [self.imageDelegate userDidPickImageData:imageData];
-    [self saveImageData:imageData];
-    
-    [self.collectionView reloadData];
-}
-
-- (void)saveImageData:(NSData *)imageData {
-    NSURL *saveLocation = [[[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil] njh_URLByAddingRandomImagePathWithExtension:kNJHJPEGFileExtension];
-    [imageData writeToURL:saveLocation options:kNilOptions error:nil];
-    
-    [self.localImageURLs addObject:saveLocation];
+    __weak typeof(self) _self_weak = self;
+    self.issueManager.completionBlock = ^{
+        __strong typeof(self) self = _self_weak;
+        [self.collectionView reloadData];
+    };
 }
 
 @end
+
+

@@ -10,26 +10,10 @@
 @import UIKit;
 @import QuickLook;
 
-@protocol NJHImageCollectionViewControllerDelegate <NSObject>
+@class ABEIssueManager;
 
-/**
- *  Called when the user selects an image to add to the github issue
- *
- *  @param image The image that the user selected, in data form
- */
-- (void)userDidPickImageData:(NSData *)imageData;
+@interface NJHImageCollectionViewController : UICollectionViewController <UIImagePickerControllerDelegate, QLPreviewControllerDataSource, UICollectionViewDelegateFlowLayout, UINavigationControllerDelegate>
 
-@end
-
-@interface NJHImageCollectionViewController : UICollectionViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate, QLPreviewControllerDataSource>
-
-@property (nonatomic, weak) id <NJHImageCollectionViewControllerDelegate> imageDelegate;
-
-/**
- *  Called when the user chooses a new image to include in the issue. This method saves that image to disk for QuickLook and tells the delegate to upload it to Imgur
- *
- *  @param image The image the user picked
- */
-- (void)didPickImage:(UIImage *)image;
+@property (nonatomic) ABEIssueManager *issueManager;
 
 @end

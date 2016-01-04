@@ -8,17 +8,41 @@
 
 #import "NJHIssue.h"
 
+#import "NJHReporter.h"
+
 @import Foundation;
+
+@interface NJHIssue ()
+@property (nonatomic) NSMutableArray *imageURLs;
+@end
 
 @implementation NJHIssue
 
-+ (NSDictionary *)JSONKeyPathsByPropertyKey {
-    return @{@"title"      : @"title",
-             @"body"       : @"body",
-             @"assignee"   : @"assignee",
-             @"labels"     : @"labels",
-             @"identifier" : @"number",
-             @"URL"        : @"html_url"};
+- (NSDictionary *)toDictionary {
+    return @{NSStringFromSelector(@selector(title)) : self.title,
+             NSStringFromSelector(@selector(body)) : self.body};
+}
+
+- (void)attachImageAtURL:(NSString *)url {
+    [self.imageURLs addObject:url];
+}
+
+- (NSString *)body {
+    NSString *base = [NSString stringWithFormat:@"%@ %@ ", self.description, [[NJHReporter reporter] extraInfoForIssue]];
+    
+    for (NSString *url in self.imageURLs) {
+        base = [base stringByAppendingString:[NSString stringWithFormat:@"![image](%@)\n", url]];
+    }
+    
+    return base;
+}
+
+- (NSMutableArray *)imageURLs {
+    if (!_imageURLs) {
+        _imageURLs = [NSMutableArray new];
+    }
+    
+    return _imageURLs;
 }
 
 @end

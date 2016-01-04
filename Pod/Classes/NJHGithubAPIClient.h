@@ -25,7 +25,7 @@
  *
  *  @param issue The issue to save
  */
-- (void)saveIssue:(NJHIssue *)issue success:(void (^)(BOOL finished))success error:(void (^)(NSError *error))errorHandler;
+- (void)saveIssue:(NJHIssue *)issue success:(void (^)())success error:(void (^)(NSError *error))errorHandler;
 
 /**
  *  Sets the API key to use with all Github API requests. Generate a new key by going to https://github.com/settings/tokens and clicking generate new token. If you are planning to

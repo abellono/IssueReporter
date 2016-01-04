@@ -66,12 +66,4 @@
  */
 - (NSDictionary *)extraInfoForIssue;
 
-/**
- *  Uploads the user's image to Imgur
- *
- *  @param imageData       The image data
- *  @param completionBlock The completion block called if the operation succeeds
- */
-- (void)uploadImageData:(NSData *)imageData completion:(void (^)(NSData *imageData, NSString *url))completionBlock error:(void (^)(NSError *error, NSData *imageData))errorBlock;
-
 @end

@@ -11,11 +11,13 @@
 @interface NJHIssue : NSObject
 
 @property (nonatomic, copy) NSString *title;
-@property (nonatomic, copy) NSString *body;
-@property (nonatomic, copy) NSString *assignee;
-@property (nonatomic, copy) NSArray *labels;
+@property (nonatomic, copy) NSString *issueDescription;
 
-@property (nonatomic) NSNumber *identifier;
-@property (nonatomic) NSURL *URL;
+// Computed property from description and images
+@property (nonatomic, readonly) NSString *body;
+
+- (void)attachImageAtURL:(NSString *)url;
+
+- (NSDictionary *)toDictionary;
 
 @end

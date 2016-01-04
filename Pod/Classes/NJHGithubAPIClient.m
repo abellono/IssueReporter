@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 Abello. All rights reserved.
 //
 
-// Helpers
 #import "NJHGithubAPIClient.h"
+
 #import "NJHIssue.h"
 #import "NJHReporter.h"
 
@@ -42,33 +42,19 @@ static NSString * const kNJHBaseAPIURL = @"https://api.github.com/";
     return self;
 }
 
-- (void)saveIssue:(NJHIssue *)issue success:(void (^)(BOOL finished))success error:(void (^)(NSError *error))errorHandler {
+- (void)saveIssue:(NJHIssue *)issue success:(void (^)())success error:(void (^)(NSError *error))errorHandler {
     
-    NSMutableString *path = @"repos".mutableCopy;
-    [path appendFormat:@"/%@", self.repositoryName];
-    [path appendFormat:@"/issues?access_token=%@", self.githubToken];
+    NSMutableString *path1 = @"repos".mutableCopy;
+    [path1 appendFormat:@"/%@", self.repositoryName];
+    [path1 appendFormat:@"/issues?access_token=%@", self.githubToken];
     
-    NSMutableDictionary *parameters = @{}.mutableCopy;
+    NSString *path = [NSString stringWithFormat:@"repos/%@/issues?access_token=%@", self.repositoryName, self.githubToken];
     
-    if (issue.title) {
-        parameters[@"title"] = issue.title;
-    }
-    
-    if (issue.body) {
-        parameters[@"body"] = issue.body;
-    }
-    
-    if (issue.assignee) {
-        parameters[@"assignee"] = issue.assignee;
-    }
-    
-    if (issue.labels) {
-        parameters[@"labels"] = issue.labels;
-    }
-    
-    [self POST:path parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    NSAssert([path isEqualToString:path1], @"ops");
+
+    [self POST:path parameters:[issue toDictionary] progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (success) {
-            success(YES);
+            success();
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         if (errorHandler) {

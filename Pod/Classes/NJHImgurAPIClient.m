@@ -42,8 +42,8 @@ static NSString * const kNJHBaseAPIURL = @"https://api.imgur.com/3/";
 - (void)uploadImageData:(NSData *)imageData success:(void (^)(NSString *imageURL))success error:(void (^)(NSError *))errorHandler {
     
     if (![NJHImgurAPIClient isAPIKeySet]) {
-        NSDictionary *userInfo = @{NSLocalizedDescriptionKey : @"The imgur api requires that an app key is provided for all requests made to their servers, and you do not have it set.",
-                                   NSLocalizedRecoverySuggestionErrorKey : @"Did you set the imgur client key in your appdelegate using `setupWithRepositoryName:gitHubAccessToken:imgurClientID:`? If you do not have a key, go to https://api.imgur.com/oauth2/addclient and create one."};
+        NSDictionary *userInfo = @{NSLocalizedDescriptionKey : @"Authentication required for Imgur",
+                                   NSLocalizedRecoverySuggestionErrorKey : @"Did you set the imgur client key in your appdelegate using `setupWithRepositoryName:gitHubAccessToken:imgurClientID:`? If you do not have a key, go to https://api.imgur.com/oauth2/addclient and create one. This error has also been printed to the console."};
         
         errorHandler([NSError errorWithDomain:@"no.abello.IssueReporter" code:NSURLErrorUserAuthenticationRequired userInfo:userInfo]);
         return;

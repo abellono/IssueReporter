@@ -64,7 +64,9 @@
 }
 
 - (instancetype)init {
-    if (self = [super init]) {
+    self = [super init];
+    
+    if (self) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showReporterView) name:kNJHSHakeNotificationName object:nil];
     }
     
@@ -76,15 +78,11 @@
 }
 
 - (void)showReporterView {
-    if (self.reporterViewController) { // Do not present if we are already on screen
+    if (self.reporterViewController || !self.isEnabled) { // Do not present if we are already on screen or disabled
         return;
     }
     
-    if (!self.isEnabled) {
-        return;
-    }
-    
-    NJHReporterViewController *reporterController = [NJHReporterViewController instanceWithScreenshot:[self screenshot]];
+    NJHReporterViewController *reporterController = [NJHReporterViewController instance];
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:reporterController];
     self.reporterViewController = reporterController;
     
@@ -106,14 +104,6 @@
     }
 }
 
-- (void)uploadImageData:(NSData *)imageData completion:(void (^)(NSData *, NSString *))completionBlock error:(void (^)(NSError *, NSData *))errorBlock {
-    [[NJHImgurAPIClient sharedClient] uploadImageData:imageData success:^(NSString *imageURL) {
-        completionBlock(imageData, imageURL);
-    } error:^(NSError *error) {
-        errorBlock(error, imageData);
-    }];
-}
-
 - (NSMutableDictionary *)extraInfoForIssue {
     NSMutableDictionary *extraInfo = [@{@"App Version : " : [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"],
                                         @"Bundle Version : " : [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"],
@@ -123,17 +113,6 @@
     
     [extraInfo addEntriesFromDictionary:[self.delegate extraDebuggingInformationForIssue]];
     return extraInfo;
-}
-
-- (UIImage *)screenshot {
-    UIWindow *window = [[[UIApplication sharedApplication] delegate] window];
-    
-    UIGraphicsBeginImageContextWithOptions(window.bounds.size, NO, [UIScreen mainScreen].scale);
-    [window.layer renderInContext:UIGraphicsGetCurrentContext()];
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    
-    UIGraphicsEndImageContext();
-    return image;
 }
 
 @end
