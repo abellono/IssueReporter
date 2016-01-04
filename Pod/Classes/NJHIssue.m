@@ -28,7 +28,7 @@
 }
 
 - (NSString *)body {
-    NSString *base = [NSString stringWithFormat:@"%@ %@ ", self.description, [[NJHReporter reporter] extraInfoForIssue]];
+    NSString *base = [NSString stringWithFormat:@"%@ \n\n %@ \n", self.issueDescription, [[NJHReporter reporter] extraInfoForIssue]];
     
     for (NSString *url in self.imageURLs) {
         base = [base stringByAppendingString:[NSString stringWithFormat:@"![image](%@)\n", url]];
