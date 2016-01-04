@@ -7,16 +7,17 @@
 //
 
 #import "UIBarButtonItem+NJH_CustomBarButton.h"
-#import "NJHReporter.h"
+
+#import "NSBundle+ABEBundle.h"
+
 
 static NSString * const kNJHCloseButtonImage = @"close";
 static NSString * const kNJHSaveButtonImage = @"save";
-static NSString * const kResourceBundleName = @"/IssueReporter.bundle";
 
 @implementation UIBarButtonItem (NJH_CustomBarButton)
 
 + (instancetype)njh_backButtonWithTarget:(id)target andColor:(UIColor *)color action:(SEL)action {
-    NSBundle *cocoapodsBundle = [NSBundle bundleWithPath:[[NSBundle bundleForClass:[NJHReporter class]].bundlePath stringByAppendingString:kResourceBundleName]];
+    NSBundle *cocoapodsBundle = [NSBundle abe_bundleForLibrary];
     UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:kNJHCloseButtonImage inBundle:cocoapodsBundle compatibleWithTraitCollection:nil] style:UIBarButtonItemStylePlain target:target action:action];
     button.tintColor = color;
     
@@ -24,7 +25,7 @@ static NSString * const kResourceBundleName = @"/IssueReporter.bundle";
 }
 
 + (instancetype)njh_saveButtonWithTarget:(id)target action:(SEL)action {
-    NSBundle *cocoapodsBundle = [NSBundle bundleWithPath:[[NSBundle bundleForClass:[NJHReporter class]].bundlePath stringByAppendingString:kResourceBundleName]];
+    NSBundle *cocoapodsBundle = [NSBundle abe_bundleForLibrary];
     UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:kNJHSaveButtonImage inBundle:cocoapodsBundle compatibleWithTraitCollection:nil] style:UIBarButtonItemStylePlain target:target action:action];
     button.imageInsets = UIEdgeInsetsMake(3, -6, 0, 0);
     button.tintColor = [UIColor whiteColor];
