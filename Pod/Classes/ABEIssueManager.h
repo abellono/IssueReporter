@@ -24,7 +24,6 @@
 @property (nonatomic) NSMutableArray<UIImage *> *images;
 
 - (void)addImageToIssue:(UIImage *)image;
-- (void)addImageDataToIssue:(NSData *)image;
 
 - (void)saveIssueWithCompletion:(void (^)())completion;
 

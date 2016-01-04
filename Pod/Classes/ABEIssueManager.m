@@ -29,6 +29,8 @@ static double const kNJHCompressionRatio = 0.5;
     
     if (self) {
         _imagesToUpload = [NSMutableArray new];
+        _images = [NSMutableArray new];
+        _localImageURLs = [NSMutableArray new];
         _issue = [NJHIssue new];
         _viewController = viewController;
         
@@ -53,10 +55,11 @@ static double const kNJHCompressionRatio = 0.5;
     UIImage *flippedImage = [image njh_rotateImageInPreparationForDataConversion];
     NSData *imageData = UIImageJPEGRepresentation(flippedImage, kNJHCompressionRatio);
     
-    [self addImageDataToIssue:imageData];
+    [self.images addObject:image];
+    [self p_addImageDataToIssue:imageData];
 }
 
-- (void)addImageDataToIssue:(NSData *)imageData {
+- (void)p_addImageDataToIssue:(NSData *)imageData {
     [self willChangeValueForKey:@"imagesToUpload"];
     [self.imagesToUpload addObject:imageData];
     [self didChangeValueForKey:@"imagesToUpload"];
@@ -100,7 +103,7 @@ static double const kNJHCompressionRatio = 0.5;
     UIAlertController *alertController = [UIAlertController abe_alertControllerFromError:error];
     
     [alertController addAction:[UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self addImageDataToIssue:imageData];
+        [self p_addImageDataToIssue:imageData];
     }]];
     
     [self.viewController presentViewController:alertController animated:YES completion:nil];
