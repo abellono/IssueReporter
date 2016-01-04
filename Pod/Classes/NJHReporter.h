@@ -66,4 +66,6 @@
  */
 - (NSDictionary *)extraInfoForIssue;
 
+- (void)showReporterView;
+
 @end

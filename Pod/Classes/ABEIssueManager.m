@@ -39,7 +39,7 @@ static double const kNJHCompressionRatio = 0.5;
 }
 
 - (void)p_processReferenceView:(UIView *)referenceView {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         UIGraphicsBeginImageContextWithOptions(referenceView.bounds.size, NO, 0);
         [referenceView drawViewHierarchyInRect:referenceView.bounds afterScreenUpdates:NO];
         UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
@@ -57,7 +57,9 @@ static double const kNJHCompressionRatio = 0.5;
 }
 
 - (void)addImageDataToIssue:(NSData *)imageData {
+    [self willChangeValueForKey:@"imagesToUpload"];
     [self.imagesToUpload addObject:imageData];
+    [self didChangeValueForKey:@"imagesToUpload"];
     
     NSURL *saveLocation = [[[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil] njh_URLByAddingRandomImagePathWithExtension:@"jpg"];
     [imageData writeToURL:saveLocation options:kNilOptions error:nil];
@@ -80,13 +82,20 @@ static double const kNJHCompressionRatio = 0.5;
 
 - (void)p_didUploadImageWithData:(NSData *)imageData atURL:(NSString *)url {
     NSAssert([self.imagesToUpload containsObject:imageData], @"Images to upload did not contain image that was uploaded.");
+    
+    [self willChangeValueForKey:@"imagesToUpload"];
     [self.imagesToUpload removeObject:imageData];
+    [self didChangeValueForKey:@"imagesToUpload"];
+    
     [self.issue attachImageAtURL:url];
 }
 
 - (void)p_didFailImageUploadWithData:(NSData *)imageData error:(NSError *)error {
     NSAssert([self.imagesToUpload containsObject:imageData], @"Images to upload did not contain image that just failed uploading.");
+    
+    [self willChangeValueForKey:@"imagesToUpload"];
     [self.imagesToUpload removeObject:imageData];
+    [self didChangeValueForKey:@"imagesToUpload"];
     
     UIAlertController *alertController = [UIAlertController abe_alertControllerFromError:error];
     
@@ -117,7 +126,6 @@ static double const kNJHCompressionRatio = 0.5;
 }
 
 - (NSMutableArray *)imagesToUpload {
-    NSLog(@"%@", [NSString stringWithFormat:@"_%@", NSStringFromSelector(_cmd)]);
     return [self mutableArrayValueForKey:[NSString stringWithFormat:@"_%@", NSStringFromSelector(_cmd)]];
 }
 

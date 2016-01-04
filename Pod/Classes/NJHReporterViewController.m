@@ -24,6 +24,7 @@
 #import "NSFileManager+NJHFileManager.h"
 #import "NSBundle+ABEBundle.h"
 #import "UIAlertController+ABEErrorAlertController.h"
+#import "NSThread+ABEMainThreadRunner.h"
 
 static NSString * const kNJHTableName = @"IssueReporter-Localizable";
 
@@ -52,14 +53,12 @@ static void *ABEImageUploadCountObservingContext = &ABEImageUploadCountObserving
 
 + (instancetype)instance {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:NSStringFromClass([self class]) bundle:[NSBundle abe_bundleForLibrary]];
-    NJHReporterViewController *reporterViewController = [storyboard instantiateViewControllerWithIdentifier:NSStringFromClass([self class])];
+    NJHReporterViewController *reporterViewController = [storyboard instantiateInitialViewController];
     return reporterViewController;
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     if (self = [super initWithCoder:aDecoder]) {
-        _issueManager = [[ABEIssueManager alloc] initWithReferenceView:[self snapshotCurrentViewState] viewController:self];
-
         self.title = kNJHTitle;
     }
     
@@ -67,8 +66,13 @@ static void *ABEImageUploadCountObservingContext = &ABEImageUploadCountObserving
 }
 
 - (UIView *)snapshotCurrentViewState {
-    UIWindow *windowView = [UIApplication sharedApplication].delegate.window;
-    return [windowView snapshotViewAfterScreenUpdates:YES];
+    return [UIApplication sharedApplication].delegate.window;
+}
+
+- (void)loadView {
+    [super loadView];
+    
+    self.issueManager = [[ABEIssueManager alloc] initWithReferenceView:[self snapshotCurrentViewState] viewController:self];
 }
 
 - (void)viewDidLoad {
@@ -119,16 +123,18 @@ static void *ABEImageUploadCountObservingContext = &ABEImageUploadCountObserving
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
     if (context == ABEImageUploadCountObservingContext) {
-        if (self.issueManager.imagesToUpload.count == 0) {
-            self.navigationItem.rightBarButtonItem = [UIBarButtonItem njh_saveButtonWithTarget:self action:@selector(saveIssue)];
-            self.navigationItem.rightBarButtonItem.enabled = YES;
-        } else {
-            UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-            [spinner startAnimating];
-            
-            self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:spinner];
-            self.navigationItem.rightBarButtonItem.enabled = NO;
-        }
+        [NSThread abe_guaranteeBlockExecutionOnMainThread:^{
+            if (self.issueManager.imagesToUpload.count == 0) {
+                self.navigationItem.rightBarButtonItem = [UIBarButtonItem njh_saveButtonWithTarget:self action:@selector(saveIssue)];
+                self.navigationItem.rightBarButtonItem.enabled = YES;
+            } else {
+                UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+                [spinner startAnimating];
+                
+                self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:spinner];
+                self.navigationItem.rightBarButtonItem.enabled = NO;
+            }
+        }];
     }
 }
 

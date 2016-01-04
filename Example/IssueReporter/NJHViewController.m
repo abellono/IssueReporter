@@ -8,6 +8,8 @@
 
 #import "NJHViewController.h"
 
+#import "IssueReporter/NJHReporter.h"
+
 static NSString * const kNJHTableName = @"IssueReporterDemo-Localizable";
 
 @interface NJHViewController ()
@@ -20,6 +22,10 @@ static NSString * const kNJHTableName = @"IssueReporterDemo-Localizable";
     [super viewDidLoad];
     
     self.shakeLabel.text = NSLocalizedStringFromTableInBundle(self.shakeLabel.text, kNJHTableName, [NSBundle bundleForClass:self.class], nil);
+}
+
+- (IBAction)tap:(id)sender {
+    [[NJHReporter reporter] showReporterView];
 }
 
 @end
