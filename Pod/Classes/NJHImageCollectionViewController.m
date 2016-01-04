@@ -16,6 +16,7 @@
 #import "UIImage+NJH_AutoRotation.h"
 #import "NSURL+NJH_RandomImageURL.h"
 #import "NSBundle+ABEBundle.h"
+#import "NSThread+ABEMainThreadRunner.h"
 
 // Helpers
 #import "NJHReporter.h"
@@ -129,8 +130,10 @@ static NSString * const kNJHActionMenuTitlePickImageString =              @"Pick
     
     __weak typeof(self) _self_weak = self;
     self.issueManager.completionBlock = ^{
-        __strong typeof(self) self = _self_weak;
-        [self.collectionView reloadData];
+        [NSThread abe_guaranteeBlockExecutionOnMainThread:^{
+            __strong typeof(self) self = _self_weak;
+            [self.collectionView reloadData];
+        }];
     };
 }
 

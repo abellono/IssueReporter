@@ -142,7 +142,7 @@
                                     <outlet property="imageView" destination="b1g-Rh-R5p" id="OEz-Wb-o56"/>
                                 </connections>
                             </collectionViewCell>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CollectionViewPictureIdentifier1" id="7ca-ex-STp" customClass="NJHImageCollectionViewCell">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CollectionViewPictureIdentifier" id="7ca-ex-STp" customClass="NJHImageCollectionViewCell">
                                 <rect key="frame" x="120" y="1" width="100" height="176"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -163,75 +163,6 @@
                                 </constraints>
                                 <connections>
                                     <outlet property="imageView" destination="F2G-s6-hAZ" id="KV6-6u-diL"/>
-                                </connections>
-                            </collectionViewCell>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CollectionViewPictureIdentifier2" id="M1P-34-abQ" customClass="NJHImageCollectionViewCell">
-                                <rect key="frame" x="240" y="1" width="100" height="176"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="100" height="176"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3bf-sW-o4V">
-                                            <rect key="frame" x="0.0" y="0.0" width="100" height="176"/>
-                                        </imageView>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
-                                <constraints>
-                                    <constraint firstItem="3bf-sW-o4V" firstAttribute="top" secondItem="M1P-34-abQ" secondAttribute="top" id="KAn-G7-CsU"/>
-                                    <constraint firstAttribute="trailing" secondItem="3bf-sW-o4V" secondAttribute="trailing" id="SAY-7V-L6n"/>
-                                    <constraint firstItem="3bf-sW-o4V" firstAttribute="leading" secondItem="M1P-34-abQ" secondAttribute="leading" id="aGB-tO-Zxo"/>
-                                    <constraint firstAttribute="bottom" secondItem="3bf-sW-o4V" secondAttribute="bottom" id="sLe-Ub-SHH"/>
-                                </constraints>
-                                <connections>
-                                    <outlet property="imageView" destination="3bf-sW-o4V" id="Uja-Dm-Amg"/>
-                                </connections>
-                            </collectionViewCell>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CollectionViewPictureIdentifier3" id="uag-lP-r0u" customClass="NJHImageCollectionViewCell">
-                                <rect key="frame" x="360" y="1" width="100" height="176"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="100" height="176"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0Qn-s5-oaQ">
-                                            <rect key="frame" x="0.0" y="0.0" width="100" height="176"/>
-                                        </imageView>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
-                                <constraints>
-                                    <constraint firstItem="0Qn-s5-oaQ" firstAttribute="top" secondItem="uag-lP-r0u" secondAttribute="top" id="5b0-id-2xH"/>
-                                    <constraint firstItem="0Qn-s5-oaQ" firstAttribute="leading" secondItem="uag-lP-r0u" secondAttribute="leading" id="PD3-2P-ctV"/>
-                                    <constraint firstAttribute="trailing" secondItem="0Qn-s5-oaQ" secondAttribute="trailing" id="hUk-nf-eDu"/>
-                                    <constraint firstAttribute="bottom" secondItem="0Qn-s5-oaQ" secondAttribute="bottom" id="z4r-sU-XKO"/>
-                                </constraints>
-                                <connections>
-                                    <outlet property="imageView" destination="0Qn-s5-oaQ" id="HdI-3Y-7SH"/>
-                                </connections>
-                            </collectionViewCell>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CollectionViewPictureIdentifier4" id="4Lk-cn-rIn" customClass="NJHImageCollectionViewCell">
-                                <rect key="frame" x="480" y="1" width="100" height="176"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="100" height="176"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="r2Z-10-dLg">
-                                            <rect key="frame" x="0.0" y="0.0" width="100" height="176"/>
-                                        </imageView>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
-                                <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="r2Z-10-dLg" secondAttribute="bottom" id="4X3-sl-7ww"/>
-                                    <constraint firstAttribute="trailing" secondItem="r2Z-10-dLg" secondAttribute="trailing" id="EEN-IV-bDx"/>
-                                    <constraint firstItem="r2Z-10-dLg" firstAttribute="top" secondItem="4Lk-cn-rIn" secondAttribute="top" id="RbH-Ec-92V"/>
-                                    <constraint firstItem="r2Z-10-dLg" firstAttribute="leading" secondItem="4Lk-cn-rIn" secondAttribute="leading" id="fXR-F5-qd1"/>
-                                </constraints>
-                                <connections>
-                                    <outlet property="imageView" destination="r2Z-10-dLg" id="9ql-XZ-X7D"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
