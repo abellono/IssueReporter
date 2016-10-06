@@ -16,6 +16,7 @@ static NSString * const kABEBaseAPIURL = @"https://api.github.com/";
 @interface ABEGithubAPIClient ()
 
 @property (nonatomic) NSString *githubToken;
+@property (nonatomic) NSMutableURLRequest *baseSaveIssueURLRequest;
 
 @end
 
@@ -27,40 +28,66 @@ static NSString * const kABEBaseAPIURL = @"https://api.github.com/";
     static dispatch_once_t onceToken;
     
     dispatch_once(&onceToken, ^{
-        NSURL *URL = [NSURL URLWithString:kABEBaseAPIURL];
-        _sharedClient = [[self alloc] initWithBaseURL:URL];
+        _sharedClient = [[self alloc] init];
     });
     
     return _sharedClient;
 }
 
-- (instancetype)initWithBaseURL:(NSURL *)url {
-    if (self = [super initWithBaseURL:url]) {
-         self.requestSerializer = [AFJSONRequestSerializer serializer];
-    }
-    
-    return self;
-}
+// TODO : JSON Response serializing
 
 - (void)saveIssue:(ABEIssue *)issue success:(void (^)())success error:(void (^)(NSError *error))errorHandler {
     
-    NSMutableString *path1 = @"repos".mutableCopy;
-    [path1 appendFormat:@"/%@", self.repositoryName];
-    [path1 appendFormat:@"/issues?access_token=%@", self.githubToken];
-    
-    NSString *path = [NSString stringWithFormat:@"repos/%@/issues?access_token=%@", self.repositoryName, self.githubToken];
-    
-    NSAssert([path isEqualToString:path1], @"ops");
+    NSURLRequest *saveIssueRequest = [self saveIssueRequestForIssue:issue];
 
-    [self POST:path parameters:[issue toDictionary] progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        if (success) {
-            success();
-        }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        if (errorHandler) {
-            errorHandler(error);
-        }
-    }];
+    // TODO : Send request to github somehow, maybe a central manager is smart?
+    // Maybe copy lightly copy AFNetworking structure with a central manager
+    
+    
+//    [self POST:path parameters:[issue toDictionary] progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+//        if (success) {
+//            success();
+//        }
+//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+//        if (errorHandler) {
+//            errorHandler(error);
+//        }
+//    }];
+}
+
+- (NSURLRequest *)saveIssueRequestForIssue:(ABEIssue *)issue {
+    NSMutableURLRequest *baseIssueSaveRequest = [[self baseSaveIssueURLRequest] mutableCopy];
+    NSAssert([NSJSONSerialization isValidJSONObject:[issue toDictionary]], @"JSON Post body generated from issue is not valid JSON.");
+    
+    NSError *error = nil;
+    NSData *jsonObject = [NSJSONSerialization dataWithJSONObject:[issue toDictionary] options:0 error:&error];
+    
+    if (error) {
+        NSLog(@"There was an error saving the issue to github.");
+        NSLog(@"Error : %@", error);
+    }
+    
+    [baseIssueSaveRequest setValue:[NSString stringWithFormat:@"%d", [jsonObject length]] forHTTPHeaderField:@"Content-Length"];
+    [baseIssueSaveRequest setHTTPBody:jsonObject];
+    
+    return baseIssueSaveRequest;
+}
+
+- (NSMutableURLRequest *)baseSaveIssueURLRequest {
+    if (!_baseSaveIssueURLRequest) {
+        NSString *path = [NSString stringWithFormat:@"repos/%@/issues?access_token=%@", self.repositoryName, self.githubToken];
+        NSURL *url = [NSURL URLWithString:path];
+        
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+        
+        request.HTTPMethod = @"POST";
+        [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        
+        return request;
+    }
+    
+    return _baseSaveIssueURLRequest;
 }
 
 - (void)setGithubAPIKey:(NSString *)string {

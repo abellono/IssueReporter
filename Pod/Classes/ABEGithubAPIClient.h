@@ -6,12 +6,9 @@
 //  Copyright (c) 2015 Abello. All rights reserved.
 //
 
-#import <AFNetworking/AFNetworking.h>
-
 @class ABEIssue;
-@class ABEMilestone;
 
-@interface ABEGithubAPIClient : AFHTTPSessionManager
+@interface ABEGithubAPIClient : NSObject
 
 + (instancetype)sharedClient;
 
