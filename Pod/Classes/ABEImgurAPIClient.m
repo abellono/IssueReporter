@@ -71,7 +71,7 @@
 
 - (NSURLRequest *)imageUploadRequestForImageData:(NSData *)imageData {
     NSDictionary *parameters = @{
-                                 @"image" : [imageData base64EncodedDataWithOptions:kNilOptions],
+                                 @"image" : [imageData base64EncodedStringWithOptions:kNilOptions],
                                  @"type" : @"base64"
                                  };
     
