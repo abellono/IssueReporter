@@ -84,6 +84,9 @@ static NSString * const kABEBaseAPIURL = @"https://api.github.com/";
         [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
         [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
         
+        // TODO : Does this need base64 encoding?
+        [request setValue:[NSString stringWithFormat:@"token %@", self.githubToken] forHTTPHeaderField:@"Authorization"];
+        
         return request;
     }
     
@@ -92,7 +95,6 @@ static NSString * const kABEBaseAPIURL = @"https://api.github.com/";
 
 - (void)setGithubAPIKey:(NSString *)string {
     self.githubToken = string;
-    [self.requestSerializer setValue:[NSString stringWithFormat:@"token %@", string] forHTTPHeaderField:@"Authorization"];
 }
 
 @end
