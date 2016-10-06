@@ -1,21 +1,5 @@
 PODS:
-  - AFNetworking (3.0.4):
-    - AFNetworking/NSURLSession (= 3.0.4)
-    - AFNetworking/Reachability (= 3.0.4)
-    - AFNetworking/Security (= 3.0.4)
-    - AFNetworking/Serialization (= 3.0.4)
-    - AFNetworking/UIKit (= 3.0.4)
-  - AFNetworking/NSURLSession (3.0.4):
-    - AFNetworking/Reachability
-    - AFNetworking/Security
-    - AFNetworking/Serialization
-  - AFNetworking/Reachability (3.0.4)
-  - AFNetworking/Security (3.0.4)
-  - AFNetworking/Serialization (3.0.4)
-  - AFNetworking/UIKit (3.0.4):
-    - AFNetworking/NSURLSession
-  - IssueReporter (1.0.0):
-    - AFNetworking
+  - IssueReporter (1.0.0)
 
 DEPENDENCIES:
   - IssueReporter (from `../`)
@@ -25,8 +9,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  AFNetworking: a0075feb321559dc78d9d85b55d11caa19eabb93
-  IssueReporter: 455e06e10296812f8c1d66adb7c9533977c4a1f8
+  IssueReporter: 14ee7b50b6637afe8891e2a7dde70d61de25cd8e
 
 PODFILE CHECKSUM: bc7958537ae3a08b12b744ea0ff114d992505523
 
