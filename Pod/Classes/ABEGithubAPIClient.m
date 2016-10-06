@@ -11,8 +11,6 @@
 #import "ABEIssue.h"
 #import "ABEReporter.h"
 
-static NSString * const kABEBaseAPIURL = @"https://api.github.com/";
-
 @interface ABEGithubAPIClient ()
 
 @property (nonatomic) NSString *githubToken;
@@ -73,9 +71,11 @@ static NSString * const kABEBaseAPIURL = @"https://api.github.com/";
     return baseIssueSaveRequest;
 }
 
+// TODO : Consider separating out base url if we use multiple endpoints in github api
+// Fine for now, but will becomee messy if this class gets any bigger
 - (NSMutableURLRequest *)baseSaveIssueURLRequest {
     if (!_baseSaveIssueURLRequest) {
-        NSString *path = [NSString stringWithFormat:@"repos/%@/issues?access_token=%@", self.repositoryName, self.githubToken];
+        NSString *path = [NSString stringWithFormat:@"https://api.github.com/repos/%@/issues?access_token=%@", self.repositoryName, self.githubToken];
         NSURL *url = [NSURL URLWithString:path];
         
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];

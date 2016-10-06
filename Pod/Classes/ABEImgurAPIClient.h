@@ -6,9 +6,7 @@
 //  Copyright (c) 2015 Abello. All rights reserved.
 //
 
-#import <AFNetworking/AFNetworking.h>
-
-@interface ABEImgurAPIClient : AFHTTPSessionManager
+@interface ABEImgurAPIClient : NSObject
 
 + (ABEImgurAPIClient *)sharedClient;
 
