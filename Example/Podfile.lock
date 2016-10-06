@@ -14,7 +14,7 @@ PODS:
   - AFNetworking/Serialization (3.0.4)
   - AFNetworking/UIKit (3.0.4):
     - AFNetworking/NSURLSession
-  - IssueReporter (0.2.3):
+  - IssueReporter (1.0.0):
     - AFNetworking
 
 DEPENDENCIES:
@@ -26,8 +26,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: a0075feb321559dc78d9d85b55d11caa19eabb93
-  IssueReporter: 75b9630e0c1850c145edfd7f5d099e4e5afa8e24
+  IssueReporter: 455e06e10296812f8c1d66adb7c9533977c4a1f8
 
 PODFILE CHECKSUM: bc7958537ae3a08b12b744ea0ff114d992505523
 
-COCOAPODS: 1.0.0.beta.1
+COCOAPODS: 1.0.1
