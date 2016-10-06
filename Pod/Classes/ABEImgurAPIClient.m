@@ -47,8 +47,8 @@
     }
     
     NSURLRequest *request = [self imageUploadRequestForImageData:imageData];
-    
-    [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+
+    [[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error) {
             NSLog(@"There was an error while uploading the picture with Imgur's API.");
             NSLog(@"Error : %@", error);
@@ -66,7 +66,7 @@
         
         // TODO : Actually check for valid url returned by imgur api instead of blindly forwarding it
         success(jsonResponse[@"data"][@"link"]);
-    }];
+    }] resume];
 }
 
 - (NSURLRequest *)imageUploadRequestForImageData:(NSData *)imageData {

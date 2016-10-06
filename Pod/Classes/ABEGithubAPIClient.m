@@ -38,7 +38,7 @@
     
     NSURLRequest *saveIssueRequest = [self saveIssueRequestForIssue:issue];
 
-    [[NSURLSession sharedSession] dataTaskWithRequest:saveIssueRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    [[[NSURLSession sharedSession] dataTaskWithRequest:saveIssueRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error) {
             NSLog(@"There was an error while saving the issue with Github's API.");
             NSLog(@"Error : %@", error);
@@ -47,7 +47,7 @@
         }
         
         success();
-    }];
+    }] resume];
 }
 
 - (NSURLRequest *)saveIssueRequestForIssue:(ABEIssue *)issue {
