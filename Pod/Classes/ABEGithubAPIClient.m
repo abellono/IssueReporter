@@ -38,19 +38,16 @@
     
     NSURLRequest *saveIssueRequest = [self saveIssueRequestForIssue:issue];
 
-    // TODO : Send request to github somehow, maybe a central manager is smart?
-    // Maybe copy lightly copy AFNetworking structure with a central manager
-    
-    
-//    [self POST:path parameters:[issue toDictionary] progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-//        if (success) {
-//            success();
-//        }
-//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-//        if (errorHandler) {
-//            errorHandler(error);
-//        }
-//    }];
+    [[NSURLSession sharedSession] dataTaskWithRequest:saveIssueRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (error) {
+            NSLog(@"There was an error while saving the issue with Github's API.");
+            NSLog(@"Error : %@", error);
+            errorHandler(error);
+            return;
+        }
+        
+        success();
+    }];
 }
 
 - (NSURLRequest *)saveIssueRequestForIssue:(ABEIssue *)issue {
