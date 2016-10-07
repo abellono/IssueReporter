@@ -156,7 +156,9 @@ static void *ABEImageUploadCountObservingContext = &ABEImageUploadCountObserving
 }
 
 - (IBAction)userDidTryToHideKeyboard:(id)sender {
-    [self.view endEditing:false];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.view endEditing:false];
+    });
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

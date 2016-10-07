@@ -9,7 +9,11 @@
 #import "ABEImgurAPIClient.h"
 #import "ABEReporter.h"
 
-static NSString * const kABEBaseAPIURL = @"https://api.imgur.com/3/";
+@interface ABEImgurAPIClient ()
+
+@property (nonatomic) NSMutableURLRequest *baseImageUploadRequest;
+
+@end
 
 @implementation ABEImgurAPIClient
 
@@ -19,8 +23,7 @@ static NSString * const kABEBaseAPIURL = @"https://api.imgur.com/3/";
     static dispatch_once_t onceToken;
     
     dispatch_once(&onceToken, ^{
-        NSURL *URL = [NSURL URLWithString:kABEBaseAPIURL];
-        _sharedClient = [[self alloc] initWithBaseURL:URL];
+        _sharedClient = [[self alloc] init];
         
     });
     
@@ -31,43 +34,94 @@ static NSString * const kABEBaseAPIURL = @"https://api.imgur.com/3/";
     return [self sharedClient].imgurAPIKey.length > 0;
 }
 
-- (instancetype)initWithBaseURL:(NSURL *)url {
-    if (self = [super initWithBaseURL:url]) {
-        self.requestSerializer = [AFJSONRequestSerializer serializer];
-    }
-    
-    return self;
-}
-
 - (void)uploadImageData:(NSData *)imageData success:(void (^)(NSString *imageURL))success error:(void (^)(NSError *))errorHandler {
     
     if (![ABEImgurAPIClient isAPIKeySet]) {
+        // TODO : Refactor out error
         NSDictionary *userInfo = @{NSLocalizedDescriptionKey : @"Authentication required for Imgur",
                                    NSLocalizedRecoverySuggestionErrorKey : @"Did you set the imgur client key in your appdelegate using `setupWithRepositoryName:gitHubAccessToken:imgurClientID:`? If you do not have a key, go to https://api.imgur.com/oauth2/addclient and create one. This error has also been printed to the console."};
         
         errorHandler([NSError errorWithDomain:@"no.abello.IssueReporter" code:NSURLErrorUserAuthenticationRequired userInfo:userInfo]);
         return;
     }
+    
+    NSURLRequest *request = [self imageUploadRequestForImageData:imageData errorHandler:errorHandler];
+    
+    if (!request) {
+        return;
+    }
 
-    NSMutableDictionary *parameters = @{}.mutableCopy;
-    
-    parameters[@"image"] = [imageData base64EncodedStringWithOptions:kNilOptions];
-    parameters[@"type"] = @"base64";
-    
-    [self POST:@"upload" parameters:parameters.copy progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        if (success) {
-            success(responseObject[@"data"][@"link"]);
-        }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        if (errorHandler) {
+    [[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (error) {
+            NSLog(@"There was an error while uploading the picture with Imgur's API.");
+            NSLog(@"Error : %@", error);
             errorHandler(error);
+            return;
         }
-    }];
+        
+        NSError *jsonError;
+        NSDictionary *jsonResponse = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&jsonError];
+        
+        if (error) {
+            NSLog(@"There was an error parsing the returned data from Imgur's API.");
+            NSLog(@"Error : %@", jsonError);
+        }
+        
+        NSString *urlString = jsonResponse[@"data"][@"link"];
+        
+        if (![NSURL URLWithString:urlString]) {
+            NSLog(@"There was an error getting the url of the uploaded image from the response body of the Imgur API.");
+            NSLog(@"Returned URL : %@", urlString);
+            errorHandler(nil);
+            return;
+        }
+        
+        success(urlString);
+    }] resume];
+}
+
+- (NSURLRequest *)imageUploadRequestForImageData:(NSData *)imageData errorHandler:(void (^)(NSError *))errorHandler {
+    NSDictionary *parameters = @{@"image" : [imageData base64EncodedStringWithOptions:kNilOptions],
+                                 @"type" : @"base64"};
+    
+    NSAssert([NSJSONSerialization isValidJSONObject:parameters], @"JSON Post body generated from issue is not valid JSON.");
+    
+    NSMutableURLRequest *baseRequest = [[self baseImageUploadRequest] copy];
+    
+    NSError *error = nil;
+    NSData *data = [NSJSONSerialization dataWithJSONObject:parameters options:kNilOptions error:&error];
+    
+    if (error) {
+        NSLog(@"There was an error serializing the upload image request body.");
+        NSLog(@"Error : %@", error);
+        errorHandler(error);
+        return nil;
+    }
+    
+    [baseRequest setValue:[NSString stringWithFormat:@"%d", [data length]] forHTTPHeaderField:@"Content-Length"];
+    [baseRequest setHTTPBody:data];
+    
+    return baseRequest;
+}
+
+- (NSMutableURLRequest *)baseImageUploadRequest {
+    if (!_baseImageUploadRequest) {
+        NSURL *url = [NSURL URLWithString:@"https://api.imgur.com/3/upload"];
+        _baseImageUploadRequest = [[NSMutableURLRequest alloc] initWithURL:url];
+        
+        _baseImageUploadRequest.HTTPMethod = @"POST";
+        
+        [_baseImageUploadRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+        [_baseImageUploadRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        
+        [_baseImageUploadRequest setValue:[NSString stringWithFormat:@"Client-ID %@", self.imgurAPIKey] forHTTPHeaderField:@"Authorization"];
+    }
+    
+    return _baseImageUploadRequest;
 }
 
 - (void)setImgurAPIKey:(NSString *)imgurAPIKey {
     _imgurAPIKey = [imgurAPIKey copy];
-    [self.requestSerializer setValue:[NSString stringWithFormat:@"Client-ID %@", imgurAPIKey] forHTTPHeaderField:@"Authorization"];
 }
 
 @end
