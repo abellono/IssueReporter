@@ -77,7 +77,7 @@
     
     NSAssert([NSJSONSerialization isValidJSONObject:parameters], @"JSON Post body generated from issue is not valid JSON.");
     
-    NSMutableURLRequest *baseRequest = [self baseImageUploadRequest];
+    NSMutableURLRequest *baseRequest = [[self baseImageUploadRequest] copy];
     
     NSError *error = nil;
     NSData *data = [NSJSONSerialization dataWithJSONObject:parameters options:kNilOptions error:&error];
@@ -97,6 +97,8 @@
     if (!_baseImageUploadRequest) {
         NSURL *url = [NSURL URLWithString:@"https://api.imgur.com/3/upload"];
         _baseImageUploadRequest = [[NSMutableURLRequest alloc] initWithURL:url];
+        
+        _baseImageUploadRequest.HTTPMethod = @"POST";
         
         [_baseImageUploadRequest setValue:@"application/json" forHTTPHeaderField:@"Accept"];
         [_baseImageUploadRequest setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
