@@ -38,7 +38,6 @@
     
     if (![ABEImgurAPIClient isAPIKeySet]) {
         // TODO : Refactor out error
-        
         NSDictionary *userInfo = @{NSLocalizedDescriptionKey : @"Authentication required for Imgur",
                                    NSLocalizedRecoverySuggestionErrorKey : @"Did you set the imgur client key in your appdelegate using `setupWithRepositoryName:gitHubAccessToken:imgurClientID:`? If you do not have a key, go to https://api.imgur.com/oauth2/addclient and create one. This error has also been printed to the console."};
         
@@ -46,7 +45,11 @@
         return;
     }
     
-    NSURLRequest *request = [self imageUploadRequestForImageData:imageData];
+    NSURLRequest *request = [self imageUploadRequestForImageData:imageData errorHandler:errorHandler];
+    
+    if (!request) {
+        return;
+    }
 
     [[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error) {
@@ -64,16 +67,22 @@
             NSLog(@"Error : %@", jsonError);
         }
         
-        // TODO : Actually check for valid url returned by imgur api instead of blindly forwarding it
-        success(jsonResponse[@"data"][@"link"]);
+        NSString *urlString = jsonResponse[@"data"][@"link"];
+        
+        if (![NSURL URLWithString:urlString]) {
+            NSLog(@"There was an error getting the url of the uploaded image from the response body of the Imgur API.");
+            NSLog(@"Returned URL : %@", urlString);
+            errorHandler(nil);
+            return;
+        }
+        
+        success(urlString);
     }] resume];
 }
 
-- (NSURLRequest *)imageUploadRequestForImageData:(NSData *)imageData {
-    NSDictionary *parameters = @{
-                                 @"image" : [imageData base64EncodedStringWithOptions:kNilOptions],
-                                 @"type" : @"base64"
-                                 };
+- (NSURLRequest *)imageUploadRequestForImageData:(NSData *)imageData errorHandler:(void (^)(NSError *))errorHandler {
+    NSDictionary *parameters = @{@"image" : [imageData base64EncodedStringWithOptions:kNilOptions],
+                                 @"type" : @"base64"};
     
     NSAssert([NSJSONSerialization isValidJSONObject:parameters], @"JSON Post body generated from issue is not valid JSON.");
     
@@ -85,6 +94,8 @@
     if (error) {
         NSLog(@"There was an error serializing the upload image request body.");
         NSLog(@"Error : %@", error);
+        errorHandler(error);
+        return nil;
     }
     
     [baseRequest setValue:[NSString stringWithFormat:@"%d", [data length]] forHTTPHeaderField:@"Content-Length"];

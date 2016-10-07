@@ -36,7 +36,11 @@
 
 - (void)saveIssue:(ABEIssue *)issue success:(void (^)())success error:(void (^)(NSError *error))errorHandler {
     
-    NSURLRequest *saveIssueRequest = [self saveIssueRequestForIssue:issue];
+    NSURLRequest *saveIssueRequest = [self saveIssueRequestForIssue:issue errorHandler:errorHandler];
+    
+    if (!saveIssueRequest) {
+        return;
+    }
 
     [[[NSURLSession sharedSession] dataTaskWithRequest:saveIssueRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error) {
@@ -50,7 +54,7 @@
     }] resume];
 }
 
-- (NSURLRequest *)saveIssueRequestForIssue:(ABEIssue *)issue {
+- (NSURLRequest *)saveIssueRequestForIssue:(ABEIssue *)issue errorHandler:(void (^)(NSError *error))errorHandler {
     NSMutableURLRequest *baseIssueSaveRequest = [[self baseSaveIssueURLRequest] mutableCopy];
     NSAssert([NSJSONSerialization isValidJSONObject:[issue toDictionary]], @"JSON Post body generated from issue is not valid JSON.");
     
@@ -60,6 +64,8 @@
     if (error) {
         NSLog(@"There was an error saving the issue to github.");
         NSLog(@"Error : %@", error);
+        errorHandler(error);
+        return nil;
     }
     
     [baseIssueSaveRequest setValue:[NSString stringWithFormat:@"%d", [jsonObject length]] forHTTPHeaderField:@"Content-Length"];
@@ -68,8 +74,6 @@
     return baseIssueSaveRequest;
 }
 
-// TODO : Consider separating out base url if we use multiple endpoints in github api
-// Fine for now, but will becomee messy if this class gets any bigger
 - (NSMutableURLRequest *)baseSaveIssueURLRequest {
     if (!_baseSaveIssueURLRequest) {
         NSString *path = [NSString stringWithFormat:@"https://api.github.com/repos/%@/issues?access_token=%@", self.repositoryName, self.githubToken];
@@ -81,7 +85,6 @@
         [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
         [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
         
-        // TODO : Does this need base64 encoding?
         [request setValue:[NSString stringWithFormat:@"token %@", self.githubToken] forHTTPHeaderField:@"Authorization"];
         
         return request;
