@@ -9,13 +9,9 @@
 // Helpers
 #import "ABEReporter.h"
 #import "ABEImgurAPIClient.h"
-#import "ABEGithubAPIClient.h"
 
 // View Controllers
 #import "ABEReporterViewController.h"
-
-// Categories
-#import "UIWindow+ABEShakeNotifier.h"
 
 @interface ABEReporter ()
 

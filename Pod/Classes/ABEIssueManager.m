@@ -8,13 +8,7 @@
 
 #import "ABEIssueManager.h"
 
-#import "ABEIssue.h"
-#import "ABEGithubAPIClient.h"
-
 #import "ABEImgurAPIClient.h"
-#import "UIAlertController+ABEErrorAlertController.h"
-#import "UIImage+ABEAutoRotation.h"
-#import "NSURL+ABERandomImageURL.h"
 
 static double const kABECompressionRatio = 0.5;
 

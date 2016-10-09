@@ -13,7 +13,7 @@
 @implementation ABEAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [ABEReporter setupWithRepositoryName:@"user/repo" gitHubAccessToken:@"long_github_token_here" imgurClientID:@"shorter_imgur_client_id"];
+    [ABEReporter setupWithRepositoryName:@"abellono/IssueReporter" gitHubAccessToken:@"fd93485f83a2d7c5e9834d5559d8535fa7af1f3f" imgurClientID:@"11beab0d0337132"];
     
     return YES;
 }

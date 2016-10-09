@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Abello. All rights reserved.
 //
 
-#import "ABEImageCollectionViewController.h"
-
 @import Foundation;
 @import UIKit;
 
