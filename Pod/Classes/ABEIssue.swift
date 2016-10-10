@@ -8,21 +8,16 @@
 
 struct ABEIssue {
    
-    let title: String
-    let issueDescription: String
+    var title: String?
+    var issueDescription: String?
     
     var imageURLS : [String] = []
-    
-    init(issueDescription: String, title: String) {
-        self.issueDescription = issueDescription
-        self.title = title
-    }
     
     mutating func attachImage(withURL urlString: String) {
         imageURLS.append(urlString)
     }
     
-    var textRepresentation : String {
+    var textRepresentation : String? {
         // TODO
         let extraDebuggingInformation = ""
         
@@ -34,8 +29,8 @@ struct ABEIssue {
         return base + "\n" + images
     }
     
-    var dictionaryRepresentation : [String : String] {
-        return ["title" : title,
-                "body" : textRepresentation]
+    var dictionaryRepresentation : [String : String]? {
+        guard let title = title, let body = textRepresentation else { return nil }
+        return ["title" : title, "body" : body]
     }
 }

@@ -16,15 +16,15 @@ public enum GithubAPIClientError: String, Error {
 
 final class ABEGithubAPIClient {
     
-    public static let githubToken: String? = nil
-    public static let githubRepositoryName : String? = nil
-    public static let githubRepositoryOwner : String? = nil
+    public static var githubToken: String? = nil
+    public static var githubRepositoryName : String? = nil
+    public static var githubRepositoryOwner : String? = nil
     
     public static let sharedInstance = ABEGithubAPIClient()
     
     private init() { }
     
-    fileprivate lazy var baseSaveIssueURLRequest: URLRequest? = {
+    lazy var baseSaveIssueURLRequest: URLRequest? = {
         guard let githubToken = githubToken, let name = githubRepositoryName, let owner = githubRepositoryOwner else {
             return nil
         }

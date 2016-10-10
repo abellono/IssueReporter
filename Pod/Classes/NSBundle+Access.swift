@@ -13,7 +13,6 @@ extension Bundle {
     fileprivate static let kABEResourceBundleName = "IssueReporterResources.bundle"
     
     static let bundleForLibrary: Bundle = {
-        
-        return Bundle(path: "\(Bundle(for: ABEReporter.self).bundlePath)/\(Bundle.kABEResourceBundleName)")
+        return Bundle(path: "\(Bundle(for: ABEReporter.self).bundlePath)/\(Bundle.kABEResourceBundleName)")!
     }()
 }

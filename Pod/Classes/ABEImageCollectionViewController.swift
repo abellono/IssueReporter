@@ -30,11 +30,11 @@ class ABEImageCollectionViewController: UICollectionViewController, UINavigation
     
     var issueManager: ABEIssueManager! {
         didSet {
-            issueManager.completionBlock = {
-                Thread.abe_guaranteeBlockExecution { [weak self] in
-                    self?.collectionView!.reloadData()
-                }
-            }
+//            issueManager.completionBlock = {
+//                Thread.abe_guaranteeBlockExecution { [weak self] in
+//                    self?.collectionView!.reloadData()
+//                }
+//            }
         }
     }
 }
@@ -47,7 +47,7 @@ extension ABEImageCollectionViewController: UIImagePickerControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            issueManager.addImage(toIssue: image)
+            issueManager.add(imageToIssue: image)
         }
     }
 }
@@ -59,7 +59,7 @@ extension ABEImageCollectionViewController: QLPreviewControllerDataSource {
     }
     
     func previewController(_ controller: QLPreviewController, previewItemAt index: Int) -> QLPreviewItem {
-        return issueManager.localImageURLs[index]
+        return issueManager.localImageURLs[index] as QLPreviewItem
     }
 }
 

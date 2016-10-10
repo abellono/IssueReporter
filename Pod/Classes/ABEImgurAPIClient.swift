@@ -17,7 +17,7 @@ enum ABEImgurAPIClientError: String, Error {
 
 final class ABEImgurAPIClient {
     
-    public static let imgurAPIKey: String? = nil
+    public static var imgurAPIKey: String? = nil
     
     public static let sharedInstance = ABEImgurAPIClient()
     

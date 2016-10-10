@@ -9,39 +9,46 @@
 import Foundation
 import UIKit
 
-static private let kABECompressionRatio = CGFloat(5.0)
+private let kABECompressionRatio = CGFloat(5.0)
 
 class ABEIssueManager {
     
-    public var isUploading = false
+    public var isUploading: Bool {
+        get {
+            return uploadingImages.count != 0
+        }
+    }
     
-    fileprivate var uploadingImages: [Data]
-    private var images: [UIImage]
+    public var localImageURLs: [URL] = []
+    
+    fileprivate var uploadingImages: [Data] = []
+    private var images: [UIImage] = []
     
     let referenceView: UIView
     let viewController: UIViewController
     
-    init(referenceView: UIView, viewController: UIViewController) {
+    var issue: ABEIssue = ABEIssue()
+    
+    init(referenceView: UIView) {
         self.referenceView = referenceView
-        self.viewController = viewController
         
-        process(referenceView: referenceView) { image in
-            
+        drawSnapshotOf(referenceView: referenceView) { [weak self] image in
+            self?.add(imageToIssue: image)
         }
     }
     
-    private func process(referenceView view: UIView, complete: @escaping (UIImage) -> ()) {
+    private func drawSnapshotOf(referenceView view: UIView, complete: @escaping (UIImage) -> ()) {
         DispatchQueue.global(qos: .default).async {
             UIGraphicsBeginImageContextWithOptions(view.bounds.size, false, 0)
             view.drawHierarchy(in: view.bounds, afterScreenUpdates: false)
-            let image = UIGraphicsGetImageFromCurrentImageContext()
+            let image = UIGraphicsGetImageFromCurrentImageContext()!
             UIGraphicsEndImageContext()
             
             complete(image)
         }
     }
     
-    private func add(image: UIImage, to issue: inout ABEIssue) {
+    public func add(imageToIssue image: UIImage) {
         
         let flippedImage = image.applyRotationToImageData()
         let imageData = UIImageJPEGRepresentation(flippedImage, kABECompressionRatio)!
@@ -49,19 +56,7 @@ class ABEIssueManager {
         self.images.append(flippedImage)
         
         self.persist(imageData: imageData) { url in
-            issue.attachImage(withURL: url)
-        }
-    }
-}
-
-extension ABEIssue {
-    
-    mutating func add(image image: UIImage) {
-        let flippedImage = image.applyRotationToImageData()
-        let imageData = UIImageJPEGRepresentation(flippedImage, kABECompressionRatio)!
-        
-        self.persist(imageData: imageData) { url in
-            self.attachImage(withURL: url)
+            self.issue.attachImage(withURL: url)
         }
     }
     
@@ -73,6 +68,18 @@ extension ABEIssue {
             try? data.write(to: saveLocation)
         }
         
-        ABEImgurAPIClient.sharedInstance.upload(imageData: data, success: complete)
+        try? ABEImgurAPIClient.sharedInstance.upload(imageData: data, success: complete)
+    }
+    
+    public func saveIssue(completion: @escaping () -> ()) {
+        // self is only used in inner closure....
+        // TODO: Do we need [weak self] in both closures here? What happens if we remove the first [weak self]?
+        ABEGithubAPIClient.sharedInstance.saveIssue(issue: self.issue, success: completion) { [weak self] error in
+            let alertController = UIAlertController(error: error as NSError)
+            
+            alertController.addAction(UIAlertAction(title: "Retry", style: .default) { [weak self] action in
+                self?.saveIssue(completion: completion)
+            })
+        }
     }
 }
