@@ -98,7 +98,7 @@
         return nil;
     }
     
-    [baseRequest setValue:[NSString stringWithFormat:@"%d", [data length]] forHTTPHeaderField:@"Content-Length"];
+    [baseRequest setValue:[NSString stringWithFormat:@"%ld", (unsigned long)[data length]] forHTTPHeaderField:@"Content-Length"];
     [baseRequest setHTTPBody:data];
     
     return baseRequest;

@@ -68,7 +68,7 @@
         return nil;
     }
     
-    [baseIssueSaveRequest setValue:[NSString stringWithFormat:@"%d", [jsonObject length]] forHTTPHeaderField:@"Content-Length"];
+    [baseIssueSaveRequest setValue:[NSString stringWithFormat:@"%ld", (unsigned long)[jsonObject length]] forHTTPHeaderField:@"Content-Length"];
     [baseIssueSaveRequest setHTTPBody:jsonObject];
     
     return baseIssueSaveRequest;
