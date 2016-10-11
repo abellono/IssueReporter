@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="aCf-Qr-zyw">
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -15,7 +14,7 @@
         <!--New Issue-->
         <scene sceneID="EAZ-FU-pHl">
             <objects>
-                <viewController storyboardIdentifier="ABEReporterViewController" id="aCf-Qr-zyw" customClass="ABEReporterViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ABEReporterViewController" id="aCf-Qr-zyw" customClass="ABEReporterViewController" customModule="IssueReporter" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="8wE-a3-eHU"/>
                         <viewControllerLayoutGuide type="bottom" id="KXY-Qp-yye"/>
@@ -24,16 +23,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Title" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qCC-l2-Cwb">
-                                <frame key="frameInset" minX="8" minY="72" width="584" height="60"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Title" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qCC-l2-Cwb">
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="r9e-wA-R6P"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AkkuratStd" family="AkkuratStd" pointSize="21"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textField>
-                            <containerView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hdR-PG-Hob">
-                                <frame key="frameInset" minX="8" minY="140" width="584" height="178"/>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hdR-PG-Hob">
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="hdR-PG-Hob" secondAttribute="height" multiplier="292:89" id="XyJ-Wm-L18"/>
                                 </constraints>
@@ -41,16 +38,14 @@
                                     <segue destination="jun-oi-wMd" kind="embed" identifier="embed_segue" id="X6Q-CN-Sc8"/>
                                 </connections>
                             </containerView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="16E-Y5-cZH" userLabel="Description">
-                                <frame key="frameInset" minX="8" minY="326" width="584" height="266"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="16E-Y5-cZH" userLabel="Description">
                                 <fontDescription key="fontDescription" name="AkkuratStd" family="AkkuratStd" pointSize="19"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <connections>
                                     <outlet property="delegate" destination="aCf-Qr-zyw" id="dpc-RN-k7v"/>
                                 </connections>
                             </textView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="What went wrong?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8bg-92-7ns" userLabel="Placeholder">
-                                <frame key="frameInset" minX="27" minY="340" width="160" height="23"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What went wrong?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8bg-92-7ns" userLabel="Placeholder">
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="19"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.22" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -96,9 +91,9 @@
         <!--Image Collection View Controller-->
         <scene sceneID="aZ0-3h-feP">
             <objects>
-                <collectionViewController id="jun-oi-wMd" customClass="ABEImageCollectionViewController" sceneMemberID="viewController">
+                <collectionViewController id="jun-oi-wMd" customClass="ABEImageCollectionViewController" customModule="IssueReporter" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="94i-Le-oD6">
-                        <rect key="frame" x="0.0" y="0.0" width="584" height="178"/>
+                        <rect key="frame" x="0.0" y="0.0" width="359" height="109.5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="20" minimumInteritemSpacing="0.0" id="Cvf-NB-r0L">
@@ -109,7 +104,7 @@
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="CollectionViewAddPictureIdentifier" reuseIdentifier="CollectionViewAddPictureIdentifier" id="Oc9-LO-f4z" customClass="ABEImageCollectionViewCell">
-                                <rect key="frame" x="0.0" y="1" width="100" height="176"/>
+                                <rect key="frame" x="0.0" y="-33.5" width="100" height="176"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="100" height="176"/>
@@ -141,7 +136,7 @@
                                 </connections>
                             </collectionViewCell>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CollectionViewPictureIdentifier" id="7ca-ex-STp" customClass="ABEImageCollectionViewCell">
-                                <rect key="frame" x="120" y="1" width="100" height="176"/>
+                                <rect key="frame" x="120" y="-33.5" width="100" height="176"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="100" height="176"/>
@@ -169,7 +164,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kKz-BH-BOw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="509" y="523"/>
+            <point key="canvasLocation" x="711" y="522"/>
         </scene>
     </scenes>
 </document>

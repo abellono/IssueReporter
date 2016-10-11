@@ -8,6 +8,8 @@
 
 #import "ABEViewController.h"
 
+@import IssueReporter;
+
 static NSString * const kNJHTableName = @"IssueReporterDemo-Localizable";
 
 @interface ABEViewController ()
@@ -23,7 +25,7 @@ static NSString * const kNJHTableName = @"IssueReporterDemo-Localizable";
 }
 
 - (IBAction)tap:(id)sender {
-//    [[ABEReporter reporter] showReporterView];
+    [ABEReporter showReporterView];
 }
 
 @end

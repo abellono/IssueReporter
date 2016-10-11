@@ -9,10 +9,10 @@
 import Foundation
 import UIKit
 
-public class ABEReporter {
+public class ABEReporter: NSObject {
     
     public static var enabled: Bool = true
-    private static var reporterViewController: ABEReporterViewController?
+    private weak static var reporterViewController: ABEReporterViewController?
     
     private static var dateFormatter = { () -> DateFormatter in
         let formatter = DateFormatter()
@@ -21,9 +21,9 @@ public class ABEReporter {
         return formatter
     }
     
-    private init() {}
+    private override init() {}
     
-    class func setup(repositoryName name: String, owner: String, token: String, imgurKey imgurKey: String? = nil) {
+    public class func setup(repositoryName name: String, owner: String, token: String, imgurKey: String? = nil) {
         ABEGithubAPIClient.githubRepositoryName = name
         ABEGithubAPIClient.githubRepositoryOwner = owner
         ABEGithubAPIClient.githubToken = token
@@ -33,7 +33,7 @@ public class ABEReporter {
         }
     }
     
-    class func showReporterView() {
+    public class func showReporterView() {
         if self.reporterViewController != nil || !enabled {
             return;
         }
@@ -44,9 +44,12 @@ public class ABEReporter {
         }
         
         let presentationTarget = presentingTargetForReporterViewController(cannidate: rootViewController)
+        let reporterViewController = ABEReporterViewController.instance(withIssueManager: ABEIssueManager(referenceView: presentationTarget.view))
         
-        self.reporterViewController = ABEReporterViewController.instance(withIssueManager: ABEIssueManager(referenceView: presentationTarget.view))
-        let navigationController = UINavigationController(rootViewController: reporterViewController!)
+        self.reporterViewController = reporterViewController
+        let navigationController = UINavigationController(rootViewController: reporterViewController)
+        
+        presentationTarget.present(navigationController, animated: true)
     }
     
     private class func presentingTargetForReporterViewController(cannidate: UIViewController) -> UIViewController {

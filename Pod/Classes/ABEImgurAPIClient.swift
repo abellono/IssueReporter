@@ -56,7 +56,7 @@ final class ABEImgurAPIClient {
         return baseIssueRequest
     }
     
-    public func upload(imageData imageData: Data, success: @escaping (String) -> ()) throws {
+    public func upload(imageData: Data, success: @escaping (String) -> ()) throws {
         
         let request = try self.uploadRequestForImageData(imageData: imageData)
         
