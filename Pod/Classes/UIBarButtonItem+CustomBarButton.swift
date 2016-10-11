@@ -14,8 +14,8 @@ extension UIBarButtonItem {
     fileprivate static let kABECloseButtonImage = "close"
     fileprivate static let kABESaveButtonImage = "save"
     
-    func backButton(_ target: AnyObject, action: Selector, color: UIColor) -> UIBarButtonItem {
-        let cocoapodsBundle = Bundle.bundleForLibrary
+    static func backButton(_ target: AnyObject, action: Selector, color: UIColor) -> UIBarButtonItem {
+        let cocoapodsBundle = Bundle.bundleForLibrary()
         let image = UIImage(named: UIBarButtonItem.kABECloseButtonImage, in: cocoapodsBundle, compatibleWith: nil)
         let button = UIBarButtonItem(image: image, style: .plain, target: target, action: action)
         
@@ -24,8 +24,8 @@ extension UIBarButtonItem {
         return button
     }
     
-    func saveButton(_ target: AnyObject, action: Selector) -> UIBarButtonItem {
-        let cocoapodsBundle = Bundle.bundleForLibrary
+    static func saveButton(_ target: AnyObject, action: Selector) -> UIBarButtonItem {
+        let cocoapodsBundle = Bundle.bundleForLibrary()
         let image = UIImage(named: UIBarButtonItem.kABESaveButtonImage, in: cocoapodsBundle, compatibleWith: nil)
         let button = UIBarButtonItem(image: image, style: .plain, target: target, action: action)
         

@@ -11,7 +11,12 @@ import UIKit
 
 private let kABECompressionRatio = CGFloat(5.0)
 
-class ABEIssueManager {
+public protocol ABEIssueManagerDelegate {
+    
+    func issueManagerUploadingStateDidChange(issueManager: ABEIssueManager)
+}
+
+public class ABEIssueManager {
     
     public var isUploading: Bool {
         get {
@@ -21,16 +26,18 @@ class ABEIssueManager {
     
     public var localImageURLs: [URL] = []
     
-    fileprivate var uploadingImages: [Data] = []
+    private var uploadingImages: [Data] = []
     private var images: [UIImage] = []
     
     let referenceView: UIView
-    let viewController: UIViewController
+    
+    var delegate: ABEIssueManagerDelegate?
     
     var issue: ABEIssue = ABEIssue()
     
-    init(referenceView: UIView) {
+    init(referenceView: UIView, delegate: ABEIssueManagerDelegate? = nil) {
         self.referenceView = referenceView
+        self.delegate = delegate
         
         drawSnapshotOf(referenceView: referenceView) { [weak self] image in
             self?.add(imageToIssue: image)
@@ -38,7 +45,7 @@ class ABEIssueManager {
     }
     
     private func drawSnapshotOf(referenceView view: UIView, complete: @escaping (UIImage) -> ()) {
-        DispatchQueue.global(qos: .default).async {
+        DispatchQueue.global(qos: .userInitiated).async {
             UIGraphicsBeginImageContextWithOptions(view.bounds.size, false, 0)
             view.drawHierarchy(in: view.bounds, afterScreenUpdates: false)
             let image = UIGraphicsGetImageFromCurrentImageContext()!
@@ -61,14 +68,37 @@ class ABEIssueManager {
     }
     
     private func persist(imageData data: Data, complete: @escaping (String) -> ()) {
-        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        let saveLocation = documentsDirectory.randomURL(withExtension: "jpg")
         
-        DispatchQueue.global(qos: .`default`).async {
+        let group = DispatchGroup()
+        let queue = DispatchQueue.global(qos: .`default`)
+        
+        queue.async(group: group) {
+            let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+            let saveLocation = documentsDirectory.randomURL(withExtension: "jpg")
+            
             try? data.write(to: saveLocation)
         }
         
-        try? ABEImgurAPIClient.sharedInstance.upload(imageData: data, success: complete)
+        self.uploadingImages.append(data)
+        self.delegate?.issueManagerUploadingStateDidChange(issueManager: self)
+        
+        try? ABEImgurAPIClient.sharedInstance.upload(imageData: data) { [weak self] url in
+            guard let index = self?.uploadingImages.index(of: data) else {
+                print("Unexpected error")
+                return
+            }
+            
+            self?.uploadingImages.remove(at: index)
+            
+            if let `self` = self {
+                self.delegate?.issueManagerUploadingStateDidChange(issueManager: self)
+            }
+            
+            group.notify(queue: queue) {
+                // We are sure that the disk operation has finished
+                complete(url)
+            }
+        }
     }
     
     public func saveIssue(completion: @escaping () -> ()) {

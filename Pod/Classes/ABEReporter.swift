@@ -9,12 +9,12 @@
 import Foundation
 import UIKit
 
-class ABEReporter {
+public class ABEReporter {
     
-    static var enabled: Bool = true
-    static var reporterViewController: ABEReporterViewController?
+    public static var enabled: Bool = true
+    private static var reporterViewController: ABEReporterViewController?
     
-    static var dateFormatter = { () -> DateFormatter in 
+    private static var dateFormatter = { () -> DateFormatter in
         let formatter = DateFormatter()
         formatter.timeZone = TimeZone(abbreviation: "UTC")
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
@@ -38,19 +38,21 @@ class ABEReporter {
             return;
         }
         
-        guard let rootViewController = UIApplication.shared.delegate?.window?.rootViewController else { print("No root view controller ") }
-        let presentationTarget = presentingTargetForReporterViewController(rootViewController)
+        guard let rootViewController = UIApplication.shared.delegate?.window??.rootViewController else {
+            print("No root view controller ")
+            return
+        }
+        
+        let presentationTarget = presentingTargetForReporterViewController(cannidate: rootViewController)
         
         self.reporterViewController = ABEReporterViewController.instance(withIssueManager: ABEIssueManager(referenceView: presentationTarget.view))
-        let navigationController = UINavigationController(rootViewController: reporterViewController)
-        
-        
+        let navigationController = UINavigationController(rootViewController: reporterViewController!)
     }
     
-    class func presentingTargetForReporterViewController(cannidate: UIViewController) -> UIViewController {
+    private class func presentingTargetForReporterViewController(cannidate: UIViewController) -> UIViewController {
     
-        if viewController.presentedViewController != nil {
-            presentingTargetForReporterViewController(viewController.presentedViewController)
+        if let newCannidate = cannidate.presentedViewController {
+            return presentingTargetForReporterViewController(cannidate: newCannidate)
         } else {
             return cannidate
         }

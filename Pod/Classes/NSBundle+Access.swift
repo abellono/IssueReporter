@@ -8,11 +8,11 @@
 
 import Foundation
 
+fileprivate let kABEResourceBundleName = "IssueReporterResources.bundle"
+
 extension Bundle {
     
-    fileprivate static let kABEResourceBundleName = "IssueReporterResources.bundle"
-    
-    static let bundleForLibrary: Bundle = {
-        return Bundle(path: "\(Bundle(for: ABEReporter.self).bundlePath)/\(Bundle.kABEResourceBundleName)")!
-    }()
+    class func bundleForLibrary() -> Bundle {
+        return Bundle(path: "\(Bundle(for: ABEReporter.self).bundlePath)/\(kABEResourceBundleName)")!
+    }
 }
