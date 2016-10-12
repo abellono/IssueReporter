@@ -23,7 +23,7 @@ class ABEReporterViewController: UIViewController {
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var placeHolderLabel: UILabel!
     
-    private var imageCollectionViewController: ABEImageCollectionViewController!
+    fileprivate var imageCollectionViewController: ABEImageCollectionViewController!
     
     public var issueManager: ABEIssueManager! {
         didSet {
@@ -42,6 +42,9 @@ class ABEReporterViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        configureTextView()
+        setupLocalization()
         
         navigationController?.navigationBar.barTintColor = UIColor.blueNavigationBarColor()
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
@@ -65,7 +68,11 @@ class ABEReporterViewController: UIViewController {
     private func setupLocalization() {
         titleTextField.text = NSLocalizedString(titleTextField.text!, tableName: ABEReporterViewController.kABETableName, bundle: Bundle.bundleForLibrary(), comment: "title of issue")
         placeHolderLabel.text = NSLocalizedString(placeHolderLabel.text!, tableName: ABEReporterViewController.kABETableName, bundle: Bundle.bundleForLibrary(), comment: "placeholder")
-        title = NSLocalizedString(title!, tableName: ABEReporterViewController.kABETableName, bundle: Bundle.bundleForLibrary(), comment: "title")
+        title = NSLocalizedString(self.navigationItem.title!, tableName: ABEReporterViewController.kABETableName, bundle: Bundle.bundleForLibrary(), comment: "title")
+    }
+    
+    @IBAction func cancelIssueReporting(_ sender: AnyObject) {
+        self.presentingViewController?.dismiss(animated: true)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -80,9 +87,8 @@ class ABEReporterViewController: UIViewController {
         issueManager.saveIssue { [weak self] in
             DispatchQueue.main.async { [weak self] in
                 self?.view.endEditing(false)
+                self?.dismissIssueReporter()
             }
-            
-            self?.dismissIssueReporter()
         }
     }
     
@@ -95,16 +101,21 @@ class ABEReporterViewController: UIViewController {
 extension ABEReporterViewController: ABEIssueManagerDelegate {
 
     func issueManagerUploadingStateDidChange(issueManager: ABEIssueManager) {
-        if issueManager.isUploading {
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem.saveButton(self, action: #selector(ABEReporterViewController.saveIssue))
-            self.navigationItem.rightBarButtonItem?.isEnabled = true
-        } else {
-            let spinner = UIActivityIndicatorView(activityIndicatorStyle: .white)
+        DispatchQueue.main.async {
+            self.imageCollectionViewController?.collectionView?.reloadData()
             
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: spinner)
-            self.navigationItem.rightBarButtonItem?.isEnabled = false
-            
-            spinner.startAnimating()
+            if issueManager.isUploading {
+                let spinner = UIActivityIndicatorView(activityIndicatorStyle: .white)
+                
+                self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: spinner)
+                self.navigationItem.rightBarButtonItem?.isEnabled = false
+                
+                spinner.startAnimating()
+            } else {
+                self.navigationItem.rightBarButtonItem = UIBarButtonItem.saveButton(self, action: #selector(ABEReporterViewController.saveIssue))
+                self.navigationItem.rightBarButtonItem?.isEnabled = true
+            }
+
         }
     }
 }

@@ -11,6 +11,6 @@ import Foundation
 extension URL {
     
     func randomURL(withExtension `extension`: String) -> URL {
-        return self.appendingPathComponent("\(UUID.init().uuidString)\(`extension`)")
+        return self.appendingPathComponent("\(UUID.init().uuidString).\(`extension`)")
     }
 }

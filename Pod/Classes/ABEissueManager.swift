@@ -11,7 +11,7 @@ import UIKit
 
 private let kABECompressionRatio = CGFloat(5.0)
 
-public protocol ABEIssueManagerDelegate {
+public protocol ABEIssueManagerDelegate: class {
     
     func issueManagerUploadingStateDidChange(issueManager: ABEIssueManager)
 }
@@ -24,14 +24,15 @@ public class ABEIssueManager {
         }
     }
     
-    public var localImageURLs: [URL] = []
+    public private(set) var images: [UIImage] = []
+    public private(set) var localImageURLs: [URL] = []
     
     private var uploadingImages: [Data] = []
-    private var images: [UIImage] = []
     
+
     let referenceView: UIView
     
-    var delegate: ABEIssueManagerDelegate?
+    weak var delegate: ABEIssueManagerDelegate?
     
     var issue: ABEIssue = ABEIssue()
     
@@ -62,8 +63,8 @@ public class ABEIssueManager {
         
         self.images.append(flippedImage)
         
-        self.persist(imageData: imageData) { url in
-            self.issue.attachImage(withURL: url)
+        self.persist(imageData: imageData) { [weak self] url in
+            self?.issue.attachImage(withURL: url)
         }
     }
     
@@ -72,11 +73,14 @@ public class ABEIssueManager {
         let group = DispatchGroup()
         let queue = DispatchQueue.global(qos: .`default`)
         
-        queue.async(group: group) {
+        queue.async(group: group) { [weak self] in
             let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
             let saveLocation = documentsDirectory.randomURL(withExtension: "jpg")
+            self?.localImageURLs.append(saveLocation)
             
             try? data.write(to: saveLocation)
+            
+            print("written to disk")
         }
         
         self.uploadingImages.append(data)
@@ -87,6 +91,8 @@ public class ABEIssueManager {
                 print("Unexpected error")
                 return
             }
+            
+            print("uploaded")
             
             self?.uploadingImages.remove(at: index)
             

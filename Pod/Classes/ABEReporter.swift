@@ -28,9 +28,7 @@ public class ABEReporter: NSObject {
         ABEGithubAPIClient.githubRepositoryOwner = owner
         ABEGithubAPIClient.githubToken = token
         
-        if let imgurKey = imgurKey {
-            ABEImgurAPIClient.imgurAPIKey = imgurKey
-        }
+        ABEImgurAPIClient.imgurAPIKey = imgurKey
     }
     
     public class func showReporterView() {

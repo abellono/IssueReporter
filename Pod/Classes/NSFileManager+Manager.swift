@@ -19,6 +19,7 @@ extension FileManager {
         for file in try! FileManager.default.contentsOfDirectory(at: directory, includingPropertiesForKeys: nil, options: options) {
             
             do {
+                print("Deleted file at \(file)")
                 try FileManager.default.removeItem(at: file)
             } catch {
                 print("Unable to delete the file at \(file)")

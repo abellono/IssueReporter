@@ -44,7 +44,7 @@ final class ABEImgurAPIClient {
     }
     
     fileprivate func uploadRequestForImageData(imageData: Data) throws -> URLRequest {
-        let parameters = ["imgae" : imageData.base64EncodedString(),
+        let parameters = ["image" : imageData.base64EncodedString(),
                           "type" : "base64"]
         
         var baseIssueRequest = try baseImageUploadRequest()
@@ -62,12 +62,17 @@ final class ABEImgurAPIClient {
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             if error != nil { print("Error uploading image : \(error)") }
-
-            if let data = data,
-            let json = try? JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary,
-                let linkString = json.value(forKeyPath: "data.link") as? String,
-               let url = URL(string: linkString) {
-               success(linkString)
+            
+            guard let data = data else {
+                print("no data")
+                return
+            }
+            
+            if let json = try? JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary, let linkString = json.value(forKeyPath: "data.link") as? String, let url = URL(string: linkString) {
+                DispatchQueue.main.async {
+                    success(linkString)
+                }
+                
             }
         }.resume()
     }

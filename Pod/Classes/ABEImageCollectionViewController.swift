@@ -9,6 +9,7 @@
 import Foundation
 import CoreGraphics
 import QuickLook
+import UIKit
 
 class ABEImageCollectionViewController: UICollectionViewController, UINavigationControllerDelegate {
     
@@ -42,10 +43,12 @@ class ABEImageCollectionViewController: UICollectionViewController, UINavigation
 extension ABEImageCollectionViewController: UIImagePickerControllerDelegate {
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-            picker.presentingViewController?.dismiss(animated: true)
+        picker.presentingViewController?.dismiss(animated: true)
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        picker.presentingViewController?.dismiss(animated: true)
+        
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             issueManager.add(imageToIssue: image)
         }
@@ -88,5 +91,27 @@ extension ABEImageCollectionViewController  {
             preview.currentPreviewItemIndex = indexPath.row - ABEImageCollectionViewController.kABEAddPictureCollectionViewCellOffset
             self.navigationController?.present(preview, animated: true)
         }
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.issueManager.images.count + ABEImageCollectionViewController.kABEAddPictureCollectionViewCellOffset
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if indexPath.row == ABEImageCollectionViewController.kABEAddPictureCollectionViewCellIndex {
+            return self.buildAddPictureCell(for: collectionView, at: indexPath)
+        } else {
+            return self.buildPictureCell(for: collectionView, at: indexPath)
+        }
+    }
+    
+    private func buildAddPictureCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
+        return collectionView.dequeueReusableCell(withReuseIdentifier: ABEImageCollectionViewController.kABEAddPictureCollectionViewCellReuseIdentifier, for: indexPath)
+    }
+    
+    private func buildPictureCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ABEImageCollectionViewController.kABEPictureCollectionViewCellReuseIdentifier, for: indexPath) as! ABEImageCollectionViewCell
+        cell.imageView.image = issueManager.images[indexPath.row - ABEImageCollectionViewController.kABEAddPictureCollectionViewCellOffset]
+        return cell
     }
 }
