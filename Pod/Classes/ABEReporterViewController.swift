@@ -63,6 +63,7 @@ class ABEReporterViewController: UIViewController {
         
         let textFieldInset = CGFloat(ABEReporterViewController.kABETextFieldInset)
         descriptionTextView.textContainerInset = UIEdgeInsets(top: textFieldInset, left: textFieldInset, bottom: 0, right: textFieldInset)
+        descriptionTextView.delegate = self
     }
     
     private func setupLocalization() {
@@ -83,6 +84,9 @@ class ABEReporterViewController: UIViewController {
     }
     
     public func saveIssue() {
+        
+        issueManager.issue.title = titleTextField.text
+        issueManager.issue.issueDescription = descriptionTextView.text
 
         issueManager.saveIssue { [weak self] in
             DispatchQueue.main.async { [weak self] in
@@ -95,6 +99,12 @@ class ABEReporterViewController: UIViewController {
     private func dismissIssueReporter() {
         FileManager.clearDocumentsDirectory()
         presentingViewController?.dismiss(animated: true)
+    }
+    
+    deinit {
+        DispatchQueue.global(qos: .background).async {
+            FileManager.clearDocumentsDirectory()
+        }
     }
 }
 
@@ -111,11 +121,19 @@ extension ABEReporterViewController: ABEIssueManagerDelegate {
                 self.navigationItem.rightBarButtonItem?.isEnabled = false
                 
                 spinner.startAnimating()
+                
             } else {
                 self.navigationItem.rightBarButtonItem = UIBarButtonItem.saveButton(self, action: #selector(ABEReporterViewController.saveIssue))
                 self.navigationItem.rightBarButtonItem?.isEnabled = true
             }
-
         }
+    }
+}
+
+extension ABEReporterViewController: UITextViewDelegate {
+    
+    func textViewDidChange(_ textView: UITextView) {
+        let length = textView.text?.characters.count ?? 0
+        placeHolderLabel.isHidden = length > 0
     }
 }

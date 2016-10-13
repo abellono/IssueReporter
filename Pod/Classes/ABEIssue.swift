@@ -21,10 +21,8 @@ struct ABEIssue {
         // TODO
         let extraDebuggingInformation = ""
         
-        let base = "\(issueDescription) \n\n \(extraDebuggingInformation)"
+        let base = "\(issueDescription! ?? "") \n\n \(extraDebuggingInformation)"
         let images = imageURLS.map { "![image](\($0))\n" }.reduce("") { $0 + "\n" + $1 }
-        
-        print(images)
         
         return base + "\n" + images
     }

@@ -79,8 +79,6 @@ public class ABEIssueManager {
             self?.localImageURLs.append(saveLocation)
             
             try? data.write(to: saveLocation)
-            
-            print("written to disk")
         }
         
         self.uploadingImages.append(data)
@@ -91,8 +89,6 @@ public class ABEIssueManager {
                 print("Unexpected error")
                 return
             }
-            
-            print("uploaded")
             
             self?.uploadingImages.remove(at: index)
             

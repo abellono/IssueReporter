@@ -13,6 +13,7 @@ public class ABEReporter: NSObject {
     
     public static var enabled: Bool = true
     private weak static var reporterViewController: ABEReporterViewController?
+    private static var notificationObserver: NSObjectProtocol? = nil
     
     private static var dateFormatter = { () -> DateFormatter in
         let formatter = DateFormatter()
@@ -21,7 +22,22 @@ public class ABEReporter: NSObject {
         return formatter
     }
     
-    private override init() {}
+    open override static func initialize() {
+        
+        if self !== ABEReporter.self {
+            return
+        }
+        
+        ABEReporter.notificationObserver = NotificationCenter.default.addObserver(forName: .onWindowShake, object: nil, queue: OperationQueue.main) { notification in
+            ABEReporter.showReporterView()
+        }
+    }
+    
+    deinit {
+        if let notificationObserver = ABEReporter.notificationObserver {
+            NotificationCenter.default.removeObserver(notificationObserver)
+        }
+    }
     
     public class func setup(repositoryName name: String, owner: String, token: String, imgurKey: String? = nil) {
         ABEGithubAPIClient.githubRepositoryName = name

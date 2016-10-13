@@ -52,9 +52,9 @@ final class ABEGithubAPIClient {
             return nil;
         }
         
-        guard let json = try? JSONSerialization.data(withJSONObject: issue.dictionaryRepresentation, options: []) else {
+        guard let json = try? JSONSerialization.data(withJSONObject: issue.dictionaryRepresentation!, options: []) else {
             errorHandler(GithubAPIClientError.JSONError)
-            return nil;
+            return nil
         }
         
         baseIssueRequest.setValue("\(json.count)", forHTTPHeaderField: "Content-Length")
@@ -63,15 +63,17 @@ final class ABEGithubAPIClient {
         return baseIssueRequest
     }
     
-    public func saveIssue(issue: ABEIssue, success: () -> (), errorHandler: @escaping (Error) -> ()) {
+    public func saveIssue(issue: ABEIssue, success: @escaping () -> (), errorHandler: @escaping (Error) -> ()) {
         
         guard let request = self.requestForIssue(issue: issue, errorHandler: errorHandler) else {
-            return;
+            return
         }
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             if let error = error {
                 errorHandler(error)
+            } else {
+                success()
             }
         }.resume()
     }

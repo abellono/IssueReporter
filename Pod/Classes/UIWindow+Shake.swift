@@ -11,9 +11,9 @@ import UIKit
 
 let ButterflyDidShakingNotification = "shakeyshakey"
 
-extension Notification.Name {
+public extension Notification.Name {
     
-    static let onWindowShake = Notification.Name("shakeyshakey")
+    public static let onWindowShake = Notification.Name("shakeyshakey")
 }
 
 public extension UIWindow {
@@ -21,7 +21,7 @@ public extension UIWindow {
     
     open override static func initialize() {
 
-        if self !== UIViewController.self {
+        if self !== UIWindow.self {
             return
         }
         
@@ -33,10 +33,10 @@ public extension UIWindow {
             let originalMethod = class_getInstanceMethod(self, originalSelector)
             let swizzledMethod = class_getInstanceMethod(self, swizzledSelector)
             
-            let didAddMethod = class_addMethod(self, originalSelector, swizzledMethod, method_getTypeEncoding(swizzledMethod))
+            let didAddMethod = class_addMethod(self, originalSelector, method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod))
             
             if didAddMethod {
-                class_replaceMethod(self, swizzledSelector, originalMethod, method_getTypeEncoding(originalMethod))
+                class_replaceMethod(self, swizzledSelector, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod))
             } else {
                 method_exchangeImplementations(originalMethod, swizzledMethod)
             }
@@ -44,10 +44,6 @@ public extension UIWindow {
     }
     
     open func abe_motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
-        
-        if UIWindow.instancesRespond(to: #selector(UIWindow.abe_motionEnded(_:with:))) {
-            self.abe_motionEnded(motion, with: event)
-        }
         
         if let event = event, event.type == .motion, event.subtype == .motionShake {
             NotificationCenter.default.post(name: .onWindowShake, object: self)
