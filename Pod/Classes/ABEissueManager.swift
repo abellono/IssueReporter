@@ -14,6 +14,8 @@ private let kABECompressionRatio = CGFloat(5.0)
 public protocol ABEIssueManagerDelegate: class {
     
     func issueManagerUploadingStateDidChange(issueManager: ABEIssueManager)
+    
+    func issueManager(_ issueManager: ABEIssueManager, didFailToUploadIssueWithError error: Error)
 }
 
 public class ABEIssueManager {
@@ -29,7 +31,6 @@ public class ABEIssueManager {
     
     private var uploadingImages: [Data] = []
     
-
     let referenceView: UIView
     
     weak var delegate: ABEIssueManagerDelegate?
@@ -104,14 +105,14 @@ public class ABEIssueManager {
     }
     
     public func saveIssue(completion: @escaping () -> ()) {
-        // self is only used in inner closure....
-        // TODO: Do we need [weak self] in both closures here? What happens if we remove the first [weak self]?
-        ABEGithubAPIClient.sharedInstance.saveIssue(issue: self.issue, success: completion) { [weak self] error in
-            let alertController = UIAlertController(error: error as NSError)
-            
-            alertController.addAction(UIAlertAction(title: "Retry", style: .default) { [weak self] action in
-                self?.saveIssue(completion: completion)
-            })
+        do {
+            try ABEGithubAPIClient.sharedInstance.saveIssue(issue: self.issue, success: completion) { [weak self] error in
+                if let `self` = self {
+                    self.delegate?.issueManager(self, didFailToUploadIssueWithError: error)
+                }
+            }
+        } catch {
+            print("Error while trying to save issue : \(error)")
         }
     }
 }

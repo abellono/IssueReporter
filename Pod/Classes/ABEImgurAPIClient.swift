@@ -10,9 +10,10 @@ import Foundation
 
 enum ABEImgurAPIClientError: String, Error {
     
-    case MissingAPIKeyError = "No imgur api key was provided."
-    case JSONError = "There was an error converting the issue to JSON format."
-    case Missing = "There was no data in the response body"
+    case missingAPIKeyError = "No imgur api key was provided."
+    case jsonError = "There was an error converting the issue to JSON format."
+    case missing = "There was no data in the response body"
+    case urlError = "There was an error constructing the request URL."
 }
 
 final class ABEImgurAPIClient {
@@ -26,11 +27,12 @@ final class ABEImgurAPIClient {
     func baseImageUploadRequest() throws -> URLRequest {
         
         guard let imgurAPIKey = ABEImgurAPIClient.imgurAPIKey else {
-            throw ABEImgurAPIClientError.MissingAPIKeyError
+            throw ABEImgurAPIClientError.missingAPIKeyError
         }
         
-        let path = "https://api.imgur.com/3/upload"
-        let url = URL(string: path)!
+        guard let url = URL(string: "https://api.imgur.com/3/upload") else {
+            throw ABEImgurAPIClientError.urlError
+        }
         
         var request = URLRequest(url: url)
         
@@ -56,7 +58,7 @@ final class ABEImgurAPIClient {
         return baseIssueRequest
     }
     
-    public func upload(imageData: Data, success: @escaping (String) -> ()) throws {
+    public func upload(imageData: Data, dispatchQueue: DispatchQueue = DispatchQueue.main, success: @escaping (String) -> ()) throws {
         
         let request = try self.uploadRequestForImageData(imageData: imageData)
         
@@ -69,10 +71,9 @@ final class ABEImgurAPIClient {
             }
             
             if let json = try? JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary, let linkString = json.value(forKeyPath: "data.link") as? String, let url = URL(string: linkString) {
-                DispatchQueue.main.async {
+                dispatchQueue.async {
                     success(linkString)
                 }
-                
             }
         }.resume()
     }

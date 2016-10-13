@@ -18,8 +18,7 @@ struct ABEIssue {
     }
     
     var textRepresentation : String? {
-        // TODO
-        let extraDebuggingInformation = ""
+        let extraDebuggingInformation = ABEReporter.extraDebuggingInformationForIssue()
         
         let base = "\(issueDescription! ?? "") \n\n \(extraDebuggingInformation)"
         let images = imageURLS.map { "![image](\($0))\n" }.reduce("") { $0 + "\n" + $1 }

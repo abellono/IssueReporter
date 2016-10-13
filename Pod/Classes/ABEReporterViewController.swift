@@ -96,7 +96,7 @@ class ABEReporterViewController: UIViewController {
         }
     }
     
-    private func dismissIssueReporter() {
+    fileprivate func dismissIssueReporter() {
         FileManager.clearDocumentsDirectory()
         presentingViewController?.dismiss(animated: true)
     }
@@ -127,6 +127,19 @@ extension ABEReporterViewController: ABEIssueManagerDelegate {
                 self.navigationItem.rightBarButtonItem?.isEnabled = true
             }
         }
+    }
+    
+    func issueManager(_ issueManager: ABEIssueManager, didFailToUploadIssueWithError error: Error) {
+        let alertController = UIAlertController(error: error as NSError)
+        
+        alertController.addAction(UIAlertAction(title: "Retry", style: .default) { [weak self] action in
+            issueManager.saveIssue { [weak self] in
+                DispatchQueue.main.async { [weak self] in
+                    self?.view.endEditing(false)
+                    self?.dismissIssueReporter()
+                }
+            }
+        })
     }
 }
 
