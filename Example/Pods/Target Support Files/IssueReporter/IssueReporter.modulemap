@@ -1,0 +1,6 @@
+framework module IssueReporter {
+  umbrella header "IssueReporter-umbrella.h"
+
+  export *
+  module * { export * }
+}
