@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "IssueReporter"
-  s.version          = "1.1.1"
+  s.version          = "1.1.2"
   s.summary          = "Shake your phone to submit issues to your GitHub repository!"
   s.description      = <<-DESC
                         Presents a modal view controller when the phone is shaken that allows the user to report an issue in the app. A screen shot of the window the user was on is taken, and the user also has the option to upload his or her own images.
