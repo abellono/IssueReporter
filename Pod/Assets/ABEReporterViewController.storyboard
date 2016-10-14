@@ -95,7 +95,7 @@
         <scene sceneID="aZ0-3h-feP">
             <objects>
                 <collectionViewController id="jun-oi-wMd" customClass="ABEImageCollectionViewController" customModule="IssueReporter" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="94i-Le-oD6">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="94i-Le-oD6">
                         <rect key="frame" x="0.0" y="0.0" width="359" height="109.5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
