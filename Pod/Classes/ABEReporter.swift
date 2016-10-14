@@ -63,7 +63,7 @@ public class ABEReporter: NSObject {
             return
         }
         
-        ABEReporter.notificationObserver = NotificationCenter.default.addObserver(forName: .onWindowShake, object: nil, queue: OperationQueue.main) { notification in
+        ABEReporter.notificationObserver = NotificationCenter.default.addObserver(forName: .onWindowShake, object: nil, queue: .main) { notification in
             ABEReporter.showReporterView()
         }
     }

@@ -7,20 +7,54 @@
 //
 
 import Foundation
+import CFNetwork
 
-enum ABEImgurAPIClientError: String, Error {
+enum ABEImgurAPIClientError: Error {
     
-    case missingAPIKeyError = "No imgur api key was provided."
-    case jsonError = "There was an error converting the issue to JSON format."
-    case missing = "There was no data in the response body"
-    case urlError = "There was an error constructing the request URL."
+    case missingAPIKeyError
+    case missingURLKeyInJSON
+    
+    case urlError
+    case malformedResponseURL
+    
+    case jsonError(underlyingError: NSError)
+    case networkError(response: URLResponse)
+    
+    case error(error: Error)
+    
+    var message : String {
+        switch self {
+        case .missingAPIKeyError:
+            return "No imgur api key was provided."
+        case .missingURLKeyInJSON:
+            return "The uploaded image link was not present in the returned json."
+            
+        case .urlError:
+            return "There was an error constructing the request URL."
+        case .malformedResponseURL:
+            return "There was an error extracting the image link from the returned response."
+            
+        case let .jsonError(underlyingError):
+            return "JSON Error, underlying error : \(underlyingError)"
+        case let .networkError(response):
+            
+            if let response = response as? HTTPURLResponse {
+                return  "Network error with status code \(response.statusCode) for response \(response)"
+            } else {
+                return "Network error for response \(response)"
+            }
+            
+        case let .error(error):
+            return "Error : \(error)"
+        }
+    }
 }
 
 final class ABEImgurAPIClient {
     
     public static var imgurAPIKey: String? = nil
     
-    public static let sharedInstance = ABEImgurAPIClient()
+    public static let shared = ABEImgurAPIClient()
     
     private init() { }
     
@@ -58,22 +92,32 @@ final class ABEImgurAPIClient {
         return baseIssueRequest
     }
     
-    public func upload(imageData: Data, dispatchQueue: DispatchQueue = DispatchQueue.main, success: @escaping (String) -> ()) throws {
+    public func upload(imageData: Data, dispatchQueue: DispatchQueue = DispatchQueue.main, errorHandler: @escaping (ABEImgurAPIClientError, Data) -> (), success: @escaping (String, Data) -> ()) throws {
         
         let request = try self.uploadRequestForImageData(imageData: imageData)
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
-            if error != nil { print("Error uploading image : \(error)") }
-            
-            guard let data = data else {
-                print("no data")
-                return
-            }
-            
-            if let json = try? JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary, let linkString = json.value(forKeyPath: "data.link") as? String, let url = URL(string: linkString) {
-                dispatchQueue.async {
-                    success(linkString)
+            do {
+                if let error = error {
+                    throw ABEImgurAPIClientError.error(error: error)
                 }
+            
+                if let response = response {
+                
+                    guard let data = data else { throw ABEImgurAPIClientError.networkError(response: response) }
+                    let json = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
+                
+                    guard let linkString = json.value(forKeyPath: "data.link") as? String else { throw ABEImgurAPIClientError.missingURLKeyInJSON }
+                    guard let url = URL(string: linkString) else { throw ABEImgurAPIClientError.malformedResponseURL }
+                    
+                    dispatchQueue.async {
+                        success(linkString, imageData)
+                    }
+                }
+            } catch let error as NSError {
+                errorHandler(ABEImgurAPIClientError.jsonError(underlyingError: error), imageData)
+            } catch {
+                errorHandler(error as! ABEImgurAPIClientError, imageData)
             }
         }.resume()
     }

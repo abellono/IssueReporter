@@ -73,7 +73,7 @@ class ABEReporterViewController: UIViewController {
     }
     
     @IBAction func cancelIssueReporting(_ sender: AnyObject) {
-        self.presentingViewController?.dismiss(animated: true)
+        self.dismissIssueReporter()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -87,7 +87,7 @@ class ABEReporterViewController: UIViewController {
         
         issueManager.issue.title = titleTextField.text
         issueManager.issue.issueDescription = descriptionTextView.text
-
+        
         issueManager.saveIssue { [weak self] in
             DispatchQueue.main.async { [weak self] in
                 self?.view.endEditing(false)
@@ -100,32 +100,24 @@ class ABEReporterViewController: UIViewController {
         FileManager.clearDocumentsDirectory()
         presentingViewController?.dismiss(animated: true)
     }
-    
-    deinit {
-        DispatchQueue.global(qos: .background).async {
-            FileManager.clearDocumentsDirectory()
-        }
-    }
 }
 
 extension ABEReporterViewController: ABEIssueManagerDelegate {
-
+    
     func issueManagerUploadingStateDidChange(issueManager: ABEIssueManager) {
-        DispatchQueue.main.async {
-            self.imageCollectionViewController?.collectionView?.reloadData()
+        self.imageCollectionViewController?.collectionView?.reloadData()
+        
+        if issueManager.isUploading {
+            let spinner = UIActivityIndicatorView(activityIndicatorStyle: .white)
             
-            if issueManager.isUploading {
-                let spinner = UIActivityIndicatorView(activityIndicatorStyle: .white)
-                
-                self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: spinner)
-                self.navigationItem.rightBarButtonItem?.isEnabled = false
-                
-                spinner.startAnimating()
-                
-            } else {
-                self.navigationItem.rightBarButtonItem = UIBarButtonItem.saveButton(self, action: #selector(ABEReporterViewController.saveIssue))
-                self.navigationItem.rightBarButtonItem?.isEnabled = true
-            }
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: spinner)
+            self.navigationItem.rightBarButtonItem?.isEnabled = false
+            
+            spinner.startAnimating()
+            
+        } else {
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem.saveButton(self, action: #selector(ABEReporterViewController.saveIssue))
+            self.navigationItem.rightBarButtonItem?.isEnabled = true
         }
     }
     
@@ -134,10 +126,8 @@ extension ABEReporterViewController: ABEIssueManagerDelegate {
         
         alertController.addAction(UIAlertAction(title: "Retry", style: .default) { [weak self] action in
             issueManager.saveIssue { [weak self] in
-                DispatchQueue.main.async { [weak self] in
-                    self?.view.endEditing(false)
-                    self?.dismissIssueReporter()
-                }
+                self?.view.endEditing(false)
+                self?.dismissIssueReporter()
             }
         })
     }

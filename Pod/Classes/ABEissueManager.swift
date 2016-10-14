@@ -9,6 +9,15 @@
 import Foundation
 import UIKit
 
+extension Array where Element: Equatable {
+    
+    mutating func removeFirst(element: Element) {
+        if let index = self.index(of: element) {
+            self.remove(at: index)
+        }
+    }
+}
+
 private let kABECompressionRatio = CGFloat(5.0)
 
 public protocol ABEIssueManagerDelegate: class {
@@ -83,25 +92,28 @@ public class ABEIssueManager {
         }
         
         self.uploadingImages.append(data)
-        self.delegate?.issueManagerUploadingStateDidChange(issueManager: self)
         
-        try? ABEImgurAPIClient.sharedInstance.upload(imageData: data) { [weak self] url in
-            guard let index = self?.uploadingImages.index(of: data) else {
-                print("Unexpected error")
-                return
-            }
+        DispatchQueue.main.async {
+            self.delegate?.issueManagerUploadingStateDidChange(issueManager: self)
+        }
+        
+        try? ABEImgurAPIClient.shared.upload(imageData: data, errorHandler: { [weak self] error, imageData in
             
-            self?.uploadingImages.remove(at: index)
+            print(error.message)
+            self?.uploadingImages.removeFirst(element: imageData)
+            
+        }, success: { [weak self] url, imageData in
+            
+            self?.uploadingImages.removeFirst(element: data)
             
             if let `self` = self {
                 self.delegate?.issueManagerUploadingStateDidChange(issueManager: self)
             }
             
             group.notify(queue: queue) {
-                // We are sure that the disk operation has finished
                 complete(url)
             }
-        }
+        })
     }
     
     public func saveIssue(completion: @escaping () -> ()) {

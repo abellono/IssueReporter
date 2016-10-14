@@ -29,15 +29,7 @@ class ABEImageCollectionViewController: UICollectionViewController, UINavigation
     static let kABEAddPictureCollectionViewCellIndex = 0
     static let kABEAddPictureCollectionViewCellOffset = 1
     
-    var issueManager: ABEIssueManager! {
-        didSet {
-//            issueManager.completionBlock = {
-//                Thread.abe_guaranteeBlockExecution { [weak self] in
-//                    self?.collectionView!.reloadData()
-//                }
-//            }
-        }
-    }
+    var issueManager: ABEIssueManager!
 }
 
 extension ABEImageCollectionViewController: UIImagePickerControllerDelegate {
@@ -49,8 +41,10 @@ extension ABEImageCollectionViewController: UIImagePickerControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         picker.presentingViewController?.dismiss(animated: true)
         
-        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            issueManager.add(imageToIssue: image)
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+                self?.issueManager.add(imageToIssue: image)
+            }
         }
     }
 }
