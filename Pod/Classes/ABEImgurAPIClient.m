@@ -41,7 +41,10 @@
         NSDictionary *userInfo = @{NSLocalizedDescriptionKey : @"Authentication required for Imgur",
                                    NSLocalizedRecoverySuggestionErrorKey : @"Did you set the imgur client key in your appdelegate using `setupWithRepositoryName:gitHubAccessToken:imgurClientID:`? If you do not have a key, go to https://api.imgur.com/oauth2/addclient and create one. This error has also been printed to the console."};
         
-        errorHandler([NSError errorWithDomain:@"no.abello.IssueReporter" code:NSURLErrorUserAuthenticationRequired userInfo:userInfo]);
+        if (errorHandler) {
+            errorHandler([NSError errorWithDomain:@"no.abello.IssueReporter" code:NSURLErrorUserAuthenticationRequired userInfo:userInfo]);
+        }
+        
         return;
     }
     
@@ -55,7 +58,11 @@
         if (error) {
             NSLog(@"There was an error while uploading the picture with Imgur's API.");
             NSLog(@"Error : %@", error);
-            errorHandler(error);
+            
+            if (errorHandler) {
+                errorHandler(error);
+            }
+            
             return;
         }
         
@@ -72,11 +79,17 @@
         if (![NSURL URLWithString:urlString]) {
             NSLog(@"There was an error getting the url of the uploaded image from the response body of the Imgur API.");
             NSLog(@"Returned URL : %@", urlString);
-            errorHandler(nil);
+            
+            if (errorHandler) {
+                errorHandler(nil);
+            }
+            
             return;
         }
         
-        success(urlString);
+        if (success) {
+            success(urlString);
+        }
     }] resume];
 }
 
@@ -94,7 +107,11 @@
     if (error) {
         NSLog(@"There was an error serializing the upload image request body.");
         NSLog(@"Error : %@", error);
-        errorHandler(error);
+        
+        if (errorHandler) {
+            errorHandler(error);
+        }
+        
         return nil;
     }
     

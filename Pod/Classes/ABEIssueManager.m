@@ -111,7 +111,9 @@ static double const kABECompressionRatio = 0.5;
 
 - (void)saveIssueWithCompletion:(void (^)())completion {
     [[ABEGithubAPIClient sharedClient] saveIssue:self.issue success:^{
-        completion();
+        if (completion) {
+            completion();
+        }
     } error:^(NSError *error) {
         UIAlertController *alertController = [UIAlertController abe_alertControllerFromError:error];
         

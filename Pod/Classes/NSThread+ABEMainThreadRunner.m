@@ -14,11 +14,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)abe_guaranteeBlockExecutionOnMainThread:(void (^)())block {
     if (![NSThread isMainThread]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            block();
-        });
+        if (block) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                block();
+            });
+        }
     } else {
-        block();
+        if (block) {
+            block();
+        }
     }
 }
 

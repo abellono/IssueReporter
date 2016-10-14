@@ -46,11 +46,18 @@
         if (error) {
             NSLog(@"There was an error while saving the issue with Github's API.");
             NSLog(@"Error : %@", error);
-            errorHandler(error);
+            
+            if (errorHandler) {
+                errorHandler(error);
+            }
+            
             return;
         }
         
-        success();
+        if (success) {
+            success();
+        }
+        
     }] resume];
 }
 
@@ -64,7 +71,11 @@
     if (error) {
         NSLog(@"There was an error saving the issue to github.");
         NSLog(@"Error : %@", error);
-        errorHandler(error);
+        
+        if (errorHandler) {
+            errorHandler(error);
+        }
+        
         return nil;
     }
     
