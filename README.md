@@ -48,6 +48,10 @@ Enter any valid URL for the `Authorization callback URL`, such as `www.example.c
 
 Enter your email, and a short description for the app.
 
+It should look a little something like this :
+
+![imgur registration](http://i.imgur.com/0aBBkTv.png)
+
 Once you've created the application, copy the `Client ID`, as that is what the library needs to upload pictures.
 
 ## Setup
