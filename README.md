@@ -9,6 +9,15 @@
 
 To run the example project, simply clone this gihub respoitory and run the `IssueReporter-Example` target in the Xcode project located at `Example/IsssueReporter.xcodeproj`.
 
+## Installation
+
+IssueReporter is available through [CocoaPods](http://cocoapods.org). To install
+it, simply add the following line to your Podfile:
+
+```ruby
+pod "IssueReporter"
+```
+
 ## Requirements
 
 ### Github API Token
@@ -41,20 +50,11 @@ Enter your email, and a short description for the app.
 
 Once you've created the application, copy the `Client ID`, as that is what the library needs to upload pictures.
 
-## Installation
-
-IssueReporter is available through [CocoaPods](http://cocoapods.org). To install
-it, simply add the following line to your Podfile:
-
-```ruby
-pod "IssueReporter"
-```
-
 ## Setup
 
-Navigate to your app delegate, and add the following line :
+Once you've gotten the necessary tokens, navigate to your app delegate, and add the following line :
 
-```swift
+```objc
 [ABEReporter setupWithRepositoryName:@"user/repo" gitHubAccessToken:@"long_github_token_here" imgurClientID:@"shorter_imgur_client_id"];
 ```
 
