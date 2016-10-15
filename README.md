@@ -11,7 +11,7 @@ To run the example project, simply clone this gihub respoitory and run the `Issu
 
 ## Requirements
 
-# Github API Token
+### Github API Token
 
 In order for this library to have access to your github repository, you need to provide a github api token with the correct permissions.
 
@@ -25,7 +25,7 @@ and if you are using a public repository, select the `public_repo` scope.
 
 ![public scope](http://i.imgur.com/GB6dxiS.png)
 
-# Imgur API token
+### Imgur API token
 
 This step is optional, but necessary if you want to include screenshots and images in the submitted issues. Creating a Imgur API key allows the library to automatically include images in the uploaded Github Issues.
 
