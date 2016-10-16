@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class ABEImageCollectionViewCell: UICollectionViewCell {
+internal class ABEImageCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet var blurEffectView: UIVisualEffectView!

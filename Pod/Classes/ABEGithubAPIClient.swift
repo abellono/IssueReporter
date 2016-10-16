@@ -39,7 +39,7 @@ final class ABEGithubAPIClient {
         let path = "https://api.github.com/repos/\(owner)/\(name)/issues?access_token=\(githubToken)"
         
         guard let url = URL(string: path) else {
-            throw IssueReporterError.urlError
+            throw IssueReporterError.invalidURL
         }
         
         var request = URLRequest(url: url)
@@ -79,30 +79,20 @@ final class ABEGithubAPIClient {
                     throw IssueReporterError.error(error: error)
                 }
                 
-                if let response = response as? HTTPURLResponse {
-                    
-                    switch response.statusCode {
-                    case 401:
-                        // Github returns 401 forbidden for both incorrect path and token
-                        throw IssueReporterError.invalid(name: "github token or github repository path")
-                    
-                    case 201:
-                        callbackQueue.async(execute: success)
-                        return
-                        
-                    default:
-                        break
-                    }
-                    
-                    guard let data = data else { throw IssueReporterError.network(response: response, detail: nil) }
-                    let json = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
-                    
-                    if let errorMessage = json.value(forKeyPath: "message") as? String {
-                        throw IssueReporterError.network(response: response, detail: errorMessage)
-                    } else {
-                        throw IssueReporterError.network(response: response, detail: nil)
-                    }
+                guard let response = response as? HTTPURLResponse, let data = data else {
+                    throw IssueReporterError.unparseableResponse
                 }
+                
+                if response.statusCode == 401 {
+                    throw IssueReporterError.invalid(name: "github token or github repository path")
+                } else if response.statusCode == 201 {
+                    callbackQueue.async(execute: success)
+                    return
+                }
+                
+                let json = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
+                throw IssueReporterError.network(response: response, detail: json.value(forKeyPath: "message") as? String)
+                
             } catch let error as NSError where error.domain != IssueReporterError.domain {
                 // Catch error not from our domain and wrap them
                 errorHandler(IssueReporterError.jsonError(underlyingError: error))

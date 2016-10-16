@@ -18,13 +18,16 @@ enum IssueReporterError: Error {
     
     case missingURLKeyInJSON
     
-    case urlError
+    case invalidURL
     case malformedResponseURL
+    case unparseableResponse
     
     case jsonError(underlyingError: Error)
     case network(response: HTTPURLResponse, detail: String?)
     
     case error(error: Error?)
+    
+    
     
     var message : String {
         switch self {
@@ -33,7 +36,7 @@ enum IssueReporterError: Error {
         case .missingURLKeyInJSON:
             return "The uploaded image link was not present in the returned json."
             
-        case .urlError:
+        case .invalidURL:
             return "There was an error constructing the request URL."
         case let .invalid(name):
             return "Your \(name) is invalid, please follow the instructions in README.md"
@@ -75,7 +78,7 @@ final class ABEImgurAPIClient {
         }
         
         guard let url = URL(string: "https://api.imgur.com/3/upload") else {
-            throw IssueReporterError.urlError
+            throw IssueReporterError.invalidURL
         }
         
         var request = URLRequest(url: url)
@@ -111,36 +114,27 @@ final class ABEImgurAPIClient {
                 if let error = error {
                     throw IssueReporterError.error(error: error)
                 }
-            
-                if let response = response as? HTTPURLResponse {
-                    
-                    switch response.statusCode {
-                    case 403:
-                        throw IssueReporterError.invalid(name: "client id")
-                        
-                    default:
-                        break
-                    }
                 
-                    guard let data = data else { throw IssueReporterError.network(response: response, detail: nil) }
-                    let json = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
+                guard let response = response as? HTTPURLResponse, let data = data else {
+                    throw IssueReporterError.unparseableResponse
+                }
                 
-                    guard let linkString = json.value(forKeyPath: "data.link") as? String else {
-                        
-                        if let error = json.value(forKeyPath: "data.error") as? String {
-                            throw IssueReporterError.network(response: response, detail: error)
-                        } else {
-                            throw IssueReporterError.missingURLKeyInJSON
-                        }
-                    }
-                    
-                    guard let url = URL(string: linkString) else { throw IssueReporterError.malformedResponseURL }
-                    
-                    dispatchQueue.async {
-                        success(url)
-                    }
-                } else {
+                if response.statusCode == 403 {
+                    throw IssueReporterError.invalid(name: "client id")
+                }
+                
+                let json = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
+                
+                guard let linkString = json.value(forKeyPath: "data.link") as? String else {
+                    throw IssueReporterError.network(response: response, detail: json.value(forKeyPath: "data.error") as? String)
+                }
+                
+                guard let url = URL(string: linkString) else {
                     throw IssueReporterError.malformedResponseURL
+                }
+                
+                dispatchQueue.async {
+                    success(url)
                 }
             } catch let error as NSError where error.domain != IssueReporterError.domain {
                 // Catch error not from our domain and wrap them

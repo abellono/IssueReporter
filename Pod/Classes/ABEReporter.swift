@@ -25,19 +25,12 @@ public protocol ABEReporterDelegate {
 public class ABEReporter: NSObject {
     
     public static var enabled: Bool = true
-    public static var delegate: ABEReporterDelegate?
+    internal static var delegate: ABEReporterDelegate?
     
     private weak static var reporterViewController: ABEReporterViewController?
     private static var notificationObserver: NSObjectProtocol? = nil
     
-    private static var dateFormatter = { () -> DateFormatter in 
-        let formatter = DateFormatter()
-        formatter.timeZone = TimeZone(abbreviation: "UTC")
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
-        return formatter
-    }()
-    
-    public class func extraDebuggingInformationForIssue() -> [String : String] {
+    internal class func extraDebuggingInformationForIssue() -> [String : String] {
         var info = ["Current Localization : " : Locale.preferredLanguages[0],
                     "Current Device : " : UIDevice.current.model,
                     "iOS Version : " : UIDevice.current.systemVersion]

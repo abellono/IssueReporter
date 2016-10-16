@@ -11,7 +11,7 @@ import CoreGraphics
 import QuickLook
 import UIKit
 
-class ABEImageCollectionViewController: UICollectionViewController, UINavigationControllerDelegate {
+internal class ABEImageCollectionViewController: UICollectionViewController, UINavigationControllerDelegate {
     
     fileprivate static let kABEAddPictureCollectionViewCellReuseIdentifier = "CollectionViewAddPictureIdentifier"
     fileprivate static let kABEPictureCollectionViewCellReuseIdentifier = "CollectionViewPictureIdentifier"
@@ -99,7 +99,7 @@ extension ABEImageCollectionViewController  {
         }
     }
     
-    func presentRetryMenu(forImage image: Image) {
+    internal func presentRetryMenu(forImage image: Image) {
         let alertController = UIAlertController(title: "Failed to upload image", message: "There was an error uploading the image.", preferredStyle: .alert)
         
         alertController.addAction(UIAlertAction(title: "Retry", style: .default) { _ in
