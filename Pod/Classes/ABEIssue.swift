@@ -10,20 +10,17 @@ struct ABEIssue {
    
     var title: String?
     var issueDescription: String?
-    
-    var imageURLS : [String] = []
-    
-    mutating func attachImage(withURL urlString: String) {
-        imageURLS.append(urlString)
-    }
+    var images: [Image] = []
     
     var textRepresentation : String? {
         let extraDebuggingInformation = ABEReporter.extraDebuggingInformationForIssue()
         
         let base = "\(issueDescription! ?? "") \n\n \(extraDebuggingInformation)"
-        let images = imageURLS.map { "![image](\($0))\n" }.reduce("") { $0 + "\n" + $1 }
         
-        return base + "\n" + images
+        let imageURLs = self.images.filter { $0.state.contents == .done }.map { $0.cloudImageURL!.absoluteString }
+        let combinedImageURLString = imageURLs.map { "![image](\($0))\n" }.reduce("") { $0 + "\n" + $1 }
+        
+        return base + "\n" + combinedImageURLString
     }
     
     var dictionaryRepresentation : [String : String]? {

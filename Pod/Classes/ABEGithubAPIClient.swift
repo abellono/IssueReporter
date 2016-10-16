@@ -8,35 +8,6 @@
 
 import UIKit
 
-public enum GithubAPIClientError: Error {
-    
-    case missingInformation(name: String)
-    case jsonError(underlyingError: Error)
-    case invalidURL
-    
-    var message : String {
-        switch self {
-        case let .missingInformation(name):
-            return "Missing the \(name) required to save the issue."
-        case .jsonError:
-            return "Error constructing the JSON body for the save issue request."
-        case .invalidURL:
-            return "Error constructing the URL for the save issue request."
-        }
-    }
-    
-    static func humanReadableDescriptionForNilVariable(token: String?, repoName: String?, owner: String?) -> String {
-        
-        if token == nil {
-            return "github personal access token"
-        } else if repoName == nil {
-            return "github repository name"
-        } else {
-            return "github repository owner name"
-        }
-    }
-}
-
 final class ABEGithubAPIClient {
     
     public static var githubToken: String? = nil
@@ -47,16 +18,28 @@ final class ABEGithubAPIClient {
     
     private init() { }
     
+    static fileprivate func humanReadableDescriptionForMissingInformation() -> String? {
+        if githubToken == nil {
+            return "github personal access token"
+        } else if githubRepositoryName == nil {
+            return "github repository name"
+        } else if githubRepositoryOwner == nil {
+            return "github repository owner name"
+        }
+
+        return nil
+    }
+    
     fileprivate func baseSaveIssueURLRequest() throws -> URLRequest {
         guard let githubToken = ABEGithubAPIClient.githubToken, let name = ABEGithubAPIClient.githubRepositoryName, let owner = ABEGithubAPIClient.githubRepositoryOwner else {
-            let humanReadableDescription = GithubAPIClientError.humanReadableDescriptionForNilVariable(token: ABEGithubAPIClient.githubToken, repoName: ABEGithubAPIClient.githubRepositoryName, owner: ABEGithubAPIClient.githubRepositoryOwner)
-            throw GithubAPIClientError.missingInformation(name: humanReadableDescription)
+            let humanReadableDescription = ABEGithubAPIClient.humanReadableDescriptionForMissingInformation()!
+            throw IssueReporterError.missingInformation(name: humanReadableDescription)
         }
         
         let path = "https://api.github.com/repos/\(owner)/\(name)/issues?access_token=\(githubToken)"
         
         guard let url = URL(string: path) else {
-            throw GithubAPIClientError.invalidURL
+            throw IssueReporterError.urlError
         }
         
         var request = URLRequest(url: url)
@@ -70,7 +53,7 @@ final class ABEGithubAPIClient {
         return request
     }
     
-    fileprivate func requestForIssue(issue: ABEIssue, errorHandler: @escaping (Error) -> ()) throws -> URLRequest {
+    fileprivate func requestForIssue(issue: ABEIssue, errorHandler: @escaping (IssueReporterError) -> ()) throws -> URLRequest {
         var baseIssueRequest = try self.baseSaveIssueURLRequest()
         
         do {
@@ -81,21 +64,51 @@ final class ABEGithubAPIClient {
             
             return baseIssueRequest
         } catch {
-            throw GithubAPIClientError.jsonError(underlyingError: error)
+            throw IssueReporterError.jsonError(underlyingError: error)
         }
     }
     
-    public func saveIssue(issue: ABEIssue, callbackQueue: DispatchQueue = DispatchQueue.main, success: @escaping () -> (), errorHandler: @escaping (Error) -> ()) throws {
+    public func saveIssue(issue: ABEIssue, callbackQueue: DispatchQueue = DispatchQueue.main, success: @escaping () -> (), errorHandler: @escaping (IssueReporterError) -> ()) throws {
         
         let issueRequest = try self.requestForIssue(issue: issue, errorHandler: errorHandler)
         
         URLSession.shared.dataTask(with: issueRequest) { (data, response, error) in
-            callbackQueue.async {
+            
+            do {
                 if let error = error {
-                    errorHandler(error)
-                } else {
-                    success()
+                    throw IssueReporterError.error(error: error)
                 }
+                
+                if let response = response as? HTTPURLResponse {
+                    
+                    switch response.statusCode {
+                    case 401:
+                        // Github returns 401 forbidden for both incorrect path and token
+                        throw IssueReporterError.invalid(name: "github token or github repository path")
+                    
+                    case 201:
+                        callbackQueue.async(execute: success)
+                        return
+                        
+                    default:
+                        break
+                    }
+                    
+                    guard let data = data else { throw IssueReporterError.network(response: response, detail: nil) }
+                    let json = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
+                    
+                    if let errorMessage = json.value(forKeyPath: "message") as? String {
+                        throw IssueReporterError.network(response: response, detail: errorMessage)
+                    } else {
+                        throw IssueReporterError.network(response: response, detail: nil)
+                    }
+                }
+            } catch let error as NSError where error.domain != IssueReporterError.domain {
+                // Catch error not from our domain and wrap them
+                errorHandler(IssueReporterError.jsonError(underlyingError: error))
+            } catch {
+                // Catch and forward all other errors
+                errorHandler(error as! IssueReporterError)
             }
         }.resume()
     }

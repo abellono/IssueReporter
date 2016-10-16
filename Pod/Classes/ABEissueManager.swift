@@ -20,34 +20,36 @@ extension Array where Element: Equatable {
 
 private let kABECompressionRatio = CGFloat(5.0)
 
-public protocol ABEIssueManagerDelegate: class {
+protocol ABEIssueManagerDelegate: class {
     
     func issueManagerUploadingStateDidChange(issueManager: ABEIssueManager)
     
-    func issueManager(_ issueManager: ABEIssueManager, didFailToUploadIssueWithError error: Error)
+    func issueManager(_ issueManager: ABEIssueManager, didFailToUploadImage image: Image, error: IssueReporterError)
+    
+    func issueManager(_ issueManager: ABEIssueManager, didFailToUploadIssueWithError error: IssueReporterError)
 }
 
 public class ABEIssueManager {
     
     public var isUploading: Bool {
         get {
-            return uploadingImages.count != 0
+            return images.filter {
+                $0.state.contents == .uploading
+            }.count > 0
         }
     }
     
-    public private(set) var images: [UIImage] = []
-    public private(set) var localImageURLs: [URL] = []
+    var issue: ABEIssue = ABEIssue()
     
-    private var uploadingImages: [Data] = []
-    
-    let referenceView: UIView
+    var images: [Image] {
+        get {
+            return issue.images
+        }
+    }
     
     weak var delegate: ABEIssueManagerDelegate?
     
-    var issue: ABEIssue = ABEIssue()
-    
     init(referenceView: UIView, delegate: ABEIssueManagerDelegate? = nil) {
-        self.referenceView = referenceView
         self.delegate = delegate
         
         drawSnapshotOf(referenceView: referenceView) { [weak self] image in
@@ -68,58 +70,91 @@ public class ABEIssueManager {
     
     public func add(imageToIssue image: UIImage) {
         
-        let flippedImage = image.applyRotationToImageData()
-        let imageData = UIImageJPEGRepresentation(flippedImage, kABECompressionRatio)!
-        
-        self.images.append(flippedImage)
-        
-        self.persist(imageData: imageData) { [weak self] url in
-            self?.issue.attachImage(withURL: url)
-        }
+        let image = Image(image: image)
+        self.issue.images.append(image)
+        self.persist(image)
     }
     
-    private func persist(imageData data: Data, complete: @escaping (String) -> ()) {
+    public func retrySavingImage(image: Image) {
+        assert(image.state.contents == .errored, "Can not retry a image that has not errored.")
+        persistToCloud(image, withDispatchGroup: DispatchGroup())
+    }
+    
+    private func persist(_ image: Image) {
         
         let group = DispatchGroup()
         let queue = DispatchQueue.global(qos: .`default`)
         
-        queue.async(group: group) { [weak self] in
-            let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-            let saveLocation = documentsDirectory.randomURL(withExtension: "jpg")
-            self?.localImageURLs.append(saveLocation)
-            
-            try? data.write(to: saveLocation)
-        }
+        group.enter()
         
-        self.uploadingImages.append(data)
-        
-        DispatchQueue.main.async {
-            self.delegate?.issueManagerUploadingStateDidChange(issueManager: self)
-        }
-        
-        try? ABEImgurAPIClient.shared.upload(imageData: data, errorHandler: { [weak self] error, imageData in
+        image.compressionCompletionBlock.contents = { image in
             
-            print(error.message)
-            self?.uploadingImages.removeFirst(element: imageData)
+            self.persistToDisk(image, withDispatchGroup: group, dispatchQueue: queue)
+            self.persistToCloud(image, withDispatchGroup: group)
             
-        }, success: { [weak self] url, imageData in
-            
-            self?.uploadingImages.removeFirst(element: data)
-            
-            if let `self` = self {
+            DispatchQueue.main.async {
                 self.delegate?.issueManagerUploadingStateDidChange(issueManager: self)
             }
             
-            group.notify(queue: queue) {
-                complete(url)
-            }
-        })
+            group.leave()
+        }
+    }
+    
+    private func persistToDisk(_ image: Image, withDispatchGroup group: DispatchGroup, dispatchQueue queue: DispatchQueue) {
+        
+        assert(image.imageData != nil, "Image data must have been set.")
+        
+        queue.async(group: group) {
+            let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+            let saveLocation = documentsDirectory.randomURL(withExtension: "jpg")
+            
+            try? image.imageData?.write(to: saveLocation)
+            
+            image.localImageURL = saveLocation
+        }
+    }
+    
+    private func persistToCloud(_ image: Image, withDispatchGroup group: DispatchGroup) {
+        assert(image.imageData != nil, "Image data must have been set")
+        
+        group.enter()
+        image.state.contents = .uploading
+        
+        do {
+            try ABEImgurAPIClient.shared.upload(imageData: image.imageData!, errorHandler: { [weak self] error in
+                group.leave()
+                
+                image.state.contents = .errored
+                
+                guard let `self` = self else { return }
+                
+                DispatchQueue.main.async {
+                    self.delegate?.issueManager(self, didFailToUploadImage: image, error: error)
+                    self.delegate?.issueManagerUploadingStateDidChange(issueManager: self)
+                }
+                
+            }, success: { [weak self] url in
+                group.leave()
+                
+                guard let `self` = self else { return }
+                
+                image.cloudImageURL = url
+               
+                DispatchQueue.main.async {
+                    self.delegate?.issueManagerUploadingStateDidChange(issueManager: self)
+                }
+            })
+        } catch {
+            print("Error while making image upload request \(error)")
+        }
     }
     
     public func saveIssue(completion: @escaping () -> ()) {
         do {
             try ABEGithubAPIClient.sharedInstance.saveIssue(issue: self.issue, success: completion) { [weak self] error in
-                if let `self` = self {
+                guard let `self` = self else { return }
+                
+                DispatchQueue.main.async {
                     self.delegate?.issueManager(self, didFailToUploadIssueWithError: error)
                 }
             }

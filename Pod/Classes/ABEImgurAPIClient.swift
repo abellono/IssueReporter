@@ -9,44 +9,54 @@
 import Foundation
 import CFNetwork
 
-enum ABEImgurAPIClientError: Error {
+enum IssueReporterError: Error {
     
-    case missingAPIKeyError
+    static let domain = "IssueReporter.IssueReporterError"
+    
+    case missingInformation(name: String)
+    case invalid(name: String)
+    
     case missingURLKeyInJSON
     
     case urlError
     case malformedResponseURL
     
-    case jsonError(underlyingError: NSError)
-    case networkError(response: URLResponse)
+    case jsonError(underlyingError: Error)
+    case network(response: HTTPURLResponse, detail: String?)
     
-    case error(error: Error)
+    case error(error: Error?)
     
     var message : String {
         switch self {
-        case .missingAPIKeyError:
-            return "No imgur api key was provided."
+        case let .missingInformation(name):
+            return "The \(name) was not provided. Consult the README.md for information on how to acquire it."
         case .missingURLKeyInJSON:
             return "The uploaded image link was not present in the returned json."
             
         case .urlError:
             return "There was an error constructing the request URL."
+        case let .invalid(name):
+            return "Your \(name) is invalid, please follow the instructions in README.md"
         case .malformedResponseURL:
             return "There was an error extracting the image link from the returned response."
             
         case let .jsonError(underlyingError):
             return "JSON Error, underlying error : \(underlyingError)"
-        case let .networkError(response):
             
-            if let response = response as? HTTPURLResponse {
-                return  "Network error with status code \(response.statusCode) for response \(response)"
-            } else {
-                return "Network error for response \(response)"
-            }
+        case let .network(response, detail):
+            let detail = detail != nil ? " with detail : " + detail! : ""
+            return  "Network error with status code \(response.statusCode) "  + detail + " for response \(response)"
             
         case let .error(error):
-            return "Error : \(error)"
+            return error == nil ? "Error : \(error)" : ""
+            
+        default:
+            return ""
         }
+    }
+    
+    var localizedDescription: String {
+        return message
     }
 }
 
@@ -61,11 +71,11 @@ final class ABEImgurAPIClient {
     func baseImageUploadRequest() throws -> URLRequest {
         
         guard let imgurAPIKey = ABEImgurAPIClient.imgurAPIKey else {
-            throw ABEImgurAPIClientError.missingAPIKeyError
+            throw IssueReporterError.missingInformation(name: "imgur api key")
         }
         
         guard let url = URL(string: "https://api.imgur.com/3/upload") else {
-            throw ABEImgurAPIClientError.urlError
+            throw IssueReporterError.urlError
         }
         
         var request = URLRequest(url: url)
@@ -92,32 +102,52 @@ final class ABEImgurAPIClient {
         return baseIssueRequest
     }
     
-    public func upload(imageData: Data, dispatchQueue: DispatchQueue = DispatchQueue.main, errorHandler: @escaping (ABEImgurAPIClientError, Data) -> (), success: @escaping (String, Data) -> ()) throws {
+    public func upload(imageData: Data, dispatchQueue: DispatchQueue = DispatchQueue.main, errorHandler: @escaping (IssueReporterError) -> (), success: @escaping (URL) -> ()) throws {
         
         let request = try self.uploadRequestForImageData(imageData: imageData)
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             do {
                 if let error = error {
-                    throw ABEImgurAPIClientError.error(error: error)
+                    throw IssueReporterError.error(error: error)
                 }
             
-                if let response = response {
+                if let response = response as? HTTPURLResponse {
+                    
+                    switch response.statusCode {
+                    case 403:
+                        throw IssueReporterError.invalid(name: "client id")
+                        
+                    default:
+                        break
+                    }
                 
-                    guard let data = data else { throw ABEImgurAPIClientError.networkError(response: response) }
+                    guard let data = data else { throw IssueReporterError.network(response: response, detail: nil) }
                     let json = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
                 
-                    guard let linkString = json.value(forKeyPath: "data.link") as? String else { throw ABEImgurAPIClientError.missingURLKeyInJSON }
-                    guard let url = URL(string: linkString) else { throw ABEImgurAPIClientError.malformedResponseURL }
+                    guard let linkString = json.value(forKeyPath: "data.link") as? String else {
+                        
+                        if let error = json.value(forKeyPath: "data.error") as? String {
+                            throw IssueReporterError.network(response: response, detail: error)
+                        } else {
+                            throw IssueReporterError.missingURLKeyInJSON
+                        }
+                    }
+                    
+                    guard let url = URL(string: linkString) else { throw IssueReporterError.malformedResponseURL }
                     
                     dispatchQueue.async {
-                        success(linkString, imageData)
+                        success(url)
                     }
+                } else {
+                    throw IssueReporterError.malformedResponseURL
                 }
-            } catch let error as NSError {
-                errorHandler(ABEImgurAPIClientError.jsonError(underlyingError: error), imageData)
+            } catch let error as NSError where error.domain != IssueReporterError.domain {
+                // Catch error not from our domain and wrap them
+                errorHandler(IssueReporterError.jsonError(underlyingError: error))
             } catch {
-                errorHandler(error as! ABEImgurAPIClientError, imageData)
+                // Catch and forward all other errors
+                errorHandler(error as! IssueReporterError)
             }
         }.resume()
     }

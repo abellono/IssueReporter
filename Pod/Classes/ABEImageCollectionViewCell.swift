@@ -12,4 +12,30 @@ import UIKit
 class ABEImageCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet var blurEffectView: UIVisualEffectView!
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        
+        translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        layer.cornerRadius = 5
+        layer.borderColor = UIColor(colorLiteralRed: 1, green: 0, blue: 0, alpha: 0.5).cgColor
+    }
+
+    var didErrorDuringUpload: Bool = false {
+        didSet {
+            if didErrorDuringUpload {
+                blurEffectView.isHidden = false
+                layer.borderWidth = 1
+            } else {
+                blurEffectView.isHidden = true
+                layer.borderWidth = 0
+            }
+        }
+    }
 }

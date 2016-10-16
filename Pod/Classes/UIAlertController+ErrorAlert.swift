@@ -18,4 +18,12 @@ extension UIAlertController {
             self?.presentingViewController?.dismiss(animated: true)
         })
     }
+    
+    convenience init(error: IssueReporterError) {
+        self.init(title: "Error", message: error.message, preferredStyle: .alert)
+        
+        self.addAction(UIAlertAction(title: "Ok", style: .default) { [weak self] _ in
+            self?.presentingViewController?.dismiss(animated: true)
+        })
+    }
 }

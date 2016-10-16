@@ -103,7 +103,7 @@ class ABEReporterViewController: UIViewController {
 }
 
 extension ABEReporterViewController: ABEIssueManagerDelegate {
-    
+
     func issueManagerUploadingStateDidChange(issueManager: ABEIssueManager) {
         self.imageCollectionViewController?.collectionView?.reloadData()
         
@@ -121,15 +121,24 @@ extension ABEReporterViewController: ABEIssueManagerDelegate {
         }
     }
     
-    func issueManager(_ issueManager: ABEIssueManager, didFailToUploadIssueWithError error: Error) {
-        let alertController = UIAlertController(error: error as NSError)
+    public func issueManager(_ issueManager: ABEIssueManager, didFailToUploadImage image: Image, error: IssueReporterError) {
+        if let imageIndex = self.issueManager.images.index(of: image) {
+            let alert = UIAlertController(error: error)
+            self.present(alert, animated: true)
+        }
+    }
+    
+    func issueManager(_ issueManager: ABEIssueManager, didFailToUploadIssueWithError error: IssueReporterError) {
+        let alert = UIAlertController(error: error)
         
-        alertController.addAction(UIAlertAction(title: "Retry", style: .default) { [weak self] action in
+        alert.addAction(UIAlertAction(title: "Retry", style: .default) { [weak self] _ in
             issueManager.saveIssue { [weak self] in
                 self?.view.endEditing(false)
                 self?.dismissIssueReporter()
             }
         })
+        
+        self.present(alert, animated: true)
     }
 }
 

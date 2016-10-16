@@ -17,12 +17,7 @@ extension FileManager {
         
             for file in try FileManager.default.contentsOfDirectory(at: directory, includingPropertiesForKeys: nil, options: options) {
                 DispatchQueue.main.async {
-                    do {
-                        try FileManager.default.removeItem(at: file)
-                        print("Deleted file at \(file)")
-                    } catch {
-                        print("Unable to delete the file at \(file)")
-                    }
+                    try? FileManager.default.removeItem(at: file)
                 }
             }
         } catch {

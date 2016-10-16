@@ -95,7 +95,7 @@
         <scene sceneID="aZ0-3h-feP">
             <objects>
                 <collectionViewController id="jun-oi-wMd" customClass="ABEImageCollectionViewController" customModule="IssueReporter" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="94i-Le-oD6">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="94i-Le-oD6">
                         <rect key="frame" x="0.0" y="0.0" width="359" height="109.5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -146,15 +146,36 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="F2G-s6-hAZ"/>
+                                        <visualEffectView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ezr-AE-30V">
+                                            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="center" id="Cex-8H-vZG">
+                                                <frame key="frameInset"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <subviews>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="close.png" translatesAutoresizingMaskIntoConstraints="NO" id="0LJ-KR-Jx0">
+                                                        <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </imageView>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstItem="0LJ-KR-Jx0" firstAttribute="centerX" secondItem="Cex-8H-vZG" secondAttribute="centerX" id="Wiw-My-lAi"/>
+                                                    <constraint firstItem="0LJ-KR-Jx0" firstAttribute="centerY" secondItem="Cex-8H-vZG" secondAttribute="centerY" id="tPU-ox-oaU"/>
+                                                </constraints>
+                                            </view>
+                                            <blurEffect style="dark"/>
+                                        </visualEffectView>
                                     </subviews>
                                 </view>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="F2G-s6-hAZ" secondAttribute="bottom" id="1ch-SB-6Uo"/>
                                     <constraint firstItem="F2G-s6-hAZ" firstAttribute="top" secondItem="7ca-ex-STp" secondAttribute="top" id="3te-ke-H0H"/>
+                                    <constraint firstItem="ezr-AE-30V" firstAttribute="leading" secondItem="F2G-s6-hAZ" secondAttribute="leading" id="DzE-bU-b3A"/>
                                     <constraint firstItem="F2G-s6-hAZ" firstAttribute="leading" secondItem="7ca-ex-STp" secondAttribute="leading" id="NMY-OK-T1I"/>
                                     <constraint firstAttribute="trailing" secondItem="F2G-s6-hAZ" secondAttribute="trailing" id="PNp-Hv-AOU"/>
+                                    <constraint firstItem="ezr-AE-30V" firstAttribute="trailing" secondItem="F2G-s6-hAZ" secondAttribute="trailing" id="PyP-RV-FyJ"/>
+                                    <constraint firstItem="ezr-AE-30V" firstAttribute="bottom" secondItem="F2G-s6-hAZ" secondAttribute="bottom" id="Sqp-wh-Mv2"/>
+                                    <constraint firstItem="ezr-AE-30V" firstAttribute="top" secondItem="F2G-s6-hAZ" secondAttribute="top" id="wip-rU-DHt"/>
                                 </constraints>
                                 <connections>
+                                    <outlet property="blurEffectView" destination="ezr-AE-30V" id="Dhl-tf-H7M"/>
                                     <outlet property="imageView" destination="F2G-s6-hAZ" id="rKF-m9-28V"/>
                                 </connections>
                             </collectionViewCell>
@@ -171,6 +192,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="close.png" width="16" height="16"/>
         <image name="picture.png" width="33" height="33"/>
     </resources>
 </document>
