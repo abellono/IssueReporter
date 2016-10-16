@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-extension UIBarButtonItem {
+internal extension UIBarButtonItem {
     
     fileprivate static let kABECloseButtonImage = "close"
     fileprivate static let kABESaveButtonImage = "save"

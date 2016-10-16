@@ -8,17 +8,17 @@
 
 import UIKit
 
-final class ABEGithubAPIClient {
+internal final class ABEGithubAPIClient {
     
-    public static var githubToken: String? = nil
-    public static var githubRepositoryName : String? = nil
-    public static var githubRepositoryOwner : String? = nil
+    static var githubToken: String? = nil
+    static var githubRepositoryName : String? = nil
+    static var githubRepositoryOwner : String? = nil
     
-    public static let sharedInstance = ABEGithubAPIClient()
+    static let sharedInstance = ABEGithubAPIClient()
     
     private init() { }
     
-    static fileprivate func humanReadableDescriptionForMissingInformation() -> String? {
+    fileprivate static func humanReadableDescriptionForMissingInformation() -> String? {
         if githubToken == nil {
             return "github personal access token"
         } else if githubRepositoryName == nil {
@@ -68,7 +68,7 @@ final class ABEGithubAPIClient {
         }
     }
     
-    public func saveIssue(issue: ABEIssue, callbackQueue: DispatchQueue = DispatchQueue.main, success: @escaping () -> (), errorHandler: @escaping (IssueReporterError) -> ()) throws {
+    func saveIssue(issue: ABEIssue, callbackQueue: DispatchQueue = DispatchQueue.main, success: @escaping () -> (), errorHandler: @escaping (IssueReporterError) -> ()) throws {
         
         let issueRequest = try self.requestForIssue(issue: issue, errorHandler: errorHandler)
         

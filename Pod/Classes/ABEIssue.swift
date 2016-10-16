@@ -6,7 +6,7 @@
 //
 //
 
-struct ABEIssue {
+internal struct ABEIssue {
    
     var title: String?
     var issueDescription: String?

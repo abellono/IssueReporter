@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-extension Array where Element: Equatable {
+fileprivate extension Array where Element: Equatable {
     
     mutating func removeFirst(element: Element) {
         if let index = self.index(of: element) {
@@ -20,7 +20,7 @@ extension Array where Element: Equatable {
 
 private let kABECompressionRatio = CGFloat(5.0)
 
-protocol ABEIssueManagerDelegate: class {
+internal protocol ABEIssueManagerDelegate: class {
     
     func issueManagerUploadingStateDidChange(issueManager: ABEIssueManager)
     
@@ -29,9 +29,9 @@ protocol ABEIssueManagerDelegate: class {
     func issueManager(_ issueManager: ABEIssueManager, didFailToUploadIssueWithError error: IssueReporterError)
 }
 
-public class ABEIssueManager {
+internal class ABEIssueManager {
     
-    public var isUploading: Bool {
+    var isUploading: Bool {
         get {
             return images.filter {
                 $0.state.contents == .uploading
@@ -68,14 +68,14 @@ public class ABEIssueManager {
         }
     }
     
-    public func add(imageToIssue image: UIImage) {
+    func add(imageToIssue image: UIImage) {
         
         let image = Image(image: image)
         self.issue.images.append(image)
         self.persist(image)
     }
     
-    public func retrySavingImage(image: Image) {
+    func retrySavingImage(image: Image) {
         assert(image.state.contents == .errored, "Can not retry a image that has not errored.")
         persistToCloud(image, withDispatchGroup: DispatchGroup())
     }
@@ -149,7 +149,7 @@ public class ABEIssueManager {
         }
     }
     
-    public func saveIssue(completion: @escaping () -> ()) {
+    func saveIssue(completion: @escaping () -> ()) {
         do {
             try ABEGithubAPIClient.sharedInstance.saveIssue(issue: self.issue, success: completion) { [weak self] error in
                 guard let `self` = self else { return }

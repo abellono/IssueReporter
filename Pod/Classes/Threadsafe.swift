@@ -11,10 +11,9 @@ import Foundation
 internal class Threadsafe<T> {
     
     private let accessQueue = DispatchQueue(label: "no.abello.Image.threadsafeaccess", qos: .userInitiated)
-    
     private var internal_contents: T
     
-    public var contents: T {
+    var contents: T {
         get {
             var value: T? = nil
             

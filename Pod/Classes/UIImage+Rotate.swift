@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import CoreGraphics
 
-extension UIImage {
+internal extension UIImage {
     
     func applyRotationToImageData() -> UIImage {
         if self.imageOrientation == .up || self.imageOrientation == .upMirrored {

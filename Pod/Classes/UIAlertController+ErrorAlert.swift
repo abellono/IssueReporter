@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-extension UIAlertController {
+internal extension UIAlertController {
     
     convenience init(error: NSError) {
         self.init(title: error.localizedDescription, message: error.localizedRecoverySuggestion, preferredStyle: .alert)

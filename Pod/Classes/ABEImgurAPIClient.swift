@@ -16,8 +16,6 @@ enum IssueReporterError: Error {
     case missingInformation(name: String)
     case invalid(name: String)
     
-    case missingURLKeyInJSON
-    
     case invalidURL
     case malformedResponseURL
     case unparseableResponse
@@ -27,34 +25,28 @@ enum IssueReporterError: Error {
     
     case error(error: Error?)
     
-    
-    
     var message : String {
         switch self {
         case let .missingInformation(name):
             return "The \(name) was not provided. Consult the README.md for information on how to acquire it."
-        case .missingURLKeyInJSON:
-            return "The uploaded image link was not present in the returned json."
+        case let .invalid(name):
+            return "Your \(name) is invalid, please follow the instructions in README.md"
             
         case .invalidURL:
             return "There was an error constructing the request URL."
-        case let .invalid(name):
-            return "Your \(name) is invalid, please follow the instructions in README.md"
         case .malformedResponseURL:
             return "There was an error extracting the image link from the returned response."
+        case .unparseableResponse:
+            return "Unable to parse the response body or the data contained in the response."
             
         case let .jsonError(underlyingError):
-            return "JSON Error, underlying error : \(underlyingError)"
-            
+            return "There was an error parsing the JSON response : \(underlyingError)"
         case let .network(response, detail):
             let detail = detail != nil ? " with detail : " + detail! : ""
-            return  "Network error with status code \(response.statusCode) "  + detail
+            return  "Network error with status code \(response.statusCode)"  + detail
             
         case let .error(error):
             return error == nil ? "Error : \(error)" : ""
-            
-        default:
-            return ""
         }
     }
     
@@ -63,15 +55,14 @@ enum IssueReporterError: Error {
     }
 }
 
-final class ABEImgurAPIClient {
+internal final class ABEImgurAPIClient {
     
-    public static var imgurAPIKey: String? = nil
-    
-    public static let shared = ABEImgurAPIClient()
+    static var imgurAPIKey: String? = nil
+    static let shared = ABEImgurAPIClient()
     
     private init() { }
     
-    func baseImageUploadRequest() throws -> URLRequest {
+    fileprivate func baseImageUploadRequest() throws -> URLRequest {
         
         guard let imgurAPIKey = ABEImgurAPIClient.imgurAPIKey else {
             throw IssueReporterError.missingInformation(name: "imgur api key")
@@ -105,7 +96,7 @@ final class ABEImgurAPIClient {
         return baseIssueRequest
     }
     
-    public func upload(imageData: Data, dispatchQueue: DispatchQueue = DispatchQueue.main, errorHandler: @escaping (IssueReporterError) -> (), success: @escaping (URL) -> ()) throws {
+    func upload(imageData: Data, dispatchQueue: DispatchQueue = DispatchQueue.main, errorHandler: @escaping (IssueReporterError) -> (), success: @escaping (URL) -> ()) throws {
         
         let request = try self.uploadRequestForImageData(imageData: imageData)
         

@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum State {
+internal enum State {
     case initial
     case saved
     case uploading
@@ -16,7 +16,7 @@ enum State {
     case done
 }
 
-public class Image {
+internal class Image {
     
     let image: UIImage
     let identifier: String = UUID().uuidString

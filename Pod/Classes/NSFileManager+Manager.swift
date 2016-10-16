@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension FileManager {
+internal extension FileManager {
     
     class func clearDocumentsDirectory() {
         do {
