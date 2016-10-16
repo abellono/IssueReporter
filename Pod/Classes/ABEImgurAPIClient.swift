@@ -45,7 +45,7 @@ enum IssueReporterError: Error {
             
         case let .network(response, detail):
             let detail = detail != nil ? " with detail : " + detail! : ""
-            return  "Network error with status code \(response.statusCode) "  + detail + " for response \(response)"
+            return  "Network error with status code \(response.statusCode) "  + detail
             
         case let .error(error):
             return error == nil ? "Error : \(error)" : ""

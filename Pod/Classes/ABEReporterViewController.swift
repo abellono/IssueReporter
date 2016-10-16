@@ -100,6 +100,10 @@ class ABEReporterViewController: UIViewController {
         FileManager.clearDocumentsDirectory()
         presentingViewController?.dismiss(animated: true)
     }
+    
+    @IBAction func titleTextDidChange(_ sender: UITextField) {
+        updateCheckmarkEnabledState()
+    }
 }
 
 extension ABEReporterViewController: ABEIssueManagerDelegate {
@@ -117,7 +121,7 @@ extension ABEReporterViewController: ABEIssueManagerDelegate {
             
         } else {
             self.navigationItem.rightBarButtonItem = UIBarButtonItem.saveButton(self, action: #selector(ABEReporterViewController.saveIssue))
-            self.navigationItem.rightBarButtonItem?.isEnabled = true
+            updateCheckmarkEnabledState()
         }
     }
     
@@ -146,6 +150,16 @@ extension ABEReporterViewController: UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
         let length = textView.text?.characters.count ?? 0
-        placeHolderLabel.isHidden = length > 0
+        let shouldHide = length > 0
+        
+        placeHolderLabel.isHidden = shouldHide
+        
+        updateCheckmarkEnabledState()
+    }
+    
+    func updateCheckmarkEnabledState() {
+        let hasTitle = (titleTextField.text?.characters.count ?? 0) > 0
+        let hasDescription = (descriptionTextView.text?.characters.count ?? 0) > 0
+        navigationItem.rightBarButtonItem?.isEnabled = hasTitle && hasDescription
     }
 }

@@ -30,11 +30,15 @@ class ABEImageCollectionViewCell: UICollectionViewCell {
     var didErrorDuringUpload: Bool = false {
         didSet {
             if didErrorDuringUpload {
-                blurEffectView.isHidden = false
-                layer.borderWidth = 1
+                UIView.animate(withDuration: 0.3, animations: { 
+                    self.blurEffectView.isHidden = false
+                    self.layer.borderWidth = 1
+                })
             } else {
-                blurEffectView.isHidden = true
-                layer.borderWidth = 0
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.blurEffectView.isHidden = true
+                    self.layer.borderWidth = 0
+                })
             }
         }
     }

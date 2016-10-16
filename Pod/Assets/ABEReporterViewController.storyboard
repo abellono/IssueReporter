@@ -29,6 +29,9 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AkkuratStd" family="AkkuratStd" pointSize="21"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <connections>
+                                    <action selector="titleTextDidChange:" destination="aCf-Qr-zyw" eventType="editingChanged" id="Lid-um-1lx"/>
+                                </connections>
                             </textField>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hdR-PG-Hob">
                                 <constraints>
