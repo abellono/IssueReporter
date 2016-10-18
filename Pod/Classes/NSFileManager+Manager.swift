@@ -8,24 +8,20 @@
 
 import Foundation
 
-extension FileManager {
+internal extension FileManager {
     
     class func clearDocumentsDirectory() {
-        // TODO: Error handling
-        let directory = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+        do {
+            let options: DirectoryEnumerationOptions = [.skipsSubdirectoryDescendants , .skipsPackageDescendants, .skipsHiddenFiles]
+            let directory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
         
-        let options: DirectoryEnumerationOptions = [.skipsSubdirectoryDescendants , .skipsPackageDescendants, .skipsHiddenFiles]
-        
-        for file in try! FileManager.default.contentsOfDirectory(at: directory, includingPropertiesForKeys: nil, options: options) {
-            
-            do {
-                print("Deleted file at \(file)")
-                try FileManager.default.removeItem(at: file)
-            } catch {
-                print("Unable to delete the file at \(file)")
+            for file in try FileManager.default.contentsOfDirectory(at: directory, includingPropertiesForKeys: nil, options: options) {
+                DispatchQueue.main.async {
+                    try? FileManager.default.removeItem(at: file)
+                }
             }
+        } catch {
+            print("Error while deleting temporary files : \(error)")
         }
-        
-        
     }
 }

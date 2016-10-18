@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import CoreGraphics
 
-class ABEReporterViewController: UIViewController {
+internal class ABEReporterViewController: UIViewController {
     
     private static let kABETextFieldInset = 14
     
@@ -25,13 +25,13 @@ class ABEReporterViewController: UIViewController {
     
     fileprivate var imageCollectionViewController: ABEImageCollectionViewController!
     
-    public var issueManager: ABEIssueManager! {
+    var issueManager: ABEIssueManager! {
         didSet {
             issueManager.delegate = self
         }
     }
     
-    public class func instance(withIssueManager manager: ABEIssueManager) -> ABEReporterViewController {
+    class func instance(withIssueManager manager: ABEIssueManager) -> ABEReporterViewController {
         let storyboard = UIStoryboard(name: String(describing: self), bundle: Bundle.bundleForLibrary())
         let reporterViewController = storyboard.instantiateInitialViewController() as! ABEReporterViewController
         
@@ -73,7 +73,7 @@ class ABEReporterViewController: UIViewController {
     }
     
     @IBAction func cancelIssueReporting(_ sender: AnyObject) {
-        self.presentingViewController?.dismiss(animated: true)
+        self.dismissIssueReporter()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -83,11 +83,11 @@ class ABEReporterViewController: UIViewController {
         }
     }
     
-    public func saveIssue() {
+    func saveIssue() {
         
         issueManager.issue.title = titleTextField.text
         issueManager.issue.issueDescription = descriptionTextView.text
-
+        
         issueManager.saveIssue { [weak self] in
             DispatchQueue.main.async { [weak self] in
                 self?.view.endEditing(false)
@@ -96,37 +96,53 @@ class ABEReporterViewController: UIViewController {
         }
     }
     
-    private func dismissIssueReporter() {
+    func dismissIssueReporter() {
         FileManager.clearDocumentsDirectory()
         presentingViewController?.dismiss(animated: true)
     }
     
-    deinit {
-        DispatchQueue.global(qos: .background).async {
-            FileManager.clearDocumentsDirectory()
-        }
+    @IBAction func titleTextDidChange(_ sender: UITextField) {
+        updateCheckmarkEnabledState()
     }
 }
 
 extension ABEReporterViewController: ABEIssueManagerDelegate {
 
-    func issueManagerUploadingStateDidChange(issueManager: ABEIssueManager) {
-        DispatchQueue.main.async {
-            self.imageCollectionViewController?.collectionView?.reloadData()
+    internal func issueManagerUploadingStateDidChange(issueManager: ABEIssueManager) {
+        self.imageCollectionViewController?.collectionView?.reloadData()
+        
+        if issueManager.isUploading {
+            let spinner = UIActivityIndicatorView(activityIndicatorStyle: .white)
             
-            if issueManager.isUploading {
-                let spinner = UIActivityIndicatorView(activityIndicatorStyle: .white)
-                
-                self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: spinner)
-                self.navigationItem.rightBarButtonItem?.isEnabled = false
-                
-                spinner.startAnimating()
-                
-            } else {
-                self.navigationItem.rightBarButtonItem = UIBarButtonItem.saveButton(self, action: #selector(ABEReporterViewController.saveIssue))
-                self.navigationItem.rightBarButtonItem?.isEnabled = true
-            }
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: spinner)
+            self.navigationItem.rightBarButtonItem?.isEnabled = false
+            
+            spinner.startAnimating()
+            
+        } else {
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem.saveButton(self, action: #selector(ABEReporterViewController.saveIssue))
+            updateCheckmarkEnabledState()
         }
+    }
+    
+    internal func issueManager(_ issueManager: ABEIssueManager, didFailToUploadImage image: Image, error: IssueReporterError) {
+        if let imageIndex = self.issueManager.images.index(of: image) {
+            let alert = UIAlertController(error: error)
+            self.present(alert, animated: true)
+        }
+    }
+    
+    internal func issueManager(_ issueManager: ABEIssueManager, didFailToUploadIssueWithError error: IssueReporterError) {
+        let alert = UIAlertController(error: error)
+        
+        alert.addAction(UIAlertAction(title: "Retry", style: .default) { [weak self] _ in
+            issueManager.saveIssue { [weak self] in
+                self?.view.endEditing(false)
+                self?.dismissIssueReporter()
+            }
+        })
+        
+        self.present(alert, animated: true)
     }
 }
 
@@ -134,6 +150,16 @@ extension ABEReporterViewController: UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
         let length = textView.text?.characters.count ?? 0
-        placeHolderLabel.isHidden = length > 0
+        let shouldHide = length > 0
+        
+        placeHolderLabel.isHidden = shouldHide
+        
+        updateCheckmarkEnabledState()
+    }
+    
+    internal func updateCheckmarkEnabledState() {
+        let hasTitle = (titleTextField.text?.characters.count ?? 0) > 0
+        let hasDescription = (descriptionTextView.text?.characters.count ?? 0) > 0
+        navigationItem.rightBarButtonItem?.isEnabled = hasTitle && hasDescription
     }
 }

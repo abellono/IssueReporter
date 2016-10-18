@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-extension UIColor {
+internal extension UIColor {
     
     static func greyBorderColor() -> UIColor {
         return UIColor(white: 0.8, alpha: 1)

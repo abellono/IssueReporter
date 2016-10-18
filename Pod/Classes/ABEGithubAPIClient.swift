@@ -8,31 +8,38 @@
 
 import UIKit
 
-public enum GithubAPIClientError: String, Error {
+internal final class ABEGithubAPIClient {
     
-    case MissingInformation = "Missing either the github token, repository name, or repository owner."
-    case JSONError = "There was an error converting the issue to JSON format."
-}
-
-final class ABEGithubAPIClient {
+    static var githubToken: String? = nil
+    static var githubRepositoryName: String? = nil
+    static var githubRepositoryOwner: String? = nil
     
-    public static var githubToken: String? = nil
-    public static var githubRepositoryName : String? = nil
-    public static var githubRepositoryOwner : String? = nil
-    
-    public static let sharedInstance = ABEGithubAPIClient()
+    static let shared = ABEGithubAPIClient()
     
     private init() { }
     
-    lazy var baseSaveIssueURLRequest: URLRequest? = {
-        guard let githubToken = githubToken, let name = githubRepositoryName, let owner = githubRepositoryOwner else {
-            return nil
+    fileprivate static func humanReadableDescriptionForMissingInformation() -> String? {
+        if githubToken == nil {
+            return "github personal access token"
+        } else if githubRepositoryName == nil {
+            return "github repository name"
+        } else if githubRepositoryOwner == nil {
+            return "github repository owner name"
+        }
+
+        return nil
+    }
+    
+    fileprivate func baseSaveIssueURLRequest() throws -> URLRequest {
+        guard let githubToken = ABEGithubAPIClient.githubToken, let name = ABEGithubAPIClient.githubRepositoryName, let owner = ABEGithubAPIClient.githubRepositoryOwner else {
+            let humanReadableDescription = ABEGithubAPIClient.humanReadableDescriptionForMissingInformation()!
+            throw IssueReporterError.missingInformation(name: humanReadableDescription)
         }
         
         let path = "https://api.github.com/repos/\(owner)/\(name)/issues?access_token=\(githubToken)"
         
         guard let url = URL(string: path) else {
-            return nil
+            throw IssueReporterError.invalidURL
         }
         
         var request = URLRequest(url: url)
@@ -44,36 +51,54 @@ final class ABEGithubAPIClient {
         request.setValue("token \(githubToken)", forHTTPHeaderField: "Authorization")
         
         return request
-    }()
-    
-    fileprivate func requestForIssue(issue: ABEIssue, errorHandler: @escaping (Error) -> ()) -> URLRequest? {
-        guard var baseIssueRequest = self.baseSaveIssueURLRequest else {
-            errorHandler(GithubAPIClientError.MissingInformation)
-            return nil;
-        }
-        
-        guard let json = try? JSONSerialization.data(withJSONObject: issue.dictionaryRepresentation!, options: []) else {
-            errorHandler(GithubAPIClientError.JSONError)
-            return nil
-        }
-        
-        baseIssueRequest.setValue("\(json.count)", forHTTPHeaderField: "Content-Length")
-        baseIssueRequest.httpBody = json
-        
-        return baseIssueRequest
     }
     
-    public func saveIssue(issue: ABEIssue, success: @escaping () -> (), errorHandler: @escaping (Error) -> ()) {
+    fileprivate func requestForIssue(issue: ABEIssue, errorHandler: @escaping (IssueReporterError) -> ()) throws -> URLRequest {
+        var baseIssueRequest = try self.baseSaveIssueURLRequest()
         
-        guard let request = self.requestForIssue(issue: issue, errorHandler: errorHandler) else {
-            return
+        do {
+            let json = try JSONSerialization.data(withJSONObject: issue.dictionaryRepresentation!, options: [])
+            
+            baseIssueRequest.setValue("\(json.count)", forHTTPHeaderField: "Content-Length")
+            baseIssueRequest.httpBody = json
+            
+            return baseIssueRequest
+        } catch {
+            throw IssueReporterError.jsonError(underlyingError: error)
         }
+    }
+    
+    func saveIssue(issue: ABEIssue, callbackQueue: DispatchQueue = DispatchQueue.main, success: @escaping () -> (), errorHandler: @escaping (IssueReporterError) -> ()) throws {
         
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
-            if let error = error {
-                errorHandler(error)
-            } else {
-                success()
+        let issueRequest = try self.requestForIssue(issue: issue, errorHandler: errorHandler)
+        
+        URLSession.shared.dataTask(with: issueRequest) { (data, response, error) in
+            
+            do {
+                if let error = error {
+                    throw IssueReporterError.error(error: error)
+                }
+                
+                guard let response = response as? HTTPURLResponse, let data = data else {
+                    throw IssueReporterError.unparseableResponse
+                }
+                
+                if response.statusCode == 401 {
+                    throw IssueReporterError.invalid(name: "github token or github repository path")
+                } else if response.statusCode == 201 {
+                    callbackQueue.async(execute: success)
+                    return
+                }
+                
+                let json = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
+                throw IssueReporterError.network(response: response, detail: json.value(forKeyPath: "message") as? String)
+                
+            } catch let error as NSError where error.domain != IssueReporterError.domain {
+                // Catch error not from our domain and wrap them
+                errorHandler(IssueReporterError.jsonError(underlyingError: error))
+            } catch {
+                // Catch and forward all other errors
+                errorHandler(error as! IssueReporterError)
             }
         }.resume()
     }

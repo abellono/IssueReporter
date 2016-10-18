@@ -10,7 +10,7 @@ import Foundation
 
 fileprivate let kABEResourceBundleName = "IssueReporterResources.bundle"
 
-extension Bundle {
+internal extension Bundle {
     
     class func bundleForLibrary() -> Bundle {
         return Bundle(path: "\(Bundle(for: ABEReporter.self).bundlePath)/\(kABEResourceBundleName)")!
