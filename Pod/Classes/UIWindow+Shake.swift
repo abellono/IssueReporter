@@ -13,10 +13,10 @@ let ButterflyDidShakingNotification = "shakeyshakey"
 
 internal extension Notification.Name {
     
-    public static let onWindowShake = Notification.Name("shakeyshakey")
+    static let onWindowShake = Notification.Name("shakeyshakey")
 }
 
-internal extension UIWindow {
+extension UIWindow {
     
     
     open override static func initialize() {
@@ -26,7 +26,7 @@ internal extension UIWindow {
         }
         
         // Best way of doing dispatch_once in swift
-        let execute_once: () = {
+        let _: () = {
             let originalSelector = #selector(UIWindow.motionEnded(_:with:))
             let swizzledSelector = #selector(UIWindow.abe_motionEnded(_:with:))
             

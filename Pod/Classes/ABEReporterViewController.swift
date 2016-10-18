@@ -126,7 +126,7 @@ extension ABEReporterViewController: ABEIssueManagerDelegate {
     }
     
     internal func issueManager(_ issueManager: ABEIssueManager, didFailToUploadImage image: Image, error: IssueReporterError) {
-        if let imageIndex = self.issueManager.images.index(of: image) {
+        if self.issueManager.images.index(of: image) != nil {
             let alert = UIAlertController(error: error)
             self.present(alert, animated: true)
         }
