@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '0F4B0F634F7EFB4A2C80412BDB3BA2F8'
+               BlueprintIdentifier = '6D7FF5ED04D1581412D80C93E6E9E0AC'
                BlueprintName = 'IssueReporter-IssueReporterResources'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'IssueReporterResources.bundle'>
