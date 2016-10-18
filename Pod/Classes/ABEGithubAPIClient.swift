@@ -11,10 +11,10 @@ import UIKit
 internal final class ABEGithubAPIClient {
     
     static var githubToken: String? = nil
-    static var githubRepositoryName : String? = nil
-    static var githubRepositoryOwner : String? = nil
+    static var githubRepositoryName: String? = nil
+    static var githubRepositoryOwner: String? = nil
     
-    static let sharedInstance = ABEGithubAPIClient()
+    static let shared = ABEGithubAPIClient()
     
     private init() { }
     

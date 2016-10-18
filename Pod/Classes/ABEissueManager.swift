@@ -151,7 +151,7 @@ internal class ABEIssueManager {
     
     func saveIssue(completion: @escaping () -> ()) {
         do {
-            try ABEGithubAPIClient.sharedInstance.saveIssue(issue: self.issue, success: completion) { [weak self] error in
+            try ABEGithubAPIClient.shared.saveIssue(issue: self.issue, success: completion) { [weak self] error in
                 guard let `self` = self else { return }
                 
                 DispatchQueue.main.async {
