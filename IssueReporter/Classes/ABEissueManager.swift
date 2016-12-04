@@ -102,17 +102,15 @@ internal class ABEIssueManager {
     
     private func persistToDisk(_ image: Image, withDispatchGroup group: DispatchGroup, dispatchQueue queue: DispatchQueue) {
         
-        guard let imageData = image.imageData else {
-            print("Image data not set!")
-            return
-        }
+        assert(image.imageData != nil, "Image data must have been set.")
         
         queue.async(group: group) {
-            FileManager.write(data: imageData, completion: { url in
-                image.localImageURL = url
-            }) { error in
-                print("Error saving image or screenshot to disk.")
-            }
+            let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+            let saveLocation = documentsDirectory.randomURL(withExtension: "jpg")
+            
+            try? image.imageData?.write(to: saveLocation)
+            
+            image.localImageURL = saveLocation
         }
     }
     
