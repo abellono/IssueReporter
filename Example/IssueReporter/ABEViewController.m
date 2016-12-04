@@ -13,7 +13,9 @@
 static NSString * const kNJHTableName = @"IssueReporterDemo-Localizable";
 
 @interface ABEViewController ()
+
 @property (weak, nonatomic) IBOutlet UILabel *shakeLabel;
+
 @end
 
 @implementation ABEViewController
