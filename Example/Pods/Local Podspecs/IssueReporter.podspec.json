@@ -22,6 +22,5 @@
     "IssueReporterResources": [
       "Pod/Assets/*.{png,strings,storyboard}"
     ]
-  },
-  "public_header_files": "Pod/Classes/**/*.h"
+  }
 }
