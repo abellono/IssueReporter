@@ -37,9 +37,13 @@ internal extension FileManager {
         do {
             let directory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
             let pictureDirectory = try directory.appendingPathComponent(FileManager.documentsSubdirectoryName)
-            let saveLocation = pictureDirectory.randomURL(withExtension: FileManager.pngSuffix)
+            var saveLocation = pictureDirectory.randomURL(withExtension: FileManager.pngSuffix)
         
             try data.write(to: saveLocation)
+            
+            var resourceValues = URLResourceValues()
+            resourceValues.isExcludedFromBackup = true
+            try saveLocation.setResourceValues(resourceValues)
             
             completion(saveLocation)
         } catch {
