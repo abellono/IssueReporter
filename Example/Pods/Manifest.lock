@@ -1,5 +1,5 @@
 PODS:
-  - IssueReporter (2.0.4)
+  - IssueReporter (2.0.5)
 
 DEPENDENCIES:
   - IssueReporter (from `../`)
@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  IssueReporter: 36238aa37e040d91507322ab27f87d6309c9cedc
+  IssueReporter: 44dd8946caf6b58d3c10526477ff21eaa59159c1
 
 PODFILE CHECKSUM: 8e40ff496d565fa23bc37b1dad07f1b1c669ca47
 
