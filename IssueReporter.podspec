@@ -1,3 +1,4 @@
+
 Pod::Spec.new do |s|
   s.name             = "IssueReporter"
   s.version          = "2.0.3"
@@ -11,10 +12,11 @@ Pod::Spec.new do |s|
   s.source           = { :git => "https://github.com/abellono/IssueReporter.git", :tag => s.version.to_s }
   s.social_media_url   = "https://twitter.com/hhanesand"
 
-  s.platform     = :ios, '9.0'
-  s.requires_arc = true
+  s.platform     = :ios, "8.0"
 
-  s.source_files = 'Pod/Classes/**/*'
+  s.requires_arc = true
+  s.source_files = "IssueReporter/Classes/**/*"
+  s.frameworks = "UIKit", "Foundation"
 
   s.resource_bundles = {
     'IssueReporterResources' => ['Pod/Assets/*.{png,strings,storyboard}']
