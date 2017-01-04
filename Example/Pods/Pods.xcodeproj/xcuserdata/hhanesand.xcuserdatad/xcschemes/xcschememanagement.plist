@@ -9,10 +9,10 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>IssueReporter.xcscheme</key>
+		<key>IssueReporter.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>isShown</key>
-			<false/>
+			<true/>
 		</dict>
 		<key>Pods-IssueReporter_Example.xcscheme</key>
 		<dict>
