@@ -19,6 +19,6 @@ Pod::Spec.new do |s|
   s.frameworks = "UIKit", "Foundation"
 
   s.resource_bundles = {
-    'IssueReporterResources' => ['Pod/Assets/*.{png,strings,storyboard}']
+    'IssueReporterResources' => ['IssueReporter/Assets/*.{png,strings,storyboard}']
   }
 end
