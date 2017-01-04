@@ -12,7 +12,7 @@
 		<key>IssueReporter.xcscheme</key>
 		<dict>
 			<key>isShown</key>
-			<true/>
+			<false/>
 		</dict>
 		<key>Pods-IssueReporter_Example.xcscheme</key>
 		<dict>
@@ -22,17 +22,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>6D7FF5ED04D1581412D80C93E6E9E0AC</key>
+		<key>0F63A5D05ABA2DEC85E43B7D813DEAE0</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9F556C0DB3A378106BF52FC4A6FA0491</key>
+		<key>29B6C48D9074B1EF01531245303BC50D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>D799C9274C077BBD7A41E65BF5FE252E</key>
+		<key>373F9565EE1998A3ED7E26B905500D97</key>
 		<dict>
 			<key>primary</key>
 			<true/>
