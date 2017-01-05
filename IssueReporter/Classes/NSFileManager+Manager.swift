@@ -13,7 +13,7 @@ internal extension FileManager {
     static let documentsSubdirectoryName = "IssueReporter-UserImages"
     static let pngSuffix = ".png"
     
-    class func earseStoredPicturesFromDisk() {
+    class func eraseStoredPicturesFromDisk() {
         do {
             let options: DirectoryEnumerationOptions = [.skipsSubdirectoryDescendants , .skipsPackageDescendants, .skipsHiddenFiles]
             let directory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)

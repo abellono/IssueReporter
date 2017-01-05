@@ -97,7 +97,7 @@ internal class ABEReporterViewController: UIViewController {
     }
     
     func dismissIssueReporter() {
-        FileManager.earseStoredPicturesFromDisk()
+        FileManager.eraseStoredPicturesFromDisk()
         presentingViewController?.dismiss(animated: true)
     }
     
