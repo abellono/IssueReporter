@@ -46,7 +46,7 @@ enum IssueReporterError: Error {
             return  "Network error with status code \(response.statusCode)"  + detail
             
         case let .error(error):
-            return error == nil ? "Error : \(error)" : ""
+            return error == nil ? "Error : \(String(describing: error))" : ""
         }
     }
     
@@ -83,7 +83,7 @@ internal final class ABEImgurAPIClient {
         return request
     }
     
-    fileprivate func uploadRequestForImageData(imageData: Data) throws -> URLRequest {
+    fileprivate func uploadRequest(for imageData: Data) throws -> URLRequest {
         let parameters = ["image" : imageData.base64EncodedString(),
                           "type" : "base64"]
         
@@ -98,7 +98,7 @@ internal final class ABEImgurAPIClient {
     
     func upload(imageData: Data, dispatchQueue: DispatchQueue = DispatchQueue.main, errorHandler: @escaping (IssueReporterError) -> (), success: @escaping (URL) -> ()) throws {
         
-        let request = try self.uploadRequestForImageData(imageData: imageData)
+        let request = try self.uploadRequest(for: imageData)
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             do {

@@ -53,7 +53,7 @@ internal class ABEIssueManager {
         self.delegate = delegate
         
         drawSnapshotOf(referenceView: referenceView) { [weak self] image in
-            self?.add(imageToIssue: image)
+            self?.add(image)
         }
     }
     
@@ -68,16 +68,15 @@ internal class ABEIssueManager {
         }
     }
     
-    func add(imageToIssue image: UIImage) {
-        
+    func add(_ image: UIImage) {
         let image = Image(image: image)
         self.issue.images.append(image)
         self.persist(image)
     }
     
-    func retrySavingImage(image: Image) {
+    func retrySaving(image: Image) {
         assert(image.state.contents == .errored, "Can not retry a image that has not errored.")
-        persistToCloud(image, withDispatchGroup: DispatchGroup())
+        persistToCloud(image, with: DispatchGroup())
     }
     
     private func persist(_ image: Image) {
@@ -89,8 +88,8 @@ internal class ABEIssueManager {
         
         image.compressionCompletionBlock.contents = { image in
             
-            self.persistToDisk(image, withDispatchGroup: group, dispatchQueue: queue)
-            self.persistToCloud(image, withDispatchGroup: group)
+            self.persistToDisk(image, with: group, on: queue)
+            self.persistToCloud(image, with: group)
             
             DispatchQueue.main.async {
                 self.delegate?.issueManagerUploadingStateDidChange(issueManager: self)
@@ -100,7 +99,7 @@ internal class ABEIssueManager {
         }
     }
     
-    private func persistToDisk(_ image: Image, withDispatchGroup group: DispatchGroup, dispatchQueue queue: DispatchQueue) {
+    private func persistToDisk(_ image: Image, with group: DispatchGroup, on queue: DispatchQueue) {
         
         guard let imageData = image.imageData else {
             print("Image data not set!")
@@ -110,13 +109,13 @@ internal class ABEIssueManager {
         queue.async(group: group) {
             FileManager.write(data: imageData, completion: { url in
                 image.localImageURL = url
-            }) { error in
-                print("Error saving image or screenshot to disk.")
-            }
+            }, error: { error in
+                print("Error saving image or screenshot to disk. Error : \(error)")
+            })
         }
     }
     
-    private func persistToCloud(_ image: Image, withDispatchGroup group: DispatchGroup) {
+    private func persistToCloud(_ image: Image, with group: DispatchGroup) {
         assert(image.imageData != nil, "Image data must have been set")
         
         group.enter()
@@ -153,7 +152,7 @@ internal class ABEIssueManager {
     
     func saveIssue(completion: @escaping () -> ()) {
         do {
-            try ABEGithubAPIClient.shared.saveIssue(issue: self.issue, success: completion) { [weak self] error in
+            try ABEGithubAPIClient.shared.save(issue: self.issue, success: completion) { [weak self] error in
                 guard let `self` = self else { return }
                 
                 DispatchQueue.main.async {

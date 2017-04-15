@@ -9,15 +9,11 @@
 import Foundation
 import UIKit
 
-let ButterflyDidShakingNotification = "shakeyshakey"
-
 internal extension Notification.Name {
-    
     static let onWindowShake = Notification.Name("shakeyshakey")
 }
 
 extension UIWindow {
-    
     
     open override static func initialize() {
 

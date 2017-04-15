@@ -53,7 +53,7 @@ internal final class ABEGithubAPIClient {
         return request
     }
     
-    fileprivate func requestForIssue(issue: ABEIssue, errorHandler: @escaping (IssueReporterError) -> ()) throws -> URLRequest {
+    fileprivate func requestFor(issue: ABEIssue) throws -> URLRequest {
         var baseIssueRequest = try self.baseSaveIssueURLRequest()
         
         do {
@@ -68,9 +68,9 @@ internal final class ABEGithubAPIClient {
         }
     }
     
-    func saveIssue(issue: ABEIssue, callbackQueue: DispatchQueue = DispatchQueue.main, success: @escaping () -> (), errorHandler: @escaping (IssueReporterError) -> ()) throws {
-        
-        let issueRequest = try self.requestForIssue(issue: issue, errorHandler: errorHandler)
+    func save(issue: ABEIssue, callback queue: DispatchQueue = DispatchQueue.main, success: @escaping () -> (), failure: @escaping (IssueReporterError) -> ()) throws {
+
+        let issueRequest = try self.requestFor(issue: issue)
         
         URLSession.shared.dataTask(with: issueRequest) { (data, response, error) in
             
@@ -86,7 +86,7 @@ internal final class ABEGithubAPIClient {
                 if response.statusCode == 401 {
                     throw IssueReporterError.invalid(name: "github token or github repository path")
                 } else if response.statusCode == 201 {
-                    callbackQueue.async(execute: success)
+                    queue.async(execute: success)
                     return
                 }
                 
@@ -95,10 +95,10 @@ internal final class ABEGithubAPIClient {
                 
             } catch let error as NSError where error.domain != IssueReporterError.domain {
                 // Catch error not from our domain and wrap them
-                errorHandler(IssueReporterError.jsonError(underlyingError: error))
+                failure(IssueReporterError.jsonError(underlyingError: error))
             } catch {
                 // Catch and forward all other errors
-                errorHandler(error as! IssueReporterError)
+                failure(error as! IssueReporterError)
             }
         }.resume()
     }

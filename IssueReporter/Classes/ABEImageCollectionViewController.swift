@@ -43,7 +43,7 @@ extension ABEImageCollectionViewController: UIImagePickerControllerDelegate {
         
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-                self?.issueManager.add(imageToIssue: image)
+                self?.issueManager.add(image)
             }
         }
     }
@@ -56,11 +56,11 @@ extension ABEImageCollectionViewController: QLPreviewControllerDataSource {
     }
     
     func previewController(_ controller: QLPreviewController, previewItemAt index: Int) -> QLPreviewItem {
-        if let imageURL = issueManager.images[index].localImageURL as? QLPreviewItem {
+        if let imageURL = issueManager.images[index].localImageURL as QLPreviewItem? {
             return imageURL
         }
         
-        return URL(string: "") as! QLPreviewItem
+        return URL(string: "")! as QLPreviewItem
     }
 }
 
@@ -87,7 +87,7 @@ extension ABEImageCollectionViewController  {
             let image = self.issueManager.images[index]
             
             if image.state.contents == .errored {
-                self.presentRetryMenu(forImage: image)
+                self.presentRetryMenu(for: image)
                 return
             }
             
@@ -99,11 +99,11 @@ extension ABEImageCollectionViewController  {
         }
     }
     
-    internal func presentRetryMenu(forImage image: Image) {
+    internal func presentRetryMenu(for image: Image) {
         let alertController = UIAlertController(title: "Failed to upload image", message: "There was an error uploading the image.", preferredStyle: .alert)
         
         alertController.addAction(UIAlertAction(title: "Retry", style: .default) { _ in
-            self.issueManager.retrySavingImage(image: image)
+            self.issueManager.retrySaving(image: image)
         })
         
         alertController.addAction(UIAlertAction(title: "Ok", style: .default))
