@@ -47,6 +47,7 @@ internal class ABEReporterViewController: UIViewController {
         setupLocalization()
         
         navigationController?.navigationBar.barTintColor = UIColor.blueNavigationBarColor()
+        navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
     }
     
