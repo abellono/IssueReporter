@@ -9,43 +9,29 @@
 import Foundation
 import UIKit
 
-fileprivate extension Dictionary {
-    mutating func update(other: Dictionary) {
-        for (key,value) in other {
-            self.updateValue(value, forKey:key)
-        }
-    }
-}
-
 public protocol ABEReporterDelegate {
     
-    func extraDebuggingInformationForIssue() -> [String : String]
+    func extraDebuggingInformationForIssue() -> [String: String]
 }
 
 public class ABEReporter: NSObject {
     
     public static var enabled: Bool = true
-    internal static var delegate: ABEReporterDelegate?
+    public static var delegate: ABEReporterDelegate?
     
     private weak static var reporterViewController: ABEReporterViewController?
     private static var notificationObserver: NSObjectProtocol? = nil
     
-    internal class func extraDebuggingInformationForIssue() -> [String : String] {
-        var info = ["Current Localization : " : Locale.preferredLanguages[0],
-                    "Current Device : " : UIDevice.current.model,
-                    "iOS Version : " : UIDevice.current.systemVersion]
+    public class func extraDebuggingInformationForIssue() -> [String: String] {
+        var info = [
+            "Current Localization": Locale.preferredLanguages[0],
+            "Current Device": UIDevice.current.model,
+            "iOS Version": UIDevice.current.systemVersion
+        ]
+        info["App Version"] = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+        info["Bundle Version"] = Bundle.main.infoDictionary?["CFBundleVersion"] as? String
         
-        if let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
-            info.updateValue(appVersion, forKey: "App Version")
-        }
-        
-        if let bundleVersion = Bundle.main.infoDictionary?["CFBundleVersion"] as? String {
-            info.updateValue(bundleVersion, forKey: "Bundle Version")
-        }
-        
-        if let extra = ABEReporter.delegate?.extraDebuggingInformationForIssue() {
-            info.update(other: extra)
-        }
+        ABEReporter.delegate?.extraDebuggingInformationForIssue().forEach { info[$0] = $1 }
     
         return info
     }
@@ -81,7 +67,7 @@ public class ABEReporter: NSObject {
         }
         
         guard let rootViewController = UIApplication.shared.delegate?.window??.rootViewController else {
-            print("No root view controller ")
+            print("No root view controller")
             return
         }
         
