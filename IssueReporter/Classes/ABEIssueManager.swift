@@ -18,14 +18,11 @@ fileprivate extension Array where Element: Equatable {
     }
 }
 
-private let kABECompressionRatio = CGFloat(5.0)
+private let kABECompressionRatio: CGFloat = 5
 
 internal protocol ABEIssueManagerDelegate: class {
-    
     func issueManagerUploadingStateDidChange(issueManager: ABEIssueManager)
-    
     func issueManager(_ issueManager: ABEIssueManager, didFailToUploadImage image: Image, error: IssueReporterError)
-    
     func issueManager(_ issueManager: ABEIssueManager, didFailToUploadIssueWithError error: IssueReporterError)
 }
 
@@ -57,8 +54,10 @@ internal class ABEIssueManager {
         }
     }
     
-    private func drawSnapshotOf(referenceView view: UIView, complete: @escaping (UIImage) -> ()) {
+    private func drawSnapshotOf(referenceView view: UIView, complete: @escaping (UIImage) -> Void) {
+
         DispatchQueue.global(qos: .userInitiated).async {
+
             UIGraphicsBeginImageContextWithOptions(view.bounds.size, false, 0)
             view.drawHierarchy(in: view.bounds, afterScreenUpdates: false)
             let image = UIGraphicsGetImageFromCurrentImageContext()!
@@ -107,6 +106,7 @@ internal class ABEIssueManager {
         }
         
         queue.async(group: group) {
+
             FileManager.write(data: imageData, completion: { url in
                 image.localImageURL = url
             }, error: { error in
@@ -116,6 +116,7 @@ internal class ABEIssueManager {
     }
     
     private func persistToCloud(_ image: Image, with group: DispatchGroup) {
+
         assert(image.imageData != nil, "Image data must have been set")
         
         group.enter()
@@ -127,22 +128,22 @@ internal class ABEIssueManager {
                 
                 image.state.contents = .errored
                 
-                guard let `self` = self else { return }
+                guard let strongSelf = self else { return }
                 
                 DispatchQueue.main.async {
-                    self.delegate?.issueManager(self, didFailToUploadImage: image, error: error)
-                    self.delegate?.issueManagerUploadingStateDidChange(issueManager: self)
+                    strongSelf.delegate?.issueManager(self, didFailToUploadImage: image, error: error)
+                    strongSelf.delegate?.issueManagerUploadingStateDidChange(issueManager: strongSelf)
                 }
                 
             }, success: { [weak self] url in
                 group.leave()
                 
-                guard let `self` = self else { return }
+                guard let strongSelf = self else { return }
                 
                 image.cloudImageURL = url
                
                 DispatchQueue.main.async {
-                    self.delegate?.issueManagerUploadingStateDidChange(issueManager: self)
+                    strongSelf.delegate?.issueManagerUploadingStateDidChange(issueManager: self)
                 }
             })
         } catch {
@@ -150,13 +151,13 @@ internal class ABEIssueManager {
         }
     }
     
-    func saveIssue(completion: @escaping () -> ()) {
+    func saveIssue(completion: @escaping () -> Void) {
         do {
             try ABEGithubAPIClient.shared.save(issue: self.issue, success: completion) { [weak self] error in
-                guard let `self` = self else { return }
+                guard let strongSelf = self else { return }
                 
                 DispatchQueue.main.async {
-                    self.delegate?.issueManager(self, didFailToUploadIssueWithError: error)
+                    strongSelf.delegate?.issueManager(strongSelf, didFailToUploadIssueWithError: error)
                 }
             }
         } catch {

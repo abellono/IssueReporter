@@ -9,6 +9,7 @@
 import Foundation
 
 internal enum State {
+
     case initial
     case saved
     case uploading
