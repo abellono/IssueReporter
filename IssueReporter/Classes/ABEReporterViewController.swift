@@ -14,8 +14,8 @@ internal class ABEReporterViewController: UIViewController {
     
     private static let kABETextFieldInset = 14
     
-    private static let kABEdescriptionTextViewCornerRadius = CGFloat(4);
-    private static let kABEdescriptionTextViewBorderWidth = CGFloat(0.5);
+    private static let kABEdescriptionTextViewCornerRadius: CGFloat = 4
+    private static let kABEdescriptionTextViewBorderWidth: CGFloat = 0.5
     
     private static let kABETableName = "IssueReporter-Localizable"
     

@@ -13,6 +13,7 @@ internal struct ABEIssue {
     var images: [Image] = []
     
     var textRepresentation : String? {
+
         let extraDebuggingInformation = ABEReporter.extraDebuggingInformationForIssue()
         
         let base = "\(issueDescription ?? "") \n\n \(extraDebuggingInformation)"
