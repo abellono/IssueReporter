@@ -1,5 +1,5 @@
 //
-//  Image.swift
+//  IssueImage.swift
 //  Pods
 //
 //  Created by Hakon Hanesand on 10/15/16.
@@ -17,7 +17,7 @@ internal enum State {
     case done
 }
 
-internal class Image {
+internal class IssueImage {
     
     let image: UIImage
     let identifier: String = UUID().uuidString
@@ -37,7 +37,7 @@ internal class Image {
     }
     
     var state: Threadsafe<State> = Threadsafe(.initial)
-    var compressionCompletionBlock: Threadsafe<((Image) -> ())?> = Threadsafe(nil)
+    var compressionCompletionBlock: Threadsafe<((IssueImage) -> ())?> = Threadsafe(nil)
     
     init(image: UIImage) {
         self.image = image.applyRotationToImageData()
@@ -55,9 +55,9 @@ internal class Image {
     }
 }
 
-extension Image: Equatable {
+extension IssueImage: Equatable {
     
-    public static func ==(lhs: Image, rhs: Image) -> Bool {
+    public static func ==(lhs: IssueImage, rhs: IssueImage) -> Bool {
         return lhs.identifier == rhs.identifier
     }
 }

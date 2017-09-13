@@ -99,7 +99,7 @@ extension ABEImageCollectionViewController  {
         }
     }
     
-    internal func presentRetryMenu(for image: Image) {
+    internal func presentRetryMenu(for image: IssueImage) {
         let alertController = UIAlertController(title: "Failed to upload image", message: "There was an error uploading the image.", preferredStyle: .alert)
         
         alertController.addAction(UIAlertAction(title: "Retry", style: .default) { _ in

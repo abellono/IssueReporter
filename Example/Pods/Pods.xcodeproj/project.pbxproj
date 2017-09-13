@@ -11,6 +11,9 @@
 		07990E2CD8E00D684A812D9D3D40C3FF /* ABEIssue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5BE8A62F72B0C43CA2A509DA7C671A /* ABEIssue.swift */; };
 		08A58C3B018B385F43C5B5F57D5E08FD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B63C6A64CF66340668996F78DA6BB482 /* UIKit.framework */; };
 		0CCCEDA214BEFA998475729815CB73DC /* save.png in Resources */ = {isa = PBXBuildFile; fileRef = 672603B3F891D1A0B1737FB1B0D673FB /* save.png */; };
+		14499ED51F62F2AB0063829B /* IssueReporter.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 14499ED41F62F2AB0063829B /* IssueReporter.podspec */; };
+		14499ED81F62F6460063829B /* IssueReporter-Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 14499ED61F62F6460063829B /* IssueReporter-Localizable.strings */; };
+		14499EDA1F62F6530063829B /* ABEReporterViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89B0E92EDEE173ED8F801B1894FD0C52 /* ABEReporterViewController.storyboard */; };
 		181DE1CF43FE44B85F03942245C90E00 /* ABEReporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35CAE9D4390930E0D285F335828CFC63 /* ABEReporter.swift */; };
 		26FF5620995DB6C5882E1AE041B1AA7B /* NSURL+RandomURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411D9F79FFB6FAF110E80B081E6804A8 /* NSURL+RandomURL.swift */; };
 		3054921A561AA2DD445D513CB2EBE986 /* ABEIssueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F3B77C6AAC6F88A086565F224BBA99 /* ABEIssueManager.swift */; };
@@ -64,6 +67,9 @@
 /* Begin PBXFileReference section */
 		138F12E9C2E24852303E33D6C366FFF1 /* NSBundle+Access.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "NSBundle+Access.swift"; sourceTree = "<group>"; };
 		14499EC61F62E9B10063829B /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../../../../README.md; sourceTree = "<group>"; };
+		14499ED41F62F2AB0063829B /* IssueReporter.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = IssueReporter.podspec; path = ../../../../IssueReporter.podspec; sourceTree = "<group>"; };
+		14499ED71F62F6460063829B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = "en.lproj/IssueReporter-Localizable.strings"; sourceTree = "<group>"; };
+		14499ED91F62F6530063829B /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = "nb.lproj/IssueReporter-Localizable.strings"; sourceTree = "<group>"; };
 		1A85288E39CB34A19CD668F490928C95 /* Pods-IssueReporter_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-IssueReporter_Example-dummy.m"; sourceTree = "<group>"; };
 		2A2DFE1E7CA60D2EE468DA61977DE725 /* Pods-IssueReporter_Example-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-IssueReporter_Example-resources.sh"; sourceTree = "<group>"; };
 		2DE01E7684292C4A1104501320B84901 /* IssueReporter.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = IssueReporter.modulemap; sourceTree = "<group>"; };
@@ -90,7 +96,7 @@
 		7F855D8959091B08D3AC4B4BE9BD7A02 /* close@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "close@3x.png"; sourceTree = "<group>"; };
 		826306207EE1300AD6F0D2494EC1B08F /* save@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "save@2x.png"; sourceTree = "<group>"; };
 		83228E805378DCD37AE526850FE4AC1B /* Pods-IssueReporter_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-IssueReporter_Example-acknowledgements.plist"; sourceTree = "<group>"; };
-		89B0E92EDEE173ED8F801B1894FD0C52 /* ABEReporterViewController.storyboard */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.storyboard; path = ABEReporterViewController.storyboard; sourceTree = "<group>"; };
+		89B0E92EDEE173ED8F801B1894FD0C52 /* ABEReporterViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; includeInIndex = 1; lastKnownFileType = file.storyboard; path = ABEReporterViewController.storyboard; sourceTree = "<group>"; };
 		91F3B77C6AAC6F88A086565F224BBA99 /* ABEIssueManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ABEIssueManager.swift; sourceTree = "<group>"; };
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		94311E6F160322C9CC9E57A9A582AD8E /* Threadsafe.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Threadsafe.swift; sourceTree = "<group>"; };
@@ -255,6 +261,7 @@
 		75DD38B29A51725B23B186B505195C9B /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
+				14499ED41F62F2AB0063829B /* IssueReporter.podspec */,
 				14499EC61F62E9B10063829B /* README.md */,
 				39EBB78C80CA72CE744FDA046FD1452C /* Info.plist */,
 				2DE01E7684292C4A1104501320B84901 /* IssueReporter.modulemap */,
@@ -300,6 +307,7 @@
 		98C267D6A6D6C6DBCBD86DDE908B093A /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				14499ED61F62F6460063829B /* IssueReporter-Localizable.strings */,
 				89B0E92EDEE173ED8F801B1894FD0C52 /* ABEReporterViewController.storyboard */,
 				7B5342F55A21B87AA2C565CE3AFB1DB7 /* close.png */,
 				9EF99900E3EB13FB50445563CE3D238D /* close@2x.png */,
@@ -430,6 +438,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				nb,
 			);
 			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
 			productRefGroup = 76C982C8CC9B6FD982A638CBE198B000 /* Products */;
@@ -449,6 +458,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				3C229EC9ADD5280242A82A16A9C4AEE7 /* IssueReporterResources.bundle in Resources */,
+				14499EDA1F62F6530063829B /* ABEReporterViewController.storyboard in Resources */,
+				14499ED81F62F6460063829B /* IssueReporter-Localizable.strings in Resources */,
+				14499ED51F62F2AB0063829B /* IssueReporter.podspec in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -528,6 +540,18 @@
 			targetProxy = 5AFAC2FFF2306D689D6C1958F6680E04 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		14499ED61F62F6460063829B /* IssueReporter-Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				14499ED71F62F6460063829B /* en */,
+				14499ED91F62F6530063829B /* nb */,
+			);
+			name = "IssueReporter-Localizable.strings";
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		2E7C1FEA542CA897E72651450FC3955A /* Release */ = {

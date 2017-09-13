@@ -14,7 +14,7 @@ internal extension Notification.Name {
 }
 
 extension UIWindow {
-    
+
     open override static func initialize() {
 
         if self !== UIWindow.self {
@@ -38,7 +38,7 @@ extension UIWindow {
             }
         }()
     }
-    
+
     open func abe_motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
         
         if let event = event, event.type == .motion, event.subtype == .motionShake {

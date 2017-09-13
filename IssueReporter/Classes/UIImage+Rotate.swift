@@ -13,6 +13,7 @@ import CoreGraphics
 internal extension UIImage {
     
     func applyRotationToImageData() -> UIImage {
+
         if self.imageOrientation == .up || self.imageOrientation == .upMirrored {
             let size = self.size
             

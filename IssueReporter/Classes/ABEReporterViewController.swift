@@ -68,9 +68,9 @@ internal class ABEReporterViewController: UIViewController {
     }
     
     private func setupLocalization() {
-        titleTextField.text = NSLocalizedString(titleTextField.text!, tableName: ABEReporterViewController.kABETableName, bundle: Bundle.bundleForLibrary(), comment: "title of issue")
-        placeHolderLabel.text = NSLocalizedString(placeHolderLabel.text!, tableName: ABEReporterViewController.kABETableName, bundle: Bundle.bundleForLibrary(), comment: "placeholder")
-        title = NSLocalizedString(self.navigationItem.title!, tableName: ABEReporterViewController.kABETableName, bundle: Bundle.bundleForLibrary(), comment: "title")
+        title = "Tilbakemelding"
+        placeHolderLabel.text = "Hva gikk galt? Inkluder gjerne din epost, slik at vi kan ta kontakt ved behov for mer informasjon"
+        titleTextField.text = "Tittel"
     }
     
     @IBAction func cancelIssueReporting(_ sender: AnyObject) {
@@ -126,7 +126,7 @@ extension ABEReporterViewController: ABEIssueManagerDelegate {
         }
     }
     
-    internal func issueManager(_ issueManager: ABEIssueManager, didFailToUploadImage image: Image, error: IssueReporterError) {
+    internal func issueManager(_ issueManager: ABEIssueManager, didFailToUploadImage image: IssueImage, error: IssueReporterError) {
         if self.issueManager.images.index(of: image) != nil {
             let alert = UIAlertController(error: error)
             self.present(alert, animated: true)

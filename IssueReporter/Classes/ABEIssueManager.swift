@@ -22,7 +22,7 @@ private let kABECompressionRatio: CGFloat = 5
 
 internal protocol ABEIssueManagerDelegate: class {
     func issueManagerUploadingStateDidChange(issueManager: ABEIssueManager)
-    func issueManager(_ issueManager: ABEIssueManager, didFailToUploadImage image: Image, error: IssueReporterError)
+    func issueManager(_ issueManager: ABEIssueManager, didFailToUploadImage image: IssueImage, error: IssueReporterError)
     func issueManager(_ issueManager: ABEIssueManager, didFailToUploadIssueWithError error: IssueReporterError)
 }
 
@@ -38,7 +38,7 @@ internal class ABEIssueManager {
     
     var issue: ABEIssue = ABEIssue()
     
-    var images: [Image] {
+    var images: [IssueImage] {
         get {
             return issue.images
         }
@@ -68,17 +68,17 @@ internal class ABEIssueManager {
     }
     
     func add(_ image: UIImage) {
-        let image = Image(image: image)
+        let image = IssueImage(image: image)
         self.issue.images.append(image)
         self.persist(image)
     }
     
-    func retrySaving(image: Image) {
+    func retrySaving(image: IssueImage) {
         assert(image.state.contents == .errored, "Can not retry a image that has not errored.")
         persistToCloud(image, with: DispatchGroup())
     }
     
-    private func persist(_ image: Image) {
+    private func persist(_ image: IssueImage) {
         
         let group = DispatchGroup()
         let queue = DispatchQueue.global(qos: .`default`)
@@ -98,7 +98,7 @@ internal class ABEIssueManager {
         }
     }
     
-    private func persistToDisk(_ image: Image, with group: DispatchGroup, on queue: DispatchQueue) {
+    private func persistToDisk(_ image: IssueImage, with group: DispatchGroup, on queue: DispatchQueue) {
         
         guard let imageData = image.imageData else {
             print("Image data not set!")
@@ -115,7 +115,7 @@ internal class ABEIssueManager {
         }
     }
     
-    private func persistToCloud(_ image: Image, with group: DispatchGroup) {
+    private func persistToCloud(_ image: IssueImage, with group: DispatchGroup) {
 
         assert(image.imageData != nil, "Image data must have been set")
         
@@ -131,7 +131,7 @@ internal class ABEIssueManager {
                 guard let strongSelf = self else { return }
                 
                 DispatchQueue.main.async {
-                    strongSelf.delegate?.issueManager(self, didFailToUploadImage: image, error: error)
+                    strongSelf.delegate?.issueManager(strongSelf, didFailToUploadImage: image, error: error)
                     strongSelf.delegate?.issueManagerUploadingStateDidChange(issueManager: strongSelf)
                 }
                 
@@ -143,7 +143,7 @@ internal class ABEIssueManager {
                 image.cloudImageURL = url
                
                 DispatchQueue.main.async {
-                    strongSelf.delegate?.issueManagerUploadingStateDidChange(issueManager: self)
+                    strongSelf.delegate?.issueManagerUploadingStateDidChange(issueManager: strongSelf)
                 }
             })
         } catch {
