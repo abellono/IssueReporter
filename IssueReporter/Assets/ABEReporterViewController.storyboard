@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="aCf-Qr-zyw">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="aCf-Qr-zyw">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -23,7 +28,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Title" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qCC-l2-Cwb">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Tittel" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qCC-l2-Cwb">
+                                <rect key="frame" x="8" y="72" width="359" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="r9e-wA-R6P"/>
                                 </constraints>
@@ -34,6 +40,7 @@
                                 </connections>
                             </textField>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hdR-PG-Hob">
+                                <rect key="frame" x="8" y="140" width="359" height="109.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="hdR-PG-Hob" secondAttribute="height" multiplier="292:89" id="XyJ-Wm-L18"/>
                                 </constraints>
@@ -42,13 +49,15 @@
                                 </connections>
                             </containerView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="16E-Y5-cZH" userLabel="Description">
+                                <rect key="frame" x="8" y="257.5" width="359" height="401.5"/>
                                 <fontDescription key="fontDescription" name="AkkuratStd" family="AkkuratStd" pointSize="19"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <connections>
                                     <outlet property="delegate" destination="aCf-Qr-zyw" id="dpc-RN-k7v"/>
                                 </connections>
                             </textView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What went wrong?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8bg-92-7ns" userLabel="Placeholder">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What went wrong?" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8bg-92-7ns" userLabel="Placeholder">
+                                <rect key="frame" x="27" y="271.5" width="313" height="22.5"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="19"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.22" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -62,6 +71,7 @@
                             <constraint firstItem="16E-Y5-cZH" firstAttribute="leading" secondItem="V9T-8p-VK0" secondAttribute="leading" constant="8" id="LF5-eX-JL2"/>
                             <constraint firstItem="16E-Y5-cZH" firstAttribute="top" secondItem="hdR-PG-Hob" secondAttribute="bottom" constant="8" id="SEd-lg-QVO"/>
                             <constraint firstItem="hdR-PG-Hob" firstAttribute="leading" secondItem="V9T-8p-VK0" secondAttribute="leading" constant="8" id="Tbs-MM-hAp"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="8bg-92-7ns" secondAttribute="trailing" constant="19" id="U4w-lI-0S1"/>
                             <constraint firstItem="16E-Y5-cZH" firstAttribute="leading" secondItem="8bg-92-7ns" secondAttribute="leading" constant="-19" id="WgF-cU-uSJ"/>
                             <constraint firstItem="16E-Y5-cZH" firstAttribute="top" secondItem="8bg-92-7ns" secondAttribute="top" constant="-14" id="ePh-Wg-VKW"/>
                             <constraint firstAttribute="trailing" secondItem="qCC-l2-Cwb" secondAttribute="trailing" constant="8" id="nc0-ag-SCh"/>
@@ -110,13 +120,14 @@
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="CollectionViewAddPictureIdentifier" reuseIdentifier="CollectionViewAddPictureIdentifier" id="Oc9-LO-f4z" customClass="ABEImageCollectionViewCell" customModule="IssueReporter">
-                                <rect key="frame" x="0.0" y="-33" width="100" height="176"/>
+                                <rect key="frame" x="0.0" y="-33.5" width="100" height="176"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="100" height="176"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="picture.png" translatesAutoresizingMaskIntoConstraints="NO" id="b1g-Rh-R5p">
+                                            <rect key="frame" x="33.5" y="71.5" width="33" height="33"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="33" id="Bsx-qk-Ids"/>
                                                 <constraint firstAttribute="height" constant="33" id="IQx-x4-vbd"/>
@@ -142,19 +153,23 @@
                                 </connections>
                             </collectionViewCell>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CollectionViewPictureIdentifier" id="7ca-ex-STp" customClass="ABEImageCollectionViewCell" customModule="IssueReporter">
-                                <rect key="frame" x="120" y="-33" width="100" height="176"/>
+                                <rect key="frame" x="120" y="-33.5" width="100" height="176"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="100" height="176"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="F2G-s6-hAZ"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="F2G-s6-hAZ">
+                                            <rect key="frame" x="0.0" y="0.0" width="100" height="176"/>
+                                        </imageView>
                                         <visualEffectView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ezr-AE-30V">
+                                            <rect key="frame" x="0.0" y="0.0" width="100" height="176"/>
                                             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="center" id="Cex-8H-vZG">
-                                                <frame key="frameInset"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="100" height="176"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="close.png" translatesAutoresizingMaskIntoConstraints="NO" id="0LJ-KR-Jx0">
+                                                        <rect key="frame" x="42" y="80" width="16" height="16"/>
                                                         <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     </imageView>
                                                 </subviews>

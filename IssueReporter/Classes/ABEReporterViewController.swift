@@ -70,7 +70,7 @@ internal class ABEReporterViewController: UIViewController {
     private func setupLocalization() {
         title = "Tilbakemelding"
         placeHolderLabel.text = "Hva gikk galt? Inkluder gjerne din epost, slik at vi kan ta kontakt ved behov for mer informasjon"
-        titleTextField.text = "Tittel"
+        titleTextField.placeholder = "Tittel"
     }
     
     @IBAction func cancelIssueReporting(_ sender: AnyObject) {
