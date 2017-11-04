@@ -31,6 +31,7 @@ internal final class ABEGithubAPIClient {
     }
     
     fileprivate func baseSaveIssueURLRequest() throws -> URLRequest {
+
         guard let githubToken = ABEGithubAPIClient.githubToken, let name = ABEGithubAPIClient.githubRepositoryName, let owner = ABEGithubAPIClient.githubRepositoryOwner else {
             let humanReadableDescription = ABEGithubAPIClient.humanReadableDescriptionForMissingInformation()!
             throw IssueReporterError.missingInformation(name: humanReadableDescription)
@@ -94,9 +95,11 @@ internal final class ABEGithubAPIClient {
                 throw IssueReporterError.network(response: response, detail: json.value(forKeyPath: "message") as? String)
                 
             } catch let error as NSError where error.domain != IssueReporterError.domain {
+
                 // Catch error not from our domain and wrap them
                 failure(IssueReporterError.jsonError(underlyingError: error))
             } catch {
+
                 // Catch and forward all other errors
                 failure(error as! IssueReporterError)
             }

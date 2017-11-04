@@ -24,7 +24,7 @@ internal class ABEImageCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         
         layer.cornerRadius = 5
-        layer.borderColor = UIColor(colorLiteralRed: 1, green: 0, blue: 0, alpha: 0.5).cgColor
+        layer.borderColor = UIColor.red.withAlphaComponent(0.5).cgColor
     }
 
     var didErrorDuringUpload: Bool = false {

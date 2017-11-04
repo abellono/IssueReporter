@@ -72,17 +72,16 @@ extension ABEImageCollectionViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-// MARK: UICollectionViewDelegate
-
-extension ABEImageCollectionViewController  {
+extension ABEImageCollectionViewController: UICollectionViewDelegate  {
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.row == ABEImageCollectionViewController.kABEAddPictureCollectionViewCellIndex {
             let picker = UIImagePickerController()
             picker.sourceType = .photoLibrary
             picker.delegate = self
-            self.present(picker, animated: true)
+            present(picker, animated: true)
         } else {
+
             let index = indexPath.row - ABEImageCollectionViewController.kABEAddPictureCollectionViewCellOffset
             let image = self.issueManager.images[index]
             
@@ -95,11 +94,12 @@ extension ABEImageCollectionViewController  {
             preview.dataSource = self
             
             preview.currentPreviewItemIndex = index
-            self.navigationController?.present(preview, animated: true)
+            navigationController?.present(preview, animated: true)
         }
     }
     
     internal func presentRetryMenu(for image: Image) {
+
         let alertController = UIAlertController(title: "Failed to upload image", message: "There was an error uploading the image.", preferredStyle: .alert)
         
         alertController.addAction(UIAlertAction(title: "Retry", style: .default) { _ in
