@@ -1,11 +1,3 @@
-//
-//  Threadsafe.swift
-//  Pods
-//
-//  Created by Hakon Hanesand on 10/15/16.
-//
-//
-
 import Foundation
 
 internal class Threadsafe<T> {

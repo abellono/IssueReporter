@@ -1,12 +1,4 @@
-//
-//  ABEIssue.swift
-//  Pods
-//
-//  Created by Hakon Hanesand on 10/6/16.
-//
-//
-
-internal struct ABEIssue {
+internal struct Issue {
    
     var title: String?
     var issueDescription: String?
@@ -14,7 +6,7 @@ internal struct ABEIssue {
     
     var textRepresentation : String? {
 
-        let extraDebuggingInformation = ABEReporter.extraDebuggingInformationForIssue()
+        let extraDebuggingInformation = Reporter.extraDebuggingInformationForIssue()
         
         let base = "\(issueDescription ?? "") \n\n \(extraDebuggingInformation)"
         

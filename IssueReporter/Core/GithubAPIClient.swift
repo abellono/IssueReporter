@@ -1,20 +1,20 @@
 //
-//  ABEGithubAPIClient.swift
-//  Pods
+//  GithubAPIClient.swift
+//  IssueReporter
 //
 //  Created by Hakon Hanesand on 10/6/16.
+//  Copyright © 2017 abello. All rights reserved.
 //
 //
-
 import UIKit
 
-internal final class ABEGithubAPIClient {
+internal final class GithubAPIClient {
     
-    static var githubToken: String? = nil
-    static var githubRepositoryName: String? = nil
-    static var githubRepositoryOwner: String? = nil
+    static var githubToken: String?
+    static var githubRepositoryName: String?
+    static var githubRepositoryOwner: String?
     
-    static let shared = ABEGithubAPIClient()
+    static let shared = GithubAPIClient()
     
     private init() { }
     
@@ -32,8 +32,8 @@ internal final class ABEGithubAPIClient {
     
     fileprivate func baseSaveIssueURLRequest() throws -> URLRequest {
 
-        guard let githubToken = ABEGithubAPIClient.githubToken, let name = ABEGithubAPIClient.githubRepositoryName, let owner = ABEGithubAPIClient.githubRepositoryOwner else {
-            let humanReadableDescription = ABEGithubAPIClient.humanReadableDescriptionForMissingInformation()!
+        guard let githubToken = GithubAPIClient.githubToken, let name = GithubAPIClient.githubRepositoryName, let owner = GithubAPIClient.githubRepositoryOwner else {
+            let humanReadableDescription = GithubAPIClient.humanReadableDescriptionForMissingInformation()!
             throw IssueReporterError.missingInformation(name: humanReadableDescription)
         }
         
@@ -54,7 +54,7 @@ internal final class ABEGithubAPIClient {
         return request
     }
     
-    fileprivate func requestFor(issue: ABEIssue) throws -> URLRequest {
+    fileprivate func requestFor(issue: Issue) throws -> URLRequest {
         var baseIssueRequest = try self.baseSaveIssueURLRequest()
         
         do {
@@ -69,7 +69,7 @@ internal final class ABEGithubAPIClient {
         }
     }
     
-    func save(issue: ABEIssue, callback queue: DispatchQueue = DispatchQueue.main, success: @escaping () -> (), failure: @escaping (IssueReporterError) -> ()) throws {
+    func save(issue: Issue, callback queue: DispatchQueue = DispatchQueue.main, success: @escaping () -> (), failure: @escaping (IssueReporterError) -> ()) throws {
 
         let issueRequest = try self.requestFor(issue: issue)
         

@@ -1,5 +1,5 @@
 //
-//  ABEReporterViewController.swift
+//  ReporterViewController.swift
 //  Pods
 //
 //  Created by Hakon Hanesand on 10/9/16.
@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import CoreGraphics
 
-internal class ABEReporterViewController: UIViewController {
+internal class ReporterViewController: UIViewController {
     
     private static let kABETextFieldInset = 14
     
@@ -23,18 +23,18 @@ internal class ABEReporterViewController: UIViewController {
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var placeHolderLabel: UILabel!
     
-    fileprivate var imageCollectionViewController: ABEImageCollectionViewController!
+    fileprivate var imageCollectionViewController: ImageCollectionViewController!
     
-    var issueManager: ABEIssueManager! {
+    var issueManager: IssueManager! {
         didSet {
             issueManager.delegate = self
         }
     }
     
-    class func instance(withIssueManager manager: ABEIssueManager) -> ABEReporterViewController {
+    class func instance(withIssueManager manager: IssueManager) -> ReporterViewController {
 
         let storyboard = UIStoryboard(name: String(describing: self), bundle: Bundle.bundleForLibrary())
-        let reporterViewController = storyboard.instantiateInitialViewController() as! ABEReporterViewController
+        let reporterViewController = storyboard.instantiateInitialViewController() as! ReporterViewController
         
         reporterViewController.issueManager = manager
         
@@ -54,24 +54,24 @@ internal class ABEReporterViewController: UIViewController {
     
     private func configureTextView() {
         
-        let spacerView = UIView(frame: CGRect(x: 0, y: 0, width: ABEReporterViewController.kABETextFieldInset, height: ABEReporterViewController.kABETextFieldInset))
+        let spacerView = UIView(frame: CGRect(x: 0, y: 0, width: ReporterViewController.kABETextFieldInset, height: ReporterViewController.kABETextFieldInset))
         
         titleTextField.leftViewMode = .always
         titleTextField.leftView = spacerView
         
         descriptionTextView.layer.borderColor = UIColor.greyBorderColor().cgColor
-        descriptionTextView.layer.cornerRadius = ABEReporterViewController.kABEdescriptionTextViewCornerRadius
-        descriptionTextView.layer.borderWidth = ABEReporterViewController.kABEdescriptionTextViewBorderWidth
+        descriptionTextView.layer.cornerRadius = ReporterViewController.kABEdescriptionTextViewCornerRadius
+        descriptionTextView.layer.borderWidth = ReporterViewController.kABEdescriptionTextViewBorderWidth
         
-        let textFieldInset = CGFloat(ABEReporterViewController.kABETextFieldInset)
+        let textFieldInset = CGFloat(ReporterViewController.kABETextFieldInset)
         descriptionTextView.textContainerInset = UIEdgeInsets(top: textFieldInset, left: textFieldInset, bottom: 0, right: textFieldInset)
         descriptionTextView.delegate = self
     }
     
     private func setupLocalization() {
-        titleTextField.text = NSLocalizedString(titleTextField.text!, tableName: ABEReporterViewController.kABETableName, bundle: Bundle.bundleForLibrary(), comment: "title of issue")
-        placeHolderLabel.text = NSLocalizedString(placeHolderLabel.text!, tableName: ABEReporterViewController.kABETableName, bundle: Bundle.bundleForLibrary(), comment: "placeholder")
-        title = NSLocalizedString(self.navigationItem.title!, tableName: ABEReporterViewController.kABETableName, bundle: Bundle.bundleForLibrary(), comment: "title")
+        titleTextField.text = NSLocalizedString(titleTextField.text!, tableName: ReporterViewController.kABETableName, bundle: Bundle.bundleForLibrary(), comment: "title of issue")
+        placeHolderLabel.text = NSLocalizedString(placeHolderLabel.text!, tableName: ReporterViewController.kABETableName, bundle: Bundle.bundleForLibrary(), comment: "placeholder")
+        title = NSLocalizedString(self.navigationItem.title!, tableName: ReporterViewController.kABETableName, bundle: Bundle.bundleForLibrary(), comment: "title")
     }
     
     @IBAction func cancelIssueReporting(_ sender: AnyObject) {
@@ -80,7 +80,7 @@ internal class ABEReporterViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let identifier = segue.identifier, identifier == "embed_segue" {
-            self.imageCollectionViewController = segue.destination as! ABEImageCollectionViewController
+            self.imageCollectionViewController = segue.destination as! ImageCollectionViewController
             self.imageCollectionViewController.issueManager = self.issueManager
         }
     }
@@ -108,9 +108,9 @@ internal class ABEReporterViewController: UIViewController {
     }
 }
 
-extension ABEReporterViewController: ABEIssueManagerDelegate {
+extension ReporterViewController: IssueManagerDelegate {
 
-    internal func issueManagerUploadingStateDidChange(issueManager: ABEIssueManager) {
+    internal func issueManagerUploadingStateDidChange(issueManager: IssueManager) {
         self.imageCollectionViewController?.collectionView?.reloadData()
         
         if issueManager.isUploading {
@@ -122,19 +122,19 @@ extension ABEReporterViewController: ABEIssueManagerDelegate {
             spinner.startAnimating()
             
         } else {
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem.saveButton(self, action: #selector(ABEReporterViewController.saveIssue))
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem.saveButton(self, action: #selector(ReporterViewController.saveIssue))
             updateCheckmarkEnabledState()
         }
     }
     
-    internal func issueManager(_ issueManager: ABEIssueManager, didFailToUploadImage image: Image, error: IssueReporterError) {
+    internal func issueManager(_ issueManager: IssueManager, didFailToUploadImage image: Image, error: IssueReporterError) {
         if self.issueManager.images.index(of: image) != nil {
             let alert = UIAlertController(error: error)
             self.present(alert, animated: true)
         }
     }
     
-    internal func issueManager(_ issueManager: ABEIssueManager, didFailToUploadIssueWithError error: IssueReporterError) {
+    internal func issueManager(_ issueManager: IssueManager, didFailToUploadIssueWithError error: IssueReporterError) {
         let alert = UIAlertController(error: error)
         
         alert.addAction(UIAlertAction(title: "Retry", style: .default) { [weak self] _ in
@@ -148,7 +148,7 @@ extension ABEReporterViewController: ABEIssueManagerDelegate {
     }
 }
 
-extension ABEReporterViewController: UITextViewDelegate {
+extension ReporterViewController: UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
 

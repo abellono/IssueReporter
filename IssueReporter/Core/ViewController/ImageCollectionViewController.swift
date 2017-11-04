@@ -1,5 +1,5 @@
 //
-//  ABEImageCollectionViewController.swift
+//  ImageCollectionViewController.swift
 //  Pods
 //
 //  Created by Hakon Hanesand on 10/7/16.
@@ -11,7 +11,7 @@ import CoreGraphics
 import QuickLook
 import UIKit
 
-internal class ABEImageCollectionViewController: UICollectionViewController, UINavigationControllerDelegate {
+internal class ImageCollectionViewController: UICollectionViewController, UINavigationControllerDelegate {
     
     fileprivate static let kABEAddPictureCollectionViewCellReuseIdentifier = "CollectionViewAddPictureIdentifier"
     fileprivate static let kABEPictureCollectionViewCellReuseIdentifier = "CollectionViewPictureIdentifier"
@@ -29,10 +29,10 @@ internal class ABEImageCollectionViewController: UICollectionViewController, UIN
     fileprivate static let kABEAddPictureCollectionViewCellIndex = 0
     fileprivate static let kABEAddPictureCollectionViewCellOffset = 1
     
-    var issueManager: ABEIssueManager!
+    var issueManager: IssueManager!
 }
 
-extension ABEImageCollectionViewController: UIImagePickerControllerDelegate {
+extension ImageCollectionViewController: UIImagePickerControllerDelegate {
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.presentingViewController?.dismiss(animated: true)
@@ -49,7 +49,7 @@ extension ABEImageCollectionViewController: UIImagePickerControllerDelegate {
     }
 }
 
-extension ABEImageCollectionViewController: QLPreviewControllerDataSource {
+extension ImageCollectionViewController: QLPreviewControllerDataSource {
     
     func numberOfPreviewItems(in controller: QLPreviewController) -> Int {
         return issueManager.images.count
@@ -64,25 +64,25 @@ extension ABEImageCollectionViewController: QLPreviewControllerDataSource {
     }
 }
 
-extension ABEImageCollectionViewController: UICollectionViewDelegateFlowLayout {
+extension ImageCollectionViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let height = collectionView.frame.height - 2.0 * ABEImageCollectionViewController.kABECollectionViewVerticalSpace
-        return CGSize(width: height * ABEImageCollectionViewController.kABE16x9AspectRatio, height: height)
+        let height = collectionView.frame.height - 2.0 * ImageCollectionViewController.kABECollectionViewVerticalSpace
+        return CGSize(width: height * ImageCollectionViewController.kABE16x9AspectRatio, height: height)
     }
 }
 
-extension ABEImageCollectionViewController  {
+extension ImageCollectionViewController  {
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.row == ABEImageCollectionViewController.kABEAddPictureCollectionViewCellIndex {
+        if indexPath.row == ImageCollectionViewController.kABEAddPictureCollectionViewCellIndex {
             let picker = UIImagePickerController()
             picker.sourceType = .photoLibrary
             picker.delegate = self
             present(picker, animated: true)
         } else {
 
-            let index = indexPath.row - ABEImageCollectionViewController.kABEAddPictureCollectionViewCellOffset
+            let index = indexPath.row - ImageCollectionViewController.kABEAddPictureCollectionViewCellOffset
             let image = self.issueManager.images[index]
             
             if image.state.contents == .errored {
@@ -112,11 +112,11 @@ extension ABEImageCollectionViewController  {
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.issueManager.images.count + ABEImageCollectionViewController.kABEAddPictureCollectionViewCellOffset
+        return self.issueManager.images.count + ImageCollectionViewController.kABEAddPictureCollectionViewCellOffset
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.row == ABEImageCollectionViewController.kABEAddPictureCollectionViewCellIndex {
+        if indexPath.row == ImageCollectionViewController.kABEAddPictureCollectionViewCellIndex {
             return self.buildAddPictureCell(for: collectionView, at: indexPath)
         } else {
             return self.buildPictureCell(for: collectionView, at: indexPath)
@@ -124,12 +124,12 @@ extension ABEImageCollectionViewController  {
     }
     
     private func buildAddPictureCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
-        return collectionView.dequeueReusableCell(withReuseIdentifier: ABEImageCollectionViewController.kABEAddPictureCollectionViewCellReuseIdentifier, for: indexPath)
+        return collectionView.dequeueReusableCell(withReuseIdentifier: ImageCollectionViewController.kABEAddPictureCollectionViewCellReuseIdentifier, for: indexPath)
     }
     
     private func buildPictureCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ABEImageCollectionViewController.kABEPictureCollectionViewCellReuseIdentifier, for: indexPath) as! ABEImageCollectionViewCell
-        let image = issueManager.images[indexPath.row - ABEImageCollectionViewController.kABEAddPictureCollectionViewCellOffset]
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCollectionViewController.kABEPictureCollectionViewCellReuseIdentifier, for: indexPath) as! ImageCollectionViewCell
+        let image = issueManager.images[indexPath.row - ImageCollectionViewController.kABEAddPictureCollectionViewCellOffset]
         cell.imageView.image = image.image
         cell.didErrorDuringUpload = image.state.contents == .errored
         return cell

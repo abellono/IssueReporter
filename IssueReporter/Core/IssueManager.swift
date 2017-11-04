@@ -1,49 +1,30 @@
-//
-//  ABEissueManager.swift
-//  Pods
-//
-//  Created by Hakon Hanesand on 10/9/16.
-//
-//
-
 import Foundation
 import UIKit
 
-fileprivate extension Array where Element: Equatable {
+internal let kABECompressionRatio: CGFloat = 5
+
+internal protocol IssueManagerDelegate: class {
     
-    mutating func removeFirst(element: Element) {
-        if let index = self.index(of: element) {
-            remove(at: index)
-        }
-    }
+    func issueManagerUploadingStateDidChange(issueManager: IssueManager)
+    func issueManager(_ issueManager: IssueManager, didFailToUploadImage image: Image, error: IssueReporterError)
+    func issueManager(_ issueManager: IssueManager, didFailToUploadIssueWithError error: IssueReporterError)
 }
 
-private let kABECompressionRatio = CGFloat(5.0)
+internal class IssueManager {
 
-internal protocol ABEIssueManagerDelegate: class {
-    
-    func issueManagerUploadingStateDidChange(issueManager: ABEIssueManager)
-    
-    func issueManager(_ issueManager: ABEIssueManager, didFailToUploadImage image: Image, error: IssueReporterError)
-    
-    func issueManager(_ issueManager: ABEIssueManager, didFailToUploadIssueWithError error: IssueReporterError)
-}
+    weak var delegate: IssueManagerDelegate?
 
-internal class ABEIssueManager {
-    
+    var issue: Issue = Issue()
+
     var isUploading: Bool {
         return images.filter { $0.state.contents == .uploading }.count > 0
     }
-    
-    var issue: ABEIssue = ABEIssue()
     
     var images: [Image] {
         return issue.images
     }
     
-    weak var delegate: ABEIssueManagerDelegate?
-    
-    init(referenceView: UIView, delegate: ABEIssueManagerDelegate? = nil) {
+    init(referenceView: UIView, delegate: IssueManagerDelegate? = nil) {
         self.delegate = delegate
         
         drawSnapshotOf(referenceView: referenceView) { [weak self] image in
@@ -147,7 +128,7 @@ internal class ABEIssueManager {
     
     func saveIssue(completion: @escaping () -> ()) {
         do {
-            try ABEGithubAPIClient.shared.save(issue: self.issue, success: completion) { [weak self] error in
+            try GithubAPIClient.shared.save(issue: self.issue, success: completion) { [weak self] error in
                 guard let `self` = self else { return }
                 
                 DispatchQueue.main.async {

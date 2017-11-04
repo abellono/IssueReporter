@@ -27,7 +27,7 @@ static NSString * const kNJHTableName = @"IssueReporterDemo-Localizable";
 }
 
 - (IBAction)tap:(id)sender {
-    [ABEReporter showReporterView];
+    [Reporter showReporterView];
 }
 
 @end

@@ -1,17 +1,17 @@
 import Foundation
 import UIKit
 
-public protocol ABEReporterDelegate {
+public protocol ReporterDelegate {
 
     func extraDebuggingInformationForIssue() -> [String: String]
 }
 
-public class ABEReporter: NSObject {
+public class Reporter: NSObject {
 
     public static var enabled: Bool = true
-    public static var delegate: ABEReporterDelegate?
+    public static var delegate: ReporterDelegate?
 
-    private weak static var reporterViewController: ABEReporterViewController?
+    private weak static var reporterViewController: ReporterViewController?
 
     private static var notificationObserver: NSObjectProtocol?
 
@@ -25,29 +25,29 @@ public class ABEReporter: NSObject {
         info["App Version"] = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
         info["Bundle Version"] = Bundle.main.infoDictionary?["CFBundleVersion"] as? String
 
-        ABEReporter.delegate?.extraDebuggingInformationForIssue().forEach { info[$0] = $1 }
+        Reporter.delegate?.extraDebuggingInformationForIssue().forEach { info[$0] = $1 }
 
         return info
     }
 
     private override init() {
 
-        ABEReporter.notificationObserver = NotificationCenter.default.addObserver(forName: .onWindowShake, object: nil, queue: .main) { notification in
-            ABEReporter.showReporterView()
+        Reporter.notificationObserver = NotificationCenter.default.addObserver(forName: .onWindowShake, object: nil, queue: .main) { notification in
+            Reporter.showReporterView()
         }
     }
 
     deinit {
-        if let notificationObserver = ABEReporter.notificationObserver {
+        if let notificationObserver = Reporter.notificationObserver {
             NotificationCenter.default.removeObserver(notificationObserver)
         }
     }
 
     @objc public class func setup(repositoryName name: String, owner: String, token: String, imgurKey: String? = nil) {
 
-        ABEGithubAPIClient.githubRepositoryName = name
-        ABEGithubAPIClient.githubRepositoryOwner = owner
-        ABEGithubAPIClient.githubToken = token
+        GithubAPIClient.githubRepositoryName = name
+        GithubAPIClient.githubRepositoryOwner = owner
+        GithubAPIClient.githubToken = token
 
         ABEImgurAPIClient.imgurAPIKey = imgurKey
     }
@@ -64,7 +64,7 @@ public class ABEReporter: NSObject {
         }
 
         let presentationTarget = presentingTargetForReporterViewController(cannidate: rootViewController)
-        let reporterViewController = ABEReporterViewController.instance(withIssueManager: ABEIssueManager(referenceView: presentationTarget.view))
+        let reporterViewController = ReporterViewController.instance(withIssueManager: IssueManager(referenceView: presentationTarget.view))
 
         self.reporterViewController = reporterViewController
         let navigationController = UINavigationController(rootViewController: reporterViewController)

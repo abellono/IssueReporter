@@ -1,11 +1,3 @@
-//
-//  ABEImgurAPIClient.swift
-//  Pods
-//
-//  Created by Hakon Hanesand on 10/8/16.
-//
-//
-
 import Foundation
 import CFNetwork
 
