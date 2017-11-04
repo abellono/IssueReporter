@@ -72,7 +72,7 @@ extension ABEImageCollectionViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-extension ABEImageCollectionViewController: UICollectionViewDelegate  {
+extension ABEImageCollectionViewController  {
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.row == ABEImageCollectionViewController.kABEAddPictureCollectionViewCellIndex {

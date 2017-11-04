@@ -13,7 +13,7 @@ fileprivate extension Array where Element: Equatable {
     
     mutating func removeFirst(element: Element) {
         if let index = self.index(of: element) {
-            self.remove(at: index)
+            remove(at: index)
         }
     }
 }
@@ -32,19 +32,13 @@ internal protocol ABEIssueManagerDelegate: class {
 internal class ABEIssueManager {
     
     var isUploading: Bool {
-        get {
-            return images.filter {
-                $0.state.contents == .uploading
-            }.count > 0
-        }
+        return images.filter { $0.state.contents == .uploading }.count > 0
     }
     
     var issue: ABEIssue = ABEIssue()
     
     var images: [Image] {
-        get {
-            return issue.images
-        }
+        return issue.images
     }
     
     weak var delegate: ABEIssueManagerDelegate?
@@ -58,6 +52,7 @@ internal class ABEIssueManager {
     }
     
     private func drawSnapshotOf(referenceView view: UIView, complete: @escaping (UIImage) -> ()) {
+
         DispatchQueue.global(qos: .userInitiated).async {
             UIGraphicsBeginImageContextWithOptions(view.bounds.size, false, 0)
             view.drawHierarchy(in: view.bounds, afterScreenUpdates: false)
@@ -70,8 +65,8 @@ internal class ABEIssueManager {
     
     func add(_ image: UIImage) {
         let image = Image(image: image)
-        self.issue.images.append(image)
-        self.persist(image)
+        issue.images.append(image)
+        persist(image)
     }
     
     func retrySaving(image: Image) {

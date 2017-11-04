@@ -18,7 +18,7 @@ internal struct ABEIssue {
         
         let base = "\(issueDescription ?? "") \n\n \(extraDebuggingInformation)"
         
-        let imageURLs = self.images.filter { $0.state.contents == .done }.map { $0.cloudImageURL!.absoluteString }
+        let imageURLs = images.filter { $0.state.contents == .done }.map { $0.cloudImageURL!.absoluteString }
         let combinedImageURLString = imageURLs.map { "![image](\($0))\n" }.reduce("") { $0 + "\n" + $1 }
         
         return base + "\n" + combinedImageURLString

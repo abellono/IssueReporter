@@ -32,6 +32,7 @@ internal class ABEReporterViewController: UIViewController {
     }
     
     class func instance(withIssueManager manager: ABEIssueManager) -> ABEReporterViewController {
+
         let storyboard = UIStoryboard(name: String(describing: self), bundle: Bundle.bundleForLibrary())
         let reporterViewController = storyboard.instantiateInitialViewController() as! ABEReporterViewController
         
@@ -48,7 +49,7 @@ internal class ABEReporterViewController: UIViewController {
         
         navigationController?.navigationBar.barTintColor = UIColor.blueNavigationBarColor()
         navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.white]
     }
     
     private func configureTextView() {
@@ -84,7 +85,7 @@ internal class ABEReporterViewController: UIViewController {
         }
     }
     
-    func saveIssue() {
+    @objc func saveIssue() {
         
         issueManager.issue.title = titleTextField.text
         issueManager.issue.issueDescription = descriptionTextView.text
@@ -150,7 +151,8 @@ extension ABEReporterViewController: ABEIssueManagerDelegate {
 extension ABEReporterViewController: UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
-        let length = textView.text?.characters.count ?? 0
+
+        let length = textView.text?.count ?? 0
         let shouldHide = length > 0
         
         placeHolderLabel.isHidden = shouldHide
@@ -159,8 +161,8 @@ extension ABEReporterViewController: UITextViewDelegate {
     }
     
     internal func updateCheckmarkEnabledState() {
-        let hasTitle = (titleTextField.text?.characters.count ?? 0) > 0
-        let hasDescription = (descriptionTextView.text?.characters.count ?? 0) > 0
+        let hasTitle = (titleTextField.text?.count ?? 0) > 0
+        let hasDescription = (descriptionTextView.text?.count ?? 0) > 0
         navigationItem.rightBarButtonItem?.isEnabled = hasTitle && hasDescription
     }
 }

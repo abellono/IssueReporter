@@ -43,7 +43,8 @@ public class ABEReporter: NSObject {
         }
     }
 
-    public class func setup(repositoryName name: String, owner: String, token: String, imgurKey: String? = nil) {
+    @objc public class func setup(repositoryName name: String, owner: String, token: String, imgurKey: String? = nil) {
+
         ABEGithubAPIClient.githubRepositoryName = name
         ABEGithubAPIClient.githubRepositoryOwner = owner
         ABEGithubAPIClient.githubToken = token
@@ -51,9 +52,10 @@ public class ABEReporter: NSObject {
         ABEImgurAPIClient.imgurAPIKey = imgurKey
     }
 
-    public class func showReporterView() {
-        if self.reporterViewController != nil || !enabled {
-            return;
+    @objc public class func showReporterView() {
+
+        guard self.reporterViewController == nil && enabled else {
+            return
         }
 
         guard let rootViewController = UIApplication.shared.delegate?.window??.rootViewController else {

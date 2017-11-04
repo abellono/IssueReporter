@@ -15,7 +15,7 @@ enum IssueReporterError: Error {
     
     case missingInformation(name: String)
     case invalid(name: String)
-    
+
     case invalidURL
     case malformedResponseURL
     case unparseableResponse
@@ -128,9 +128,11 @@ internal final class ABEImgurAPIClient {
                     success(url)
                 }
             } catch let error as NSError where error.domain != IssueReporterError.domain {
+
                 // Catch error not from our domain and wrap them
                 errorHandler(IssueReporterError.jsonError(underlyingError: error))
             } catch {
+                
                 // Catch and forward all other errors
                 errorHandler(error as! IssueReporterError)
             }
