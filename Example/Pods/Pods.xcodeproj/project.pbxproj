@@ -14,6 +14,7 @@
 		0F03372CD0E4BDDF01C514BF9A9A93E2 /* UIAlertController+ErrorAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = E98079EC2835145CB5AEB029EF5D04D2 /* UIAlertController+ErrorAlert.swift */; };
 		1FB00C581FAF22B7004E5627 /* IssueReporter-Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1FB00C561FAF22B7004E5627 /* IssueReporter-Localizable.strings */; };
 		1FB00C5A1FAF29AF004E5627 /* IssueReporter-Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1FB00C561FAF22B7004E5627 /* IssueReporter-Localizable.strings */; };
+		1FB00C5C1FAF2B31004E5627 /* KeyboardConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB00C5B1FAF2B31004E5627 /* KeyboardConstraint.swift */; };
 		26AD41B744C29A919C1B8A79B65376BA /* IssueReporterError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6D820CCED1D93C3FBCCF0DC349BE0B /* IssueReporterError.swift */; };
 		2E6B7BD98C1ACA8C243DB7F06C87A28F /* GithubAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3ECD5837E39D4C21A04BBF01F7D7644 /* GithubAPIClient.swift */; };
 		3C229EC9ADD5280242A82A16A9C4AEE7 /* IssueReporterResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DABF5983ACFF45A9FBEFAA7649914677 /* IssueReporterResources.bundle */; };
@@ -70,6 +71,7 @@
 		1F6D820CCED1D93C3FBCCF0DC349BE0B /* IssueReporterError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = IssueReporterError.swift; sourceTree = "<group>"; };
 		1FB00C571FAF22B7004E5627 /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = "Assets/nb.lproj/IssueReporter-Localizable.strings"; sourceTree = "<group>"; };
 		1FB00C591FAF22BA004E5627 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = "Assets/en.lproj/IssueReporter-Localizable.strings"; sourceTree = "<group>"; };
+		1FB00C5B1FAF2B31004E5627 /* KeyboardConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardConstraint.swift; sourceTree = "<group>"; };
 		2A2DFE1E7CA60D2EE468DA61977DE725 /* Pods-IssueReporter_Example-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-IssueReporter_Example-resources.sh"; sourceTree = "<group>"; };
 		2C7423832B2C55310C11D4372601A5A9 /* Reporter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Reporter.swift; sourceTree = "<group>"; };
 		2DE01E7684292C4A1104501320B84901 /* IssueReporter.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = IssueReporter.modulemap; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 			children = (
 				628F42823D4DDB3A9B93868662357D1D /* NSBundle+Access.swift */,
 				013C62E53F5F2379B60E19AA6ACD3913 /* NSFileManager+Manager.swift */,
+				1FB00C5B1FAF2B31004E5627 /* KeyboardConstraint.swift */,
 				A4931F778AC2CF738D4CDB63B2FEDB90 /* NSURL+RandomURL.swift */,
 				E98079EC2835145CB5AEB029EF5D04D2 /* UIAlertController+ErrorAlert.swift */,
 				84C147D75186BEC34D9DC763B1EE1C69 /* UIBarButtonItem+CustomBarButton.swift */,
@@ -469,6 +472,7 @@
 				7B69D1609383548404C2E6C408ED79E5 /* Issue.swift in Sources */,
 				9450EEDDFA177965087DE5386729434B /* IssueManager.swift in Sources */,
 				AE79617FBA50586D50646FE0DABAA266 /* Reporter.swift in Sources */,
+				1FB00C5C1FAF2B31004E5627 /* KeyboardConstraint.swift in Sources */,
 				465A9D31FFD687BBC253688D6B97B8C9 /* ReporterViewController.swift in Sources */,
 				E9FDE649A5D871906D14FCF285D8883B /* Image.swift in Sources */,
 				CEAB4334EAADF9A52F10026F8A42FA93 /* IssueReporter-dummy.m in Sources */,
