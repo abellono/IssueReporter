@@ -22,6 +22,16 @@
 		1FB00C771FAF3C05004E5627 /* close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FB00C6C1FAF3C05004E5627 /* close@2x.png */; };
 		1FB00C781FAF3C05004E5627 /* save.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FB00C6D1FAF3C05004E5627 /* save.png */; };
 		1FB00C7B1FAF3C14004E5627 /* IssueReporter-Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1FB00C791FAF3C13004E5627 /* IssueReporter-Localizable.strings */; };
+		1FB00C7D1FAF3C9D004E5627 /* IssueReporter-Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1FB00C791FAF3C13004E5627 /* IssueReporter-Localizable.strings */; };
+		1FB00C7E1FAF3C9D004E5627 /* close.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FB00C641FAF3C04004E5627 /* close.png */; };
+		1FB00C7F1FAF3C9D004E5627 /* close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FB00C6C1FAF3C05004E5627 /* close@2x.png */; };
+		1FB00C801FAF3C9D004E5627 /* close@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FB00C6B1FAF3C05004E5627 /* close@3x.png */; };
+		1FB00C811FAF3C9D004E5627 /* picture.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FB00C6A1FAF3C04004E5627 /* picture.png */; };
+		1FB00C821FAF3C9D004E5627 /* picture@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FB00C651FAF3C04004E5627 /* picture@2x.png */; };
+		1FB00C831FAF3C9D004E5627 /* ReporterViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FB00C661FAF3C04004E5627 /* ReporterViewController.storyboard */; };
+		1FB00C841FAF3C9D004E5627 /* save.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FB00C6D1FAF3C05004E5627 /* save.png */; };
+		1FB00C851FAF3C9D004E5627 /* save@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FB00C5F1FAF3C04004E5627 /* save@2x.png */; };
+		1FB00C861FAF3C9D004E5627 /* save@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FB00C601FAF3C04004E5627 /* save@3x.png */; };
 		26AD41B744C29A919C1B8A79B65376BA /* IssueReporterError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6D820CCED1D93C3FBCCF0DC349BE0B /* IssueReporterError.swift */; };
 		2E6B7BD98C1ACA8C243DB7F06C87A28F /* GithubAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3ECD5837E39D4C21A04BBF01F7D7644 /* GithubAPIClient.swift */; };
 		3C229EC9ADD5280242A82A16A9C4AEE7 /* IssueReporterResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DABF5983ACFF45A9FBEFAA7649914677 /* IssueReporterResources.bundle */; };
@@ -445,6 +455,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FB00C7D1FAF3C9D004E5627 /* IssueReporter-Localizable.strings in Resources */,
+				1FB00C7E1FAF3C9D004E5627 /* close.png in Resources */,
+				1FB00C7F1FAF3C9D004E5627 /* close@2x.png in Resources */,
+				1FB00C801FAF3C9D004E5627 /* close@3x.png in Resources */,
+				1FB00C811FAF3C9D004E5627 /* picture.png in Resources */,
+				1FB00C821FAF3C9D004E5627 /* picture@2x.png in Resources */,
+				1FB00C831FAF3C9D004E5627 /* ReporterViewController.storyboard in Resources */,
+				1FB00C841FAF3C9D004E5627 /* save.png in Resources */,
+				1FB00C851FAF3C9D004E5627 /* save@2x.png in Resources */,
+				1FB00C861FAF3C9D004E5627 /* save@3x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
