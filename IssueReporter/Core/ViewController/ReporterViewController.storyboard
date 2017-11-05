@@ -55,9 +55,6 @@
                                 <rect key="frame" x="8" y="257.5" width="359" height="401.5"/>
                                 <fontDescription key="fontDescription" name="AkkuratStd" family="AkkuratStd" pointSize="19"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                <connections>
-                                    <outlet property="delegate" destination="aCf-Qr-zyw" id="dpc-RN-k7v"/>
-                                </connections>
                             </textView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What went wrong?" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8bg-92-7ns" userLabel="Placeholder">
                                 <rect key="frame" x="27" y="271.5" width="321" height="22.5"/>

@@ -308,15 +308,15 @@
 		ECEFCB76FCAB4A72C8C3D9281CA26242 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				1F4212221FAE3ACD001A3122 /* Extensions */,
 				F3ECD5837E39D4C21A04BBF01F7D7644 /* GithubAPIClient.swift */,
-				1F6D820CCED1D93C3FBCCF0DC349BE0B /* IssueReporterError.swift */,
+				7F1D39A78067CB7A36294EAFFA38E892 /* Image.swift */,
 				4DDF7C1F418081919F3376D013D8DBE4 /* Issue.swift */,
 				A192F8874C3776A587AB009FECC94BA3 /* IssueManager.swift */,
+				1F6D820CCED1D93C3FBCCF0DC349BE0B /* IssueReporterError.swift */,
 				2C7423832B2C55310C11D4372601A5A9 /* Reporter.swift */,
-				7F1D39A78067CB7A36294EAFFA38E892 /* Image.swift */,
 				AC39379B3566FC9A7DB39D8513DE47C8 /* Threadsafe.swift */,
 				1F4212231FAE3B01001A3122 /* ViewController */,
-				1F4212221FAE3ACD001A3122 /* Extensions */,
 			);
 			path = Core;
 			sourceTree = "<group>";

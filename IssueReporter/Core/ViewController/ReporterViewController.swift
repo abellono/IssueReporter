@@ -112,10 +112,6 @@ internal class ReporterViewController: UIViewController {
         FileManager.eraseStoredPicturesFromDisk()
         presentingViewController?.dismiss(animated: true)
     }
-    
-    @IBAction func titleTextDidChange(_ sender: UITextField) {
-        updateCheckmarkEnabledState()
-    }
 }
 
 extension ReporterViewController: IssueManagerDelegate {
@@ -133,7 +129,7 @@ extension ReporterViewController: IssueManagerDelegate {
             
         } else {
             self.navigationItem.rightBarButtonItem = UIBarButtonItem.saveButton(self, action: #selector(ReporterViewController.saveIssue))
-            updateCheckmarkEnabledState()
+            self.navigationItem.rightBarButtonItem?.isEnabled = true
         }
     }
     
@@ -166,13 +162,5 @@ extension ReporterViewController: UITextViewDelegate {
         let shouldHide = length > 0
         
         placeHolderLabel.isHidden = shouldHide
-        
-        updateCheckmarkEnabledState()
-    }
-    
-    internal func updateCheckmarkEnabledState() {
-        let hasTitle = (titleTextField.text?.count ?? 0) > 0
-        let hasDescription = (descriptionTextView.text?.count ?? 0) > 0
-        navigationItem.rightBarButtonItem?.isEnabled = hasTitle && hasDescription
     }
 }
