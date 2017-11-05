@@ -9,7 +9,7 @@
 
 import Foundation
 
-fileprivate let kABEResourceBundleName = "IssueReporterResources.bundle"
+private let kABEResourceBundleName = "IssueReporterResources.bundle"
 
 internal extension Bundle {
     

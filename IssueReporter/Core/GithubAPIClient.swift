@@ -19,7 +19,7 @@ internal final class GithubAPIClient {
     
     private init() { }
     
-    fileprivate static func humanReadableDescriptionForMissingInformation() -> String? {
+    private static func humanReadableDescriptionForMissingInformation() -> String? {
         if githubToken == nil {
             return "github personal access token"
         } else if githubRepositoryName == nil {
@@ -31,7 +31,7 @@ internal final class GithubAPIClient {
         return nil
     }
     
-    fileprivate func baseSaveIssueURLRequest() throws -> URLRequest {
+    private func baseSaveIssueURLRequest() throws -> URLRequest {
 
         guard let githubToken = GithubAPIClient.githubToken, let name = GithubAPIClient.githubRepositoryName, let owner = GithubAPIClient.githubRepositoryOwner else {
             let humanReadableDescription = GithubAPIClient.humanReadableDescriptionForMissingInformation()!
@@ -55,7 +55,7 @@ internal final class GithubAPIClient {
         return request
     }
     
-    fileprivate func requestFor(issue: Issue) throws -> URLRequest {
+    private func requestFor(issue: Issue) throws -> URLRequest {
         var baseIssueRequest = try self.baseSaveIssueURLRequest()
         
         do {

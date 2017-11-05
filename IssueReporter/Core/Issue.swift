@@ -15,7 +15,7 @@ internal struct Issue {
     
     var textRepresentation : String? {
 
-        let extraDebuggingInformation = Reporter.extraDebuggingInformationForIssue()
+        let extraDebuggingInformation = Reporter.debugInformationForIssueReporter()
         
         let base = "\(issueDescription ?? "") \n\n \(extraDebuggingInformation)"
         

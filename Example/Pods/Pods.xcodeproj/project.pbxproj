@@ -15,7 +15,7 @@
 		26AD41B744C29A919C1B8A79B65376BA /* IssueReporterError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6D820CCED1D93C3FBCCF0DC349BE0B /* IssueReporterError.swift */; };
 		2E6B7BD98C1ACA8C243DB7F06C87A28F /* GithubAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3ECD5837E39D4C21A04BBF01F7D7644 /* GithubAPIClient.swift */; };
 		3C229EC9ADD5280242A82A16A9C4AEE7 /* IssueReporterResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DABF5983ACFF45A9FBEFAA7649914677 /* IssueReporterResources.bundle */; };
-		3FCCB794C1E58DD9490D1FAB5B89164D /* ABEReporterViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89B0E92EDEE173ED8F801B1894FD0C52 /* ABEReporterViewController.storyboard */; };
+		3FCCB794C1E58DD9490D1FAB5B89164D /* ReporterViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89B0E92EDEE173ED8F801B1894FD0C52 /* ReporterViewController.storyboard */; };
 		465A9D31FFD687BBC253688D6B97B8C9 /* ReporterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172CCACEDC5D0498E4947CE95347BFBD /* ReporterViewController.swift */; };
 		4D5A286FCB5194838C3F422172E7335E /* Pods-IssueReporter_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A85288E39CB34A19CD668F490928C95 /* Pods-IssueReporter_Example-dummy.m */; };
 		4D8EA96F1524E13DE5D706710765D0C8 /* save@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 826306207EE1300AD6F0D2494EC1B08F /* save@2x.png */; };
@@ -90,7 +90,7 @@
 		826306207EE1300AD6F0D2494EC1B08F /* save@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "save@2x.png"; sourceTree = "<group>"; };
 		83228E805378DCD37AE526850FE4AC1B /* Pods-IssueReporter_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-IssueReporter_Example-acknowledgements.plist"; sourceTree = "<group>"; };
 		84C147D75186BEC34D9DC763B1EE1C69 /* UIBarButtonItem+CustomBarButton.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+CustomBarButton.swift"; sourceTree = "<group>"; };
-		89B0E92EDEE173ED8F801B1894FD0C52 /* ABEReporterViewController.storyboard */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.storyboard; path = ABEReporterViewController.storyboard; sourceTree = "<group>"; };
+		89B0E92EDEE173ED8F801B1894FD0C52 /* ReporterViewController.storyboard */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.storyboard; path = ReporterViewController.storyboard; sourceTree = "<group>"; };
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9CD7D13A14EF3A3C8F4EC8D808603B8B /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9EF99900E3EB13FB50445563CE3D238D /* close@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "close@2x.png"; sourceTree = "<group>"; };
@@ -266,7 +266,7 @@
 		98C267D6A6D6C6DBCBD86DDE908B093A /* Assets */ = {
 			isa = PBXGroup;
 			children = (
-				89B0E92EDEE173ED8F801B1894FD0C52 /* ABEReporterViewController.storyboard */,
+				89B0E92EDEE173ED8F801B1894FD0C52 /* ReporterViewController.storyboard */,
 				7B5342F55A21B87AA2C565CE3AFB1DB7 /* close.png */,
 				9EF99900E3EB13FB50445563CE3D238D /* close@2x.png */,
 				7F855D8959091B08D3AC4B4BE9BD7A02 /* close@3x.png */,
@@ -443,7 +443,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3FCCB794C1E58DD9490D1FAB5B89164D /* ABEReporterViewController.storyboard in Resources */,
+				3FCCB794C1E58DD9490D1FAB5B89164D /* ReporterViewController.storyboard in Resources */,
 				9F577ACC161B420E96823B7E845A4A7D /* close.png in Resources */,
 				B5C1C4D2C273D6DE3E8E3BB591B909B4 /* close@2x.png in Resources */,
 				FB8AC78B14EF940B717A7C7CE199043C /* close@3x.png in Resources */,

@@ -33,9 +33,10 @@ internal extension UIWindow {
         }
 
         _onceTracker.append(token)
+        block()
     }
 
-    internal func swizzleMotionEnded() {
+    internal class func swizzleMotionEnded() {
 
         UIWindow.once(token: "swizzleMotionEnded") {
 

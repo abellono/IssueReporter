@@ -14,21 +14,21 @@ import UIKit
 
 internal class ImageCollectionViewController: UICollectionViewController, UINavigationControllerDelegate {
     
-    fileprivate static let kABEAddPictureCollectionViewCellReuseIdentifier = "CollectionViewAddPictureIdentifier"
-    fileprivate static let kABEPictureCollectionViewCellReuseIdentifier = "CollectionViewPictureIdentifier"
+    private static let kABEAddPictureCollectionViewCellReuseIdentifier = "CollectionViewAddPictureIdentifier"
+    private static let kABEPictureCollectionViewCellReuseIdentifier = "CollectionViewPictureIdentifier"
     
-    fileprivate static let kABEJPEGFileExtension = "jpg"
-    fileprivate static let kABEFirstCellImageName = "picture"
+    private static let kABEJPEGFileExtension = "jpg"
+    private static let kABEFirstCellImageName = "picture"
     
-    fileprivate static let kABEActionMenuCameraString = "Camera"
-    fileprivate static let kABEActionMenuPhotoLibrarySting = "Photo library"
-    fileprivate static let kABEActionMenuCancelString = "Cancel"
-    fileprivate static let kABEActionMenuTitlePickImageString = "Pick image"
+    private static let kABEActionMenuCameraString = "Camera"
+    private static let kABEActionMenuPhotoLibrarySting = "Photo library"
+    private static let kABEActionMenuCancelString = "Cancel"
+    private static let kABEActionMenuTitlePickImageString = "Pick image"
     
-    fileprivate static let kABECollectionViewVerticalSpace = CGFloat(1.0)
-    fileprivate static let kABE16x9AspectRatio = CGFloat(9.0 / 16.0)
-    fileprivate static let kABEAddPictureCollectionViewCellIndex = 0
-    fileprivate static let kABEAddPictureCollectionViewCellOffset = 1
+    private static let kABECollectionViewVerticalSpace = CGFloat(1.0)
+    private static let kABE16x9AspectRatio = CGFloat(9.0 / 16.0)
+    private static let kABEAddPictureCollectionViewCellIndex = 0
+    private static let kABEAddPictureCollectionViewCellOffset = 1
     
     var issueManager: IssueManager!
 }

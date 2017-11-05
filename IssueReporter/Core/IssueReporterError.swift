@@ -58,12 +58,12 @@ enum IssueReporterError: Error {
 
 internal final class ABEImgurAPIClient {
     
-    static var imgurAPIKey: String? = nil
+    static var imgurAPIKey: String?
     static let shared = ABEImgurAPIClient()
     
     private init() { }
     
-    fileprivate func baseImageUploadRequest() throws -> URLRequest {
+    private func baseImageUploadRequest() throws -> URLRequest {
         
         guard let imgurAPIKey = ABEImgurAPIClient.imgurAPIKey else {
             throw IssueReporterError.missingInformation(name: "imgur api key")
@@ -84,9 +84,9 @@ internal final class ABEImgurAPIClient {
         return request
     }
     
-    fileprivate func uploadRequest(for imageData: Data) throws -> URLRequest {
-        let parameters = ["image" : imageData.base64EncodedString(),
-                          "type" : "base64"]
+    private func uploadRequest(for imageData: Data) throws -> URLRequest {
+
+        let parameters = ["image" : imageData.base64EncodedString(), "type" : "base64"]
         
         var baseIssueRequest = try baseImageUploadRequest()
         let data = try JSONSerialization.data(withJSONObject: parameters)
@@ -99,7 +99,7 @@ internal final class ABEImgurAPIClient {
     
     func upload(imageData: Data, dispatchQueue: DispatchQueue = DispatchQueue.main, errorHandler: @escaping (IssueReporterError) -> (), success: @escaping (URL) -> ()) throws {
         
-        let request = try self.uploadRequest(for: imageData)
+        let request = try uploadRequest(for: imageData)
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             do {

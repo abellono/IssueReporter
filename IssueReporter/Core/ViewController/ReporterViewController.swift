@@ -24,7 +24,7 @@ internal class ReporterViewController: UIViewController {
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var placeHolderLabel: UILabel!
     
-    fileprivate var imageCollectionViewController: ImageCollectionViewController!
+    private var imageCollectionViewController: ImageCollectionViewController!
     
     var issueManager: IssueManager! {
         didSet {

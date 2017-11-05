@@ -12,8 +12,8 @@ import UIKit
 
 internal extension UIBarButtonItem {
     
-    fileprivate static let kABECloseButtonImage = "close"
-    fileprivate static let kABESaveButtonImage = "save"
+    private static let kABECloseButtonImage = "close"
+    private static let kABESaveButtonImage = "save"
     
     static func backButton(_ target: AnyObject, action: Selector, color: UIColor) -> UIBarButtonItem {
         let cocoapodsBundle = Bundle.bundleForLibrary()

@@ -11,8 +11,7 @@ import Foundation
 import UIKit
 
 public protocol ReporterDelegate {
-
-    func extraDebuggingInformationForIssue() -> [String: String]
+    func debugInformationForIssueReporter() -> [String: String]
 }
 
 public class Reporter: NSObject {
@@ -24,7 +23,7 @@ public class Reporter: NSObject {
 
     private static var notificationObserver: NSObjectProtocol?
 
-    public class func extraDebuggingInformationForIssue() -> [String: String] {
+    public class func debugInformationForIssueReporter() -> [String: String] {
 
         var info = [
             "Current Localization": Locale.preferredLanguages[0],
@@ -34,17 +33,12 @@ public class Reporter: NSObject {
         info["App Version"] = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
         info["Bundle Version"] = Bundle.main.infoDictionary?["CFBundleVersion"] as? String
 
-        Reporter.delegate?.extraDebuggingInformationForIssue().forEach { info[$0] = $1 }
+        Reporter.delegate?.debugInformationForIssueReporter().forEach { info[$0] = $1 }
 
         return info
     }
 
-    private override init() {
-
-        Reporter.notificationObserver = NotificationCenter.default.addObserver(forName: .onWindowShake, object: nil, queue: .main) { notification in
-            Reporter.showReporterView()
-        }
-    }
+    private override init() { }
 
     deinit {
         if let notificationObserver = Reporter.notificationObserver {
@@ -54,11 +48,17 @@ public class Reporter: NSObject {
 
     @objc public class func setup(repositoryName name: String, owner: String, token: String, imgurKey: String? = nil) {
 
+        UIWindow.swizzleMotionEnded()
+
         GithubAPIClient.githubRepositoryName = name
         GithubAPIClient.githubRepositoryOwner = owner
         GithubAPIClient.githubToken = token
 
         ABEImgurAPIClient.imgurAPIKey = imgurKey
+
+        Reporter.notificationObserver = NotificationCenter.default.addObserver(forName: .onWindowShake, object: nil, queue: .main) { notification in
+            Reporter.showReporterView()
+        }
     }
 
     @objc public class func showReporterView() {
