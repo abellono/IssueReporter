@@ -159,7 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				386CAFD365220BC18C899A5BAABE81F3 /* IssueReporter */,
-				97A0434DEBB28A154798CF8E0B02D980 /* Resources */,
+				97A0434DEBB28A154798CF8E0B02D980 /* Assets */,
 				75DD38B29A51725B23B186B505195C9B /* Support Files */,
 			);
 			name = IssueReporter;
@@ -253,7 +253,7 @@
 			);
 			sourceTree = "<group>";
 		};
-		97A0434DEBB28A154798CF8E0B02D980 /* Resources */ = {
+		97A0434DEBB28A154798CF8E0B02D980 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
 				1FB00C791FAF3C13004E5627 /* IssueReporter-Localizable.strings */,
@@ -267,7 +267,7 @@
 				1FB00C5F1FAF3C04004E5627 /* save@2x.png */,
 				1FB00C601FAF3C04004E5627 /* save@3x.png */,
 			);
-			name = Resources;
+			name = Assets;
 			sourceTree = "<group>";
 		};
 		9B6F67A6696D731804ED6DFAAB8362FC /* Pods-IssueReporter_Example */ = {
