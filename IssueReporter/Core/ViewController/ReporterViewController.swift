@@ -97,7 +97,7 @@ internal class ReporterViewController: UIViewController {
     
     @objc func saveIssue() {
         
-        issueManager.issue.title = titleTextField.text
+        issueManager.issue.title = titleTextField.text ?? ""
         issueManager.issue.issueDescription = descriptionTextView.text
         
         issueManager.saveIssue { [weak self] in
