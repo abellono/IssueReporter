@@ -38,13 +38,8 @@ public class Reporter: NSObject {
         return info
     }
 
+    // Made private to make sure no-one creates their own Reporter instance
     private override init() { }
-
-    deinit {
-        if let notificationObserver = Reporter.notificationObserver {
-            NotificationCenter.default.removeObserver(notificationObserver)
-        }
-    }
 
     @objc public class func setup(repositoryName name: String, owner: String, token: String, imgurKey: String? = nil) {
 
@@ -56,7 +51,9 @@ public class Reporter: NSObject {
 
         ABEImgurAPIClient.imgurAPIKey = imgurKey
 
-        Reporter.notificationObserver = NotificationCenter.default.addObserver(forName: .onWindowShake, object: nil, queue: .main) { notification in
+        Reporter.notificationObserver = NotificationCenter.default.addObserver(forName: .onWindowShake,
+                                                                               object: nil,
+                                                                               queue: .main) { notification in
             Reporter.showReporterView()
         }
     }
