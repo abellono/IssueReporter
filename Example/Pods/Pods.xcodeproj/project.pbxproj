@@ -179,19 +179,12 @@
 		1F4212231FAE3B01001A3122 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				89B0E92EDEE173ED8F801B1894FD0C52 /* ReporterViewController.storyboard */,
+				172CCACEDC5D0498E4947CE95347BFBD /* ReporterViewController.swift */,
 				34F44860F44BFF91DE9B94010B28BAB8 /* ImageCollectionViewCell.swift */,
 				FB6115557D72ABF5E4A08F06A0E2EDF7 /* ImageCollectionViewController.swift */,
-				172CCACEDC5D0498E4947CE95347BFBD /* ReporterViewController.swift */,
 			);
 			path = ViewController;
-			sourceTree = "<group>";
-		};
-		2062DDFB819450C15418701128DEA496 /* IssueReporter */ = {
-			isa = PBXGroup;
-			children = (
-				98C267D6A6D6C6DBCBD86DDE908B093A /* Assets */,
-			);
-			path = IssueReporter;
 			sourceTree = "<group>";
 		};
 		386CAFD365220BC18C899A5BAABE81F3 /* IssueReporter */ = {
@@ -258,7 +251,7 @@
 		97A0434DEBB28A154798CF8E0B02D980 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				2062DDFB819450C15418701128DEA496 /* IssueReporter */,
+				98C267D6A6D6C6DBCBD86DDE908B093A /* Assets */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -266,7 +259,6 @@
 		98C267D6A6D6C6DBCBD86DDE908B093A /* Assets */ = {
 			isa = PBXGroup;
 			children = (
-				89B0E92EDEE173ED8F801B1894FD0C52 /* ReporterViewController.storyboard */,
 				7B5342F55A21B87AA2C565CE3AFB1DB7 /* close.png */,
 				9EF99900E3EB13FB50445563CE3D238D /* close@2x.png */,
 				7F855D8959091B08D3AC4B4BE9BD7A02 /* close@3x.png */,

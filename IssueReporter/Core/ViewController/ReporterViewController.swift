@@ -15,14 +15,14 @@ internal class ReporterViewController: UIViewController {
     
     private static let kABETextFieldInset = 14
     
-    private static let kABEdescriptionTextViewCornerRadius = CGFloat(4);
-    private static let kABEdescriptionTextViewBorderWidth = CGFloat(0.5);
+    private static let kABEdescriptionTextViewCornerRadius: CGFloat = 4
+    private static let kABEdescriptionTextViewBorderWidth: CGFloat = 0.5
     
     private static let kABETableName = "IssueReporter-Localizable"
     
-    @IBOutlet weak var descriptionTextView: UITextView!
-    @IBOutlet weak var titleTextField: UITextField!
-    @IBOutlet weak var placeHolderLabel: UILabel!
+    @IBOutlet private var descriptionTextView: UITextView!
+    @IBOutlet private var titleTextField: UITextField!
+    @IBOutlet private var placeHolderLabel: UILabel!
     
     private var imageCollectionViewController: ImageCollectionViewController!
     
@@ -70,9 +70,18 @@ internal class ReporterViewController: UIViewController {
     }
     
     private func setupLocalization() {
-        titleTextField.text = NSLocalizedString(titleTextField.text!, tableName: ReporterViewController.kABETableName, bundle: Bundle.bundleForLibrary(), comment: "title of issue")
-        placeHolderLabel.text = NSLocalizedString(placeHolderLabel.text!, tableName: ReporterViewController.kABETableName, bundle: Bundle.bundleForLibrary(), comment: "placeholder")
-        title = NSLocalizedString(self.navigationItem.title!, tableName: ReporterViewController.kABETableName, bundle: Bundle.bundleForLibrary(), comment: "title")
+        titleTextField.placeholder = NSLocalizedString(titleTextField.placeholder!,
+                                                       tableName: ReporterViewController.kABETableName,
+                                                       bundle: Bundle.bundleForLibrary(),
+                                                       comment: "title of issue")
+        placeHolderLabel.text = NSLocalizedString(placeHolderLabel.text!,
+                                                  tableName: ReporterViewController.kABETableName,
+                                                  bundle: Bundle.bundleForLibrary(),
+                                                  comment: "placeholder")
+        title = NSLocalizedString(self.navigationItem.title!,
+                                  tableName: ReporterViewController.kABETableName,
+                                  bundle: Bundle.bundleForLibrary(),
+                                  comment: "title")
     }
     
     @IBAction func cancelIssueReporting(_ sender: AnyObject) {
