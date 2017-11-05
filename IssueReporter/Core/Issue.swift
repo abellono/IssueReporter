@@ -9,7 +9,7 @@
 
 internal struct Issue {
    
-    var title = " "
+    var title = ""
     var issueDescription = " "
     var images: [Image] = []
     
@@ -25,7 +25,11 @@ internal struct Issue {
         return base + "\n" + combinedImageURLString
     }
     
-    var dictionaryRepresentation : [String : String]? {
+    var dictionaryRepresentation : [String : String] {
+        guard !title.isEmpty else {
+            return ["title" : "No title", "body" : textRepresentation]
+        }
+
         return ["title" : title, "body" : textRepresentation]
     }
 }

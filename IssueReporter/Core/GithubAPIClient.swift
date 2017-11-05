@@ -59,7 +59,7 @@ internal final class GithubAPIClient {
         var baseIssueRequest = try self.baseSaveIssueURLRequest()
         
         do {
-            let json = try JSONSerialization.data(withJSONObject: issue.dictionaryRepresentation!, options: [])
+            let json = try JSONSerialization.data(withJSONObject: issue.dictionaryRepresentation, options: [])
             
             baseIssueRequest.setValue("\(json.count)", forHTTPHeaderField: "Content-Length")
             baseIssueRequest.httpBody = json
