@@ -77,7 +77,7 @@ internal class ReporterViewController: UIViewController {
         placeHolderLabel.text = NSLocalizedString(placeHolderLabel.text!,
                                                   tableName: ReporterViewController.kABETableName,
                                                   bundle: Bundle.bundleForLibrary(),
-                                                  comment: "placeholder")
+                                                  comment: "placeholder for description")
         title = NSLocalizedString(self.navigationItem.title!,
                                   tableName: ReporterViewController.kABETableName,
                                   bundle: Bundle.bundleForLibrary(),

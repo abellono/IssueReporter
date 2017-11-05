@@ -8,14 +8,13 @@ Pod::Spec.new do |s|
                        DESC
   s.homepage         = "https://github.com/abellono/IssueReporter"
   s.license          = 'MIT'
-  s.author           = { "Hakon Hanesand" => "hakon@hanesand.no", "Nikolai Heum" => "nikolaiheum@gmail.com"}
+  s.author           = { "Hakon Hanesand" => "hakon@abello.no", "Nikolai Heum" => "nikolai@abello.no"}
   s.source           = { :git => "https://github.com/abellono/IssueReporter.git", :tag => s.version.to_s }
-  s.social_media_url   = "https://twitter.com/hhanesand"
 
   s.platform     = :ios, "8.0"
 
   s.requires_arc = true
-  s.source_files = "IssueReporter/Classes/**/*"
+  s.source_files = "IssueReporter/Core/**/*"
   s.frameworks = "UIKit", "Foundation"
 
   s.resource_bundles = {

@@ -12,6 +12,8 @@
 		08A58C3B018B385F43C5B5F57D5E08FD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B63C6A64CF66340668996F78DA6BB482 /* UIKit.framework */; };
 		0CCCEDA214BEFA998475729815CB73DC /* save.png in Resources */ = {isa = PBXBuildFile; fileRef = 672603B3F891D1A0B1737FB1B0D673FB /* save.png */; };
 		0F03372CD0E4BDDF01C514BF9A9A93E2 /* UIAlertController+ErrorAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = E98079EC2835145CB5AEB029EF5D04D2 /* UIAlertController+ErrorAlert.swift */; };
+		1FB00C581FAF22B7004E5627 /* IssueReporter-Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1FB00C561FAF22B7004E5627 /* IssueReporter-Localizable.strings */; };
+		1FB00C5A1FAF29AF004E5627 /* IssueReporter-Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1FB00C561FAF22B7004E5627 /* IssueReporter-Localizable.strings */; };
 		26AD41B744C29A919C1B8A79B65376BA /* IssueReporterError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6D820CCED1D93C3FBCCF0DC349BE0B /* IssueReporterError.swift */; };
 		2E6B7BD98C1ACA8C243DB7F06C87A28F /* GithubAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3ECD5837E39D4C21A04BBF01F7D7644 /* GithubAPIClient.swift */; };
 		3C229EC9ADD5280242A82A16A9C4AEE7 /* IssueReporterResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DABF5983ACFF45A9FBEFAA7649914677 /* IssueReporterResources.bundle */; };
@@ -66,6 +68,8 @@
 		172CCACEDC5D0498E4947CE95347BFBD /* ReporterViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ReporterViewController.swift; sourceTree = "<group>"; };
 		1A85288E39CB34A19CD668F490928C95 /* Pods-IssueReporter_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-IssueReporter_Example-dummy.m"; sourceTree = "<group>"; };
 		1F6D820CCED1D93C3FBCCF0DC349BE0B /* IssueReporterError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = IssueReporterError.swift; sourceTree = "<group>"; };
+		1FB00C571FAF22B7004E5627 /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = "Assets/nb.lproj/IssueReporter-Localizable.strings"; sourceTree = "<group>"; };
+		1FB00C591FAF22BA004E5627 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = "Assets/en.lproj/IssueReporter-Localizable.strings"; sourceTree = "<group>"; };
 		2A2DFE1E7CA60D2EE468DA61977DE725 /* Pods-IssueReporter_Example-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-IssueReporter_Example-resources.sh"; sourceTree = "<group>"; };
 		2C7423832B2C55310C11D4372601A5A9 /* Reporter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Reporter.swift; sourceTree = "<group>"; };
 		2DE01E7684292C4A1104501320B84901 /* IssueReporter.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = IssueReporter.modulemap; sourceTree = "<group>"; };
@@ -251,6 +255,7 @@
 		97A0434DEBB28A154798CF8E0B02D980 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				1FB00C561FAF22B7004E5627 /* IssueReporter-Localizable.strings */,
 				98C267D6A6D6C6DBCBD86DDE908B093A /* Assets */,
 			);
 			name = Resources;
@@ -409,6 +414,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				nb,
 			);
 			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
 			productRefGroup = 76C982C8CC9B6FD982A638CBE198B000 /* Products */;
@@ -427,6 +433,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FB00C581FAF22B7004E5627 /* IssueReporter-Localizable.strings in Resources */,
 				3C229EC9ADD5280242A82A16A9C4AEE7 /* IssueReporterResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -435,6 +442,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FB00C5A1FAF29AF004E5627 /* IssueReporter-Localizable.strings in Resources */,
 				3FCCB794C1E58DD9490D1FAB5B89164D /* ReporterViewController.storyboard in Resources */,
 				9F577ACC161B420E96823B7E845A4A7D /* close.png in Resources */,
 				B5C1C4D2C273D6DE3E8E3BB591B909B4 /* close@2x.png in Resources */,
@@ -507,6 +515,18 @@
 			targetProxy = 5AFAC2FFF2306D689D6C1958F6680E04 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		1FB00C561FAF22B7004E5627 /* IssueReporter-Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1FB00C571FAF22B7004E5627 /* nb */,
+				1FB00C591FAF22BA004E5627 /* en */,
+			);
+			name = "IssueReporter-Localizable.strings";
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		2E7C1FEA542CA897E72651450FC3955A /* Release */ = {
