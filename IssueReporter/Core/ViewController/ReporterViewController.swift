@@ -50,7 +50,7 @@ internal class ReporterViewController: UIViewController {
         
         navigationController?.navigationBar.barTintColor = UIColor.blueNavigationBarColor()
         navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.white]
+        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor : UIColor.white]
     }
     
     private func configureTextView() {

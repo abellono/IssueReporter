@@ -62,8 +62,7 @@ internal class KeyboardLayoutConstraint: NSLayoutConstraint {
                     animations: {
                         UIApplication.shared.keyWindow?.layoutIfNeeded()
                         return
-                }, completion: { _ in
-                })
+                }, completion: nil)
             default:
 
                 break
@@ -89,8 +88,7 @@ internal class KeyboardLayoutConstraint: NSLayoutConstraint {
                     animations: {
                         UIApplication.shared.keyWindow?.layoutIfNeeded()
                         return
-                }, completion: { _ in
-                })
+                }, completion: nil)
             default:
                 break
             }
