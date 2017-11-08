@@ -1,15 +1,16 @@
 //
-//  ABEImageCollectionViewCell.swift
-//  Pods
+//  ImageCollectionViewCell.swift
+//  IssueReporter
 //
-//  Created by Hakon Hanesand on 10/7/16.
+//  Created by Hakon Hanesand on 10/6/16.
+//  Copyright © 2017 abello. All rights reserved.
 //
 //
 
 import Foundation
 import UIKit
 
-internal class ABEImageCollectionViewCell: UICollectionViewCell {
+internal class ImageCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet var blurEffectView: UIVisualEffectView!
@@ -24,7 +25,7 @@ internal class ABEImageCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         
         layer.cornerRadius = 5
-        layer.borderColor = UIColor(colorLiteralRed: 1, green: 0, blue: 0, alpha: 0.5).cgColor
+        layer.borderColor = UIColor.red.withAlphaComponent(0.5).cgColor
     }
 
     var didErrorDuringUpload: Bool = false {

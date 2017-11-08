@@ -1,8 +1,9 @@
 //
 //  UIAlertController+ErrorAlert.swift
-//  Pods
+//  IssueReporter
 //
-//  Created by Hakon Hanesand on 10/9/16.
+//  Created by Hakon Hanesand on 10/6/16.
+//  Copyright © 2017 abello. All rights reserved.
 //
 //
 

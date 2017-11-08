@@ -1,55 +1,39 @@
 //
-//  ABEissueManager.swift
-//  Pods
+//  IssueManager.swift
+//  IssueReporter
 //
-//  Created by Hakon Hanesand on 10/9/16.
+//  Created by Hakon Hanesand on 10/6/16.
+//  Copyright © 2017 abello. All rights reserved.
 //
 //
 
 import Foundation
 import UIKit
 
-fileprivate extension Array where Element: Equatable {
+internal let kABECompressionRatio: CGFloat = 5
+
+internal protocol IssueManagerDelegate: class {
     
-    mutating func removeFirst(element: Element) {
-        if let index = self.index(of: element) {
-            self.remove(at: index)
-        }
-    }
+    func issueManagerUploadingStateDidChange(issueManager: IssueManager)
+    func issueManager(_ issueManager: IssueManager, didFailToUploadImage image: Image, error: IssueReporterError)
+    func issueManager(_ issueManager: IssueManager, didFailToUploadIssueWithError error: IssueReporterError)
 }
 
-private let kABECompressionRatio = CGFloat(5.0)
+internal class IssueManager {
 
-internal protocol ABEIssueManagerDelegate: class {
-    
-    func issueManagerUploadingStateDidChange(issueManager: ABEIssueManager)
-    
-    func issueManager(_ issueManager: ABEIssueManager, didFailToUploadImage image: Image, error: IssueReporterError)
-    
-    func issueManager(_ issueManager: ABEIssueManager, didFailToUploadIssueWithError error: IssueReporterError)
-}
+    weak var delegate: IssueManagerDelegate?
 
-internal class ABEIssueManager {
-    
+    var issue: Issue = Issue()
+
     var isUploading: Bool {
-        get {
-            return images.filter {
-                $0.state.contents == .uploading
-            }.count > 0
-        }
+        return images.filter { $0.state.contents == .uploading }.count > 0
     }
-    
-    var issue: ABEIssue = ABEIssue()
     
     var images: [Image] {
-        get {
-            return issue.images
-        }
+        return issue.images
     }
     
-    weak var delegate: ABEIssueManagerDelegate?
-    
-    init(referenceView: UIView, delegate: ABEIssueManagerDelegate? = nil) {
+    init(referenceView: UIView, delegate: IssueManagerDelegate? = nil) {
         self.delegate = delegate
         
         drawSnapshotOf(referenceView: referenceView) { [weak self] image in
@@ -58,6 +42,7 @@ internal class ABEIssueManager {
     }
     
     private func drawSnapshotOf(referenceView view: UIView, complete: @escaping (UIImage) -> ()) {
+
         DispatchQueue.global(qos: .userInitiated).async {
             UIGraphicsBeginImageContextWithOptions(view.bounds.size, false, 0)
             view.drawHierarchy(in: view.bounds, afterScreenUpdates: false)
@@ -70,8 +55,8 @@ internal class ABEIssueManager {
     
     func add(_ image: UIImage) {
         let image = Image(image: image)
-        self.issue.images.append(image)
-        self.persist(image)
+        issue.images.append(image)
+        persist(image)
     }
     
     func retrySaving(image: Image) {
@@ -152,7 +137,7 @@ internal class ABEIssueManager {
     
     func saveIssue(completion: @escaping () -> ()) {
         do {
-            try ABEGithubAPIClient.shared.save(issue: self.issue, success: completion) { [weak self] error in
+            try GithubAPIClient.shared.save(issue: self.issue, success: completion) { [weak self] error in
                 guard let `self` = self else { return }
                 
                 DispatchQueue.main.async {

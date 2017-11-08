@@ -1,24 +1,25 @@
 //
-//  ABEGithubAPIClient.swift
-//  Pods
+//  GithubAPIClient.swift
+//  IssueReporter
 //
 //  Created by Hakon Hanesand on 10/6/16.
+//  Copyright © 2017 abello. All rights reserved.
 //
 //
 
 import UIKit
 
-internal final class ABEGithubAPIClient {
+internal final class GithubAPIClient {
     
-    static var githubToken: String? = nil
-    static var githubRepositoryName: String? = nil
-    static var githubRepositoryOwner: String? = nil
+    static var githubToken: String?
+    static var githubRepositoryName: String?
+    static var githubRepositoryOwner: String?
     
-    static let shared = ABEGithubAPIClient()
+    static let shared = GithubAPIClient()
     
     private init() { }
     
-    fileprivate static func humanReadableDescriptionForMissingInformation() -> String? {
+    private static func humanReadableDescriptionForMissingInformation() -> String? {
         if githubToken == nil {
             return "github personal access token"
         } else if githubRepositoryName == nil {
@@ -30,9 +31,10 @@ internal final class ABEGithubAPIClient {
         return nil
     }
     
-    fileprivate func baseSaveIssueURLRequest() throws -> URLRequest {
-        guard let githubToken = ABEGithubAPIClient.githubToken, let name = ABEGithubAPIClient.githubRepositoryName, let owner = ABEGithubAPIClient.githubRepositoryOwner else {
-            let humanReadableDescription = ABEGithubAPIClient.humanReadableDescriptionForMissingInformation()!
+    private func baseSaveIssueURLRequest() throws -> URLRequest {
+
+        guard let githubToken = GithubAPIClient.githubToken, let name = GithubAPIClient.githubRepositoryName, let owner = GithubAPIClient.githubRepositoryOwner else {
+            let humanReadableDescription = GithubAPIClient.humanReadableDescriptionForMissingInformation()!
             throw IssueReporterError.missingInformation(name: humanReadableDescription)
         }
         
@@ -53,11 +55,11 @@ internal final class ABEGithubAPIClient {
         return request
     }
     
-    fileprivate func requestFor(issue: ABEIssue) throws -> URLRequest {
+    private func requestFor(issue: Issue) throws -> URLRequest {
         var baseIssueRequest = try self.baseSaveIssueURLRequest()
         
         do {
-            let json = try JSONSerialization.data(withJSONObject: issue.dictionaryRepresentation!, options: [])
+            let json = try JSONSerialization.data(withJSONObject: issue.dictionaryRepresentation, options: [])
             
             baseIssueRequest.setValue("\(json.count)", forHTTPHeaderField: "Content-Length")
             baseIssueRequest.httpBody = json
@@ -68,7 +70,7 @@ internal final class ABEGithubAPIClient {
         }
     }
     
-    func save(issue: ABEIssue, callback queue: DispatchQueue = DispatchQueue.main, success: @escaping () -> (), failure: @escaping (IssueReporterError) -> ()) throws {
+    func save(issue: Issue, callback queue: DispatchQueue = DispatchQueue.main, success: @escaping () -> (), failure: @escaping (IssueReporterError) -> ()) throws {
 
         let issueRequest = try self.requestFor(issue: issue)
         
@@ -94,9 +96,11 @@ internal final class ABEGithubAPIClient {
                 throw IssueReporterError.network(response: response, detail: json.value(forKeyPath: "message") as? String)
                 
             } catch let error as NSError where error.domain != IssueReporterError.domain {
+
                 // Catch error not from our domain and wrap them
                 failure(IssueReporterError.jsonError(underlyingError: error))
             } catch {
+
                 // Catch and forward all other errors
                 failure(error as! IssueReporterError)
             }

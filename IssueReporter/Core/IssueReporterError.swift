@@ -1,8 +1,9 @@
 //
-//  ABEImgurAPIClient.swift
-//  Pods
+//  IssueReporterError.swift
+//  IssueReporter
 //
-//  Created by Hakon Hanesand on 10/8/16.
+//  Created by Hakon Hanesand on 10/6/16.
+//  Copyright © 2017 abello. All rights reserved.
 //
 //
 
@@ -15,7 +16,7 @@ enum IssueReporterError: Error {
     
     case missingInformation(name: String)
     case invalid(name: String)
-    
+
     case invalidURL
     case malformedResponseURL
     case unparseableResponse
@@ -57,12 +58,12 @@ enum IssueReporterError: Error {
 
 internal final class ABEImgurAPIClient {
     
-    static var imgurAPIKey: String? = nil
+    static var imgurAPIKey: String?
     static let shared = ABEImgurAPIClient()
     
     private init() { }
     
-    fileprivate func baseImageUploadRequest() throws -> URLRequest {
+    private func baseImageUploadRequest() throws -> URLRequest {
         
         guard let imgurAPIKey = ABEImgurAPIClient.imgurAPIKey else {
             throw IssueReporterError.missingInformation(name: "imgur api key")
@@ -83,9 +84,9 @@ internal final class ABEImgurAPIClient {
         return request
     }
     
-    fileprivate func uploadRequest(for imageData: Data) throws -> URLRequest {
-        let parameters = ["image" : imageData.base64EncodedString(),
-                          "type" : "base64"]
+    private func uploadRequest(for imageData: Data) throws -> URLRequest {
+
+        let parameters = ["image" : imageData.base64EncodedString(), "type" : "base64"]
         
         var baseIssueRequest = try baseImageUploadRequest()
         let data = try JSONSerialization.data(withJSONObject: parameters)
@@ -98,7 +99,7 @@ internal final class ABEImgurAPIClient {
     
     func upload(imageData: Data, dispatchQueue: DispatchQueue = DispatchQueue.main, errorHandler: @escaping (IssueReporterError) -> (), success: @escaping (URL) -> ()) throws {
         
-        let request = try self.uploadRequest(for: imageData)
+        let request = try uploadRequest(for: imageData)
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             do {
@@ -128,9 +129,11 @@ internal final class ABEImgurAPIClient {
                     success(url)
                 }
             } catch let error as NSError where error.domain != IssueReporterError.domain {
+
                 // Catch error not from our domain and wrap them
                 errorHandler(IssueReporterError.jsonError(underlyingError: error))
             } catch {
+                
                 // Catch and forward all other errors
                 errorHandler(error as! IssueReporterError)
             }

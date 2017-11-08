@@ -1,8 +1,9 @@
 //
 //  UIBarButtonItem+CustomBarButton.swift
-//  Pods
+//  IssueReporter
 //
-//  Created by Hakon Hanesand on 10/8/16.
+//  Created by Hakon Hanesand on 10/6/16.
+//  Copyright © 2017 abello. All rights reserved.
 //
 //
 
@@ -11,8 +12,8 @@ import UIKit
 
 internal extension UIBarButtonItem {
     
-    fileprivate static let kABECloseButtonImage = "close"
-    fileprivate static let kABESaveButtonImage = "save"
+    private static let kABECloseButtonImage = "close"
+    private static let kABESaveButtonImage = "save"
     
     static func backButton(_ target: AnyObject, action: Selector, color: UIColor) -> UIBarButtonItem {
         let cocoapodsBundle = Bundle.bundleForLibrary()

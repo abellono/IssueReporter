@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="aCf-Qr-zyw">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="aCf-Qr-zyw">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
         <array key="AkkuratStd-Regular.otf">
             <string>AkkuratStd</string>
         </array>
+        <array key="HelveticaNeue.ttc">
+            <string>HelveticaNeue</string>
+        </array>
     </customFonts>
     <scenes>
-        <!--New Issue-->
+        <!--New issue-->
         <scene sceneID="EAZ-FU-pHl">
             <objects>
-                <viewController storyboardIdentifier="ABEReporterViewController" id="aCf-Qr-zyw" customClass="ABEReporterViewController" customModule="IssueReporter" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ReporterViewController" id="aCf-Qr-zyw" customClass="ReporterViewController" customModule="IssueReporter" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="8wE-a3-eHU"/>
                         <viewControllerLayoutGuide type="bottom" id="KXY-Qp-yye"/>
@@ -23,17 +31,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Title" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qCC-l2-Cwb">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Title of issue" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qCC-l2-Cwb">
+                                <rect key="frame" x="8" y="72" width="359" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="r9e-wA-R6P"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="AkkuratStd" family="AkkuratStd" pointSize="21"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                <connections>
-                                    <action selector="titleTextDidChange:" destination="aCf-Qr-zyw" eventType="editingChanged" id="Lid-um-1lx"/>
-                                </connections>
                             </textField>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hdR-PG-Hob">
+                                <rect key="frame" x="8" y="140" width="359" height="109.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="hdR-PG-Hob" secondAttribute="height" multiplier="292:89" id="XyJ-Wm-L18"/>
                                 </constraints>
@@ -42,13 +49,12 @@
                                 </connections>
                             </containerView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="16E-Y5-cZH" userLabel="Description">
+                                <rect key="frame" x="8" y="257.5" width="359" height="401.5"/>
                                 <fontDescription key="fontDescription" name="AkkuratStd" family="AkkuratStd" pointSize="19"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                <connections>
-                                    <outlet property="delegate" destination="aCf-Qr-zyw" id="dpc-RN-k7v"/>
-                                </connections>
                             </textView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What went wrong?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8bg-92-7ns" userLabel="Placeholder">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What went wrong?" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8bg-92-7ns" userLabel="Placeholder">
+                                <rect key="frame" x="27" y="271.5" width="321" height="22.5"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="19"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="0.22" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -57,6 +63,7 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="8bg-92-7ns" secondAttribute="trailing" constant="11" id="8xA-AW-c1I"/>
                             <constraint firstItem="qCC-l2-Cwb" firstAttribute="top" secondItem="8wE-a3-eHU" secondAttribute="bottom" constant="8" id="ACj-rl-tXB"/>
                             <constraint firstItem="hdR-PG-Hob" firstAttribute="top" secondItem="qCC-l2-Cwb" secondAttribute="bottom" constant="8" id="FKf-Nd-DYH"/>
                             <constraint firstItem="16E-Y5-cZH" firstAttribute="leading" secondItem="V9T-8p-VK0" secondAttribute="leading" constant="8" id="LF5-eX-JL2"/>
@@ -65,7 +72,7 @@
                             <constraint firstItem="16E-Y5-cZH" firstAttribute="leading" secondItem="8bg-92-7ns" secondAttribute="leading" constant="-19" id="WgF-cU-uSJ"/>
                             <constraint firstItem="16E-Y5-cZH" firstAttribute="top" secondItem="8bg-92-7ns" secondAttribute="top" constant="-14" id="ePh-Wg-VKW"/>
                             <constraint firstAttribute="trailing" secondItem="qCC-l2-Cwb" secondAttribute="trailing" constant="8" id="nc0-ag-SCh"/>
-                            <constraint firstItem="KXY-Qp-yye" firstAttribute="top" secondItem="16E-Y5-cZH" secondAttribute="bottom" constant="8" id="on5-wW-WtL"/>
+                            <constraint firstItem="KXY-Qp-yye" firstAttribute="top" secondItem="16E-Y5-cZH" secondAttribute="bottom" constant="8" id="on5-wW-WtL" customClass="KeyboardLayoutConstraint" customModule="IssueReporter"/>
                             <constraint firstItem="qCC-l2-Cwb" firstAttribute="leading" secondItem="V9T-8p-VK0" secondAttribute="leading" constant="8" id="pEw-xf-OFi"/>
                             <constraint firstAttribute="trailing" secondItem="hdR-PG-Hob" secondAttribute="trailing" constant="8" id="pJM-Ed-Wi4"/>
                             <constraint firstAttribute="trailing" secondItem="16E-Y5-cZH" secondAttribute="trailing" constant="8" id="t9h-Tu-kAI"/>
@@ -74,7 +81,7 @@
                             <outletCollection property="gestureRecognizers" destination="2xK-ce-zYk" appends="YES" id="1EN-UG-4dL"/>
                         </connections>
                     </view>
-                    <navigationItem key="navigationItem" title="New Issue" id="iP9-aX-6ve">
+                    <navigationItem key="navigationItem" title="New issue" id="iP9-aX-6ve">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="dpi-wm-U1G">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
@@ -92,12 +99,12 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zov-mt-eUP" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <panGestureRecognizer minimumNumberOfTouches="1" id="2xK-ce-zYk" userLabel="Hide Keyboard Pan Gesture Recognizer"/>
             </objects>
-            <point key="canvasLocation" x="-140" y="523"/>
+            <point key="canvasLocation" x="-374" y="360"/>
         </scene>
         <!--Image Collection View Controller-->
         <scene sceneID="aZ0-3h-feP">
             <objects>
-                <collectionViewController id="jun-oi-wMd" customClass="ABEImageCollectionViewController" customModule="IssueReporter" sceneMemberID="viewController">
+                <collectionViewController id="jun-oi-wMd" customClass="ImageCollectionViewController" customModule="IssueReporter" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="94i-Le-oD6">
                         <rect key="frame" x="0.0" y="0.0" width="359" height="109.5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -109,14 +116,15 @@
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="CollectionViewAddPictureIdentifier" reuseIdentifier="CollectionViewAddPictureIdentifier" id="Oc9-LO-f4z" customClass="ABEImageCollectionViewCell" customModule="IssueReporter">
-                                <rect key="frame" x="0.0" y="-33" width="100" height="176"/>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" restorationIdentifier="CollectionViewAddPictureIdentifier" reuseIdentifier="CollectionViewAddPictureIdentifier" id="Oc9-LO-f4z" customClass="ImageCollectionViewCell" customModule="IssueReporter">
+                                <rect key="frame" x="0.0" y="-33.5" width="100" height="176"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="100" height="176"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="picture.png" translatesAutoresizingMaskIntoConstraints="NO" id="b1g-Rh-R5p">
+                                            <rect key="frame" x="25.5" y="-16.5" width="33" height="33"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="33" id="Bsx-qk-Ids"/>
                                                 <constraint firstAttribute="height" constant="33" id="IQx-x4-vbd"/>
@@ -141,20 +149,24 @@
                                     <outlet property="imageView" destination="b1g-Rh-R5p" id="pSr-Um-Mv2"/>
                                 </connections>
                             </collectionViewCell>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CollectionViewPictureIdentifier" id="7ca-ex-STp" customClass="ABEImageCollectionViewCell" customModule="IssueReporter">
-                                <rect key="frame" x="120" y="-33" width="100" height="176"/>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" reuseIdentifier="CollectionViewPictureIdentifier" id="7ca-ex-STp" customClass="ImageCollectionViewCell" customModule="IssueReporter">
+                                <rect key="frame" x="120" y="-33.5" width="100" height="176"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="100" height="176"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="F2G-s6-hAZ"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="F2G-s6-hAZ">
+                                            <rect key="frame" x="0.0" y="0.0" width="84" height="0.0"/>
+                                        </imageView>
                                         <visualEffectView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ezr-AE-30V">
+                                            <rect key="frame" x="0.0" y="0.0" width="84" height="0.0"/>
                                             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="center" id="Cex-8H-vZG">
-                                                <frame key="frameInset"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="84" height="0.0"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="close.png" translatesAutoresizingMaskIntoConstraints="NO" id="0LJ-KR-Jx0">
+                                                        <rect key="frame" x="34" y="-8" width="16" height="16"/>
                                                         <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     </imageView>
                                                 </subviews>
