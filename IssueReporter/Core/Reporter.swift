@@ -10,7 +10,7 @@
 import Foundation
 import UIKit
 
-public protocol ReporterDelegate {
+@objc public protocol ReporterDelegate {
     func debugInformationForIssueReporter() -> [String: String]
 }
 
@@ -30,6 +30,7 @@ public class Reporter: NSObject {
             "Current Device": UIDevice.current.model,
             "iOS Version": UIDevice.current.systemVersion
         ]
+        
         info["App Version"] = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
         info["Bundle Version"] = Bundle.main.infoDictionary?["CFBundleVersion"] as? String
 
@@ -41,15 +42,18 @@ public class Reporter: NSObject {
     // Made private to make sure no-one creates their own Reporter instance
     private override init() { }
 
-    @objc public class func setup(repositoryName name: String, owner: String, token: String, imgurKey: String? = nil) {
+    @objc public class func setup(repositoryName: String,
+                                  owner: String,
+                                  githubToken: String,
+                                  imgurClientId: String? = nil) {
 
         UIWindow.swizzleMotionEnded()
 
-        GithubAPIClient.githubRepositoryName = name
+        GithubAPIClient.githubRepositoryName = repositoryName
         GithubAPIClient.githubRepositoryOwner = owner
-        GithubAPIClient.githubToken = token
+        GithubAPIClient.githubToken = githubToken
 
-        ABEImgurAPIClient.imgurAPIKey = imgurKey
+        ABEImgurAPIClient.imgurClientId = imgurClientId
 
         Reporter.notificationObserver = NotificationCenter.default.addObserver(forName: .onWindowShake,
                                                                                object: nil,

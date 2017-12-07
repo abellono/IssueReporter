@@ -14,7 +14,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-    [Reporter setupWithRepositoryName:@"IssueReporter" owner:@"abellono" token:@"long_github_token_here" imgurKey:@"shorter_imgur_client_id"];
+    [Reporter setupWithRepositoryName:@"IssueReporter" owner:@"abellono" githubToken:@"long_github_token_here" imgurClientId:@"shorter_imgur_client_id"];
+    
+    // Set the delegate to provide extra debug information.
+    // Reporter.delegate =
     
     return YES;
 }

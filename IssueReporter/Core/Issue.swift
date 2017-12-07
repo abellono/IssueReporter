@@ -15,9 +15,12 @@ internal struct Issue {
     
     var textRepresentation : String {
 
-        let extraDebuggingInformation = Reporter.debugInformationForIssueReporter()
+        let debugInformationDictionary = Reporter.debugInformationForIssueReporter()
+        let debugInformationString = debugInformationDictionary.map {
+            return "\($0.key) : \($0.value)"
+        }.joined(separator: "\n")
         
-        let base = "\(issueDescription) \n\n \(extraDebuggingInformation)"
+        let base = "\(issueDescription) \n\n \(debugInformationString)"
         
         let imageURLs = images.filter { $0.state.contents == .done }.map { $0.cloudImageURL!.absoluteString }
         let combinedImageURLString = imageURLs.map { "![image](\($0))\n" }.reduce("") { $0 + "\n" + $1 }

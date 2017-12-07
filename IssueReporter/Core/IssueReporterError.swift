@@ -58,14 +58,14 @@ enum IssueReporterError: Error {
 
 internal final class ABEImgurAPIClient {
     
-    static var imgurAPIKey: String?
+    static var imgurClientId: String?
     static let shared = ABEImgurAPIClient()
     
     private init() { }
     
     private func baseImageUploadRequest() throws -> URLRequest {
         
-        guard let imgurAPIKey = ABEImgurAPIClient.imgurAPIKey else {
+        guard let imgurAPIKey = ABEImgurAPIClient.imgurClientId else {
             throw IssueReporterError.missingInformation(name: "imgur api key")
         }
         
