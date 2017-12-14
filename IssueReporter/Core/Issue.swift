@@ -7,11 +7,19 @@
 //
 //
 
+internal enum State {
+    case initial
+    case uploading
+    case errored
+    case done
+}
+
 internal struct Issue {
    
     var title = ""
     var issueDescription = " "
     var images: [Image] = []
+    var files: [File] = []
     
     var textRepresentation : String {
 
@@ -21,18 +29,17 @@ internal struct Issue {
         }.joined(separator: "\n")
         
         let base = "\(issueDescription) \n\n \(debugInformationString)"
+
+        let fileURLs = files.filter { $0.state == .done }.map { $0.htmlURL!.absoluteString }.joined(separator: "\n")
         
-        let imageURLs = images.filter { $0.state.contents == .done }.map { $0.cloudImageURL!.absoluteString }
+        let imageURLs = images.filter { $0.state == .done }.map { $0.cloudImageURL!.absoluteString }
         let combinedImageURLString = imageURLs.map { "![image](\($0))\n" }.reduce("") { $0 + "\n" + $1 }
         
-        return base + "\n" + combinedImageURLString
+        return base + "\n" + combinedImageURLString + "\n\n Files :\n" + fileURLs
     }
     
     var dictionaryRepresentation : [String : String] {
-        guard !title.isEmpty else {
-            return ["title" : "No title", "body" : textRepresentation]
-        }
-
-        return ["title" : title, "body" : textRepresentation]
+        return ["title" : title.isEmpty ? "no title" : title,
+                "body" : textRepresentation]
     }
 }

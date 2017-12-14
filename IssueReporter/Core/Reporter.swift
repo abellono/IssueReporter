@@ -11,7 +11,10 @@ import Foundation
 import UIKit
 
 @objc public protocol ReporterDelegate {
+
     func debugInformationForIssueReporter() -> [String: String]
+
+    func debugFilesForIssueReporter() -> [String: Data]
 }
 
 public class Reporter: NSObject {
