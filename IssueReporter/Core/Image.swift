@@ -9,14 +9,6 @@
 
 import Foundation
 
-internal enum State {
-    case initial
-    case saved
-    case uploading
-    case errored
-    case done
-}
-
 internal class Image {
     
     let image: UIImage
@@ -24,33 +16,26 @@ internal class Image {
     
     let compressionRatio: Double = 0.5
     
-    var localImageURL: URL? = nil {
-        didSet {
-            self.state.contents = .saved
-        }
-    }
+    var localImageURL: URL? = nil    
+    var cloudImageURL: URL? = nil
     
-    var cloudImageURL: URL? = nil {
-        didSet {
-            self.state.contents = .done
-        }
-    }
-    
-    var state: Threadsafe<State> = Threadsafe(.initial)
-    var compressionCompletionBlock: Threadsafe<((Image) -> ())?> = Threadsafe(nil)
+    var state: State = .initial
+    var compressionCompletionBlock: (Image) -> () = { _ in }
     
     init(image: UIImage) {
         self.image = image.applyRotationToImageData()
         
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            guard let `self` = self else { return }
-            self.imageData = UIImageJPEGRepresentation(self.image, CGFloat(self.compressionRatio))
+            guard let strongSelf = self else { return }
+            strongSelf.imageData = UIImageJPEGRepresentation(strongSelf.image, CGFloat(strongSelf.compressionRatio))
         }
     }
     
     var imageData: Data? {
         didSet {
-            self.compressionCompletionBlock.contents?(self)
+            DispatchQueue.main.async {
+                self.compressionCompletionBlock(self)
+            }
         }
     }
 }
