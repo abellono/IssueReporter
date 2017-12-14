@@ -78,20 +78,20 @@ internal class ReporterViewController: UIViewController {
                                                   tableName: ReporterViewController.kABETableName,
                                                   bundle: Bundle.bundleForLibrary(),
                                                   comment: "placeholder for description")
-        title = NSLocalizedString(self.navigationItem.title!,
+        title = NSLocalizedString(navigationItem.title!,
                                   tableName: ReporterViewController.kABETableName,
                                   bundle: Bundle.bundleForLibrary(),
                                   comment: "title")
     }
     
     @IBAction func cancelIssueReporting(_ sender: AnyObject) {
-        self.dismissIssueReporter()
+        dismissIssueReporter()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let identifier = segue.identifier, identifier == "embed_segue" {
-            self.imageCollectionViewController = segue.destination as! ImageCollectionViewController
-            self.imageCollectionViewController.issueManager = self.issueManager
+            imageCollectionViewController = segue.destination as! ImageCollectionViewController
+            imageCollectionViewController.issueManager = issueManager
         }
     }
     
@@ -99,13 +99,15 @@ internal class ReporterViewController: UIViewController {
         
         issueManager.issue.title = titleTextField.text ?? ""
         issueManager.issue.issueDescription = descriptionTextView.text
-        
-        issueManager.saveIssue { [weak self] in
-            DispatchQueue.main.async { [weak self] in
-                self?.view.endEditing(false)
-                self?.dismissIssueReporter()
+
+        issueManager.saveIssue(completion: { [weak self] in
+            guard let strongSelf = self else { return }
+
+            DispatchQueue.main.async {
+                strongSelf.view.endEditing(false)
+                strongSelf.dismissIssueReporter()
             }
-        }
+        })
     }
     
     func dismissIssueReporter() {
@@ -117,40 +119,43 @@ internal class ReporterViewController: UIViewController {
 extension ReporterViewController: IssueManagerDelegate {
 
     internal func issueManagerUploadingStateDidChange(issueManager: IssueManager) {
-        self.imageCollectionViewController?.collectionView?.reloadData()
+        imageCollectionViewController?.collectionView?.reloadData()
         
         if issueManager.isUploading {
             let spinner = UIActivityIndicatorView(activityIndicatorStyle: .white)
             
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: spinner)
-            self.navigationItem.rightBarButtonItem?.isEnabled = false
+            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: spinner)
+            navigationItem.rightBarButtonItem?.isEnabled = false
             
             spinner.startAnimating()
             
         } else {
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem.saveButton(self, action: #selector(ReporterViewController.saveIssue))
-            self.navigationItem.rightBarButtonItem?.isEnabled = true
+            navigationItem.rightBarButtonItem = UIBarButtonItem.saveButton(self, action: #selector(ReporterViewController.saveIssue))
+            navigationItem.rightBarButtonItem?.isEnabled = true
         }
     }
     
     internal func issueManager(_ issueManager: IssueManager, didFailToUploadImage image: Image, error: IssueReporterError) {
-        if self.issueManager.images.index(of: image) != nil {
+        if issueManager.images.index(of: image) != nil {
             let alert = UIAlertController(error: error)
-            self.present(alert, animated: true)
+            present(alert, animated: true)
         }
+    }
+
+    internal func issueManager(_ issueManager: IssueManager, didFailToUploadFile file: File, error: IssueReporterError) {
+        let alert = UIAlertController(error: error)
+        present(alert, animated: true)
     }
     
     internal func issueManager(_ issueManager: IssueManager, didFailToUploadIssueWithError error: IssueReporterError) {
         let alert = UIAlertController(error: error)
         
         alert.addAction(UIAlertAction(title: "Retry", style: .default) { [weak self] _ in
-            issueManager.saveIssue { [weak self] in
-                self?.view.endEditing(false)
-                self?.dismissIssueReporter()
-            }
+            guard let strongSelf = self else { return }
+            strongSelf.saveIssue()
         })
         
-        self.present(alert, animated: true)
+        present(alert, animated: true)
     }
 }
 
