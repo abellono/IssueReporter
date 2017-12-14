@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "946F587E7C946744E9F044CEED80693C"
+               BlueprintIdentifier = "5CC7B3C3BA2CD35B7F43777D20DA94CC"
                BuildableName = "IssueReporterResources.bundle"
                BlueprintName = "IssueReporter-IssueReporterResources"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -47,7 +47,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "946F587E7C946744E9F044CEED80693C"
+            BlueprintIdentifier = "5CC7B3C3BA2CD35B7F43777D20DA94CC"
             BuildableName = "IssueReporterResources.bundle"
             BlueprintName = "IssueReporter-IssueReporterResources"
             ReferencedContainer = "container:Pods.xcodeproj">
