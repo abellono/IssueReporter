@@ -107,8 +107,14 @@ internal final class GithubAPI {
         }
 
         if response.statusCode != successCode {
-            let json = try JSONSerialization.jsonObject(with: data, options: []) as! NSDictionary
-            throw IssueReporterError.network(response: response, detail: json.value(forKeyPath: "message") as? String)
+            guard
+                let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                let errorMessage = json["message"] as? String
+            else {
+                throw IssueReporterError.unparseableResponse
+            }
+
+            throw IssueReporterError.network(response: response, detail: errorMessage)
         }
 
         return (response, data)
