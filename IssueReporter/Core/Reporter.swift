@@ -56,7 +56,7 @@ public class Reporter: NSObject {
         GithubAPIClient.githubRepositoryOwner = owner
         GithubAPIClient.githubToken = githubToken
 
-        ABEImgurAPIClient.imgurClientId = imgurClientId
+        ImgurAPIClient.imgurClientId = imgurClientId
 
         Reporter.notificationObserver = NotificationCenter.default.addObserver(forName: .onWindowShake,
                                                                                object: nil,

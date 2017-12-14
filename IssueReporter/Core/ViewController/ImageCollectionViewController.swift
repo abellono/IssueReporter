@@ -44,7 +44,7 @@ extension ImageCollectionViewController: UIImagePickerControllerDelegate {
         
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
-                self?.issueManager.add(image)
+                self?.issueManager.add(image: image)
             }
         }
     }
@@ -57,11 +57,11 @@ extension ImageCollectionViewController: QLPreviewControllerDataSource {
     }
     
     func previewController(_ controller: QLPreviewController, previewItemAt index: Int) -> QLPreviewItem {
-        if let imageURL = issueManager.images[index].localImageURL as QLPreviewItem? {
-            return imageURL
+        guard let imageURL = issueManager.images[index].localImageURL as QLPreviewItem? else {
+            fatalError("Could not find preview item at index \(index)")
         }
-        
-        return URL(string: "")! as QLPreviewItem
+
+        return imageURL
     }
 }
 
@@ -84,10 +84,10 @@ extension ImageCollectionViewController  {
         } else {
 
             let index = indexPath.row - ImageCollectionViewController.kABEAddPictureCollectionViewCellOffset
-            let image = self.issueManager.images[index]
+            let image = issueManager.images[index]
             
-            if image.state.contents == .errored {
-                self.presentRetryMenu(for: image)
+            if image.state == .errored {
+                presentRetryMenu(for: image)
                 return
             }
             
@@ -113,14 +113,14 @@ extension ImageCollectionViewController  {
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.issueManager.images.count + ImageCollectionViewController.kABEAddPictureCollectionViewCellOffset
+        return issueManager.images.count + ImageCollectionViewController.kABEAddPictureCollectionViewCellOffset
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.row == ImageCollectionViewController.kABEAddPictureCollectionViewCellIndex {
-            return self.buildAddPictureCell(for: collectionView, at: indexPath)
+            return buildAddPictureCell(for: collectionView, at: indexPath)
         } else {
-            return self.buildPictureCell(for: collectionView, at: indexPath)
+            return buildPictureCell(for: collectionView, at: indexPath)
         }
     }
     
@@ -132,7 +132,7 @@ extension ImageCollectionViewController  {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCollectionViewController.kABEPictureCollectionViewCellReuseIdentifier, for: indexPath) as! ImageCollectionViewCell
         let image = issueManager.images[indexPath.row - ImageCollectionViewController.kABEAddPictureCollectionViewCellOffset]
         cell.imageView.image = image.image
-        cell.didErrorDuringUpload = image.state.contents == .errored
+        cell.didErrorDuringUpload = image.state == .errored
         return cell
     }
 }

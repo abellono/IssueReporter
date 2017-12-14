@@ -15,7 +15,7 @@ internal extension UIAlertController {
     convenience init(error: NSError) {
         self.init(title: error.localizedDescription, message: error.localizedRecoverySuggestion, preferredStyle: .alert)
         
-        self.addAction(UIAlertAction(title: "Ok", style: .default) { [weak self] _ in
+        addAction(UIAlertAction(title: "Ok", style: .default) { [weak self] _ in
             self?.presentingViewController?.dismiss(animated: true)
         })
     }
