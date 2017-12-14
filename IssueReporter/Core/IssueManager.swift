@@ -36,8 +36,6 @@ internal class IssueManager {
         let imageUploadingCount = images.filter { $0.state == .uploading }.count
         let fileUploadingCount = files.filter { $0.state == .uploading }.count
 
-        print("file uploading \(fileUploadingCount) image uploading count \(imageUploadingCount)")
-
         return (fileUploadingCount + imageUploadingCount) > 0
     }
     
