@@ -58,6 +58,8 @@ internal class IssueManager {
                 addFile(at: path, with: contents)
             }
         }
+
+        persist(files: self.files)
     }
     
     private func drawSnapshotOf(referenceView view: UIView) -> UIImage {
@@ -88,27 +90,40 @@ internal class IssueManager {
 
     func addFile(at path: String, with contents: Data) {
         let file = File(path: path, data: contents)
+        file.state = .uploading
         issue.files.append(file)
-        persist(file: file)
     }
 
     // MARK : File Persistance
 
-    func persist(file: File) {
-        file.state = .uploading
+    func persist(files _files: [File]) {
+        var files = _files
+        guard let next = files.popLast() else {
+            return
+        }
 
+        persist(file: next) {
+            self.persist(files: files)
+        }
+    }
+
+    func persist(file: File, completion: @escaping () -> ()) {
         GithubAPIClient.shared.upload(file: file.data, for: issue, at: file.path, success: { [weak self] (url) in
             guard let strongSelf = self else { return }
 
             file.htmlURL = url
             file.state = .done
             strongSelf.delegate?.issueManagerUploadingStateDidChange(issueManager: strongSelf)
+
+            completion()
         }) { [weak self] (error) in
             guard let strongSelf = self else { return }
             
             file.state = .errored
             strongSelf.delegate?.issueManager(strongSelf, didFailToUploadFile: file, error: error)
             strongSelf.delegate?.issueManagerUploadingStateDidChange(issueManager: strongSelf)
+
+            completion()
         }
     }
 
