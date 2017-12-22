@@ -110,7 +110,7 @@ internal class ReporterViewController: UIViewController {
     }
     
     func dismissIssueReporter(success: Bool) {
-        strongSelf.view.endEditing(false)
+        view.endEditing(false)
         Reporter.dismissReporterView(with: success)
     }
 }
