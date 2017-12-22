@@ -85,7 +85,7 @@ internal class ReporterViewController: UIViewController {
     }
     
     @IBAction func cancelIssueReporting(_ sender: AnyObject) {
-        dismissIssueReporter()
+        dismissIssueReporter(success: false)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -104,15 +104,14 @@ internal class ReporterViewController: UIViewController {
             guard let strongSelf = self else { return }
 
             DispatchQueue.main.async {
-                strongSelf.view.endEditing(false)
-                strongSelf.dismissIssueReporter()
+                strongSelf.dismissIssueReporter(success: true)
             }
         })
     }
     
-    func dismissIssueReporter() {
-        FileManager.eraseStoredPicturesFromDisk()
-        presentingViewController?.dismiss(animated: true)
+    func dismissIssueReporter(success: Bool) {
+        strongSelf.view.endEditing(false)
+        Reporter.dismissReporterView(with: success)
     }
 }
 

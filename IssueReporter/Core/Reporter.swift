@@ -15,6 +15,8 @@ import UIKit
     func debugInformationForIssueReporter() -> [String: String]
 
     func debugFilesForIssueReporter() -> [String: Data]
+
+    func didDismissIssueReporter(with success: Bool)
 }
 
 public class Reporter: NSObject {
@@ -83,6 +85,12 @@ public class Reporter: NSObject {
         let navigationController = UINavigationController(rootViewController: reporterViewController)
 
         presentationTarget.present(navigationController, animated: true)
+    }
+
+    class func dismissReporterView(with success: Bool) {
+        FileManager.eraseStoredPicturesFromDisk()
+        self.reporterViewController?.presentingViewController?.dismiss(animated: true)
+        self.delegate?.didDismissIssueReporter(with: success)
     }
 
     private class func presentingTargetForReporterViewController(cannidate: UIViewController) -> UIViewController {
