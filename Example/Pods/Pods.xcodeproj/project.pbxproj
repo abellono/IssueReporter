@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 48;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -65,10 +65,10 @@
 
 /* Begin PBXFileReference section */
 		130F27C5BE99A3E1AC8B96A095B6E440 /* close@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "close@2x.png"; path = "IssueReporter/Assets/close@2x.png"; sourceTree = "<group>"; };
-		14EB1AE6CFACA0D3115048B80F4BF170 /* Pods_IssueReporter_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_IssueReporter_Example.framework; path = "Pods-IssueReporter_Example.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		14EB1AE6CFACA0D3115048B80F4BF170 /* Pods_IssueReporter_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IssueReporter_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1774C2FC3BE3658BE59BB80E0F3839B9 /* UIWindow+Shake.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UIWindow+Shake.swift"; sourceTree = "<group>"; };
 		1A85288E39CB34A19CD668F490928C95 /* Pods-IssueReporter_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-IssueReporter_Example-dummy.m"; sourceTree = "<group>"; };
-		1D91BDED98E9031C9591A5138C9112EB /* IssueReporter.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = IssueReporter.modulemap; sourceTree = "<group>"; };
+		1D91BDED98E9031C9591A5138C9112EB /* IssueReporter.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = IssueReporter.modulemap; sourceTree = "<group>"; };
 		220F918E2FBD68D88E0981820439A60C /* UIImage+Rotate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UIImage+Rotate.swift"; sourceTree = "<group>"; };
 		2A2DFE1E7CA60D2EE468DA61977DE725 /* Pods-IssueReporter_Example-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-IssueReporter_Example-resources.sh"; sourceTree = "<group>"; };
 		2CA3F578921EEE7C002A9E30935CC57B /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -88,10 +88,10 @@
 		6B862D9CEAF25EA8F6D4896FE6B1A235 /* UIBarButtonItem+CustomBarButton.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+CustomBarButton.swift"; sourceTree = "<group>"; };
 		6BA53F0BCA024263F5750CF7C5D7AAF7 /* GithubAPIClient.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = GithubAPIClient.swift; path = IssueReporter/Core/GithubAPIClient.swift; sourceTree = "<group>"; };
 		751FF08499C9D43655EB9BA266FA8BB0 /* close@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "close@3x.png"; path = "IssueReporter/Assets/close@3x.png"; sourceTree = "<group>"; };
-		7D4A33A659CD5C84C3822A8168A88C2B /* IssueReporterResources.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = IssueReporterResources.bundle; path = "IssueReporter-IssueReporterResources.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7D4A33A659CD5C84C3822A8168A88C2B /* IssueReporterResources.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IssueReporterResources.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		83228E805378DCD37AE526850FE4AC1B /* Pods-IssueReporter_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-IssueReporter_Example-acknowledgements.plist"; sourceTree = "<group>"; };
-		8A963BA849F01729955B77ADDF67764E /* IssueReporter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = IssueReporter.framework; path = IssueReporter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		8A963BA849F01729955B77ADDF67764E /* IssueReporter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = IssueReporter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		965431057ED4032CDE7E57DCF5490BFA /* UIAlertController+ErrorAlert.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UIAlertController+ErrorAlert.swift"; sourceTree = "<group>"; };
 		985CFED4574A6A089912A081DB8E2E77 /* close.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = close.png; path = IssueReporter/Assets/close.png; sourceTree = "<group>"; };
 		9CD7D13A14EF3A3C8F4EC8D808603B8B /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -110,7 +110,7 @@
 		CD135F07D5E1474437914D2C6EEBDF00 /* NSBundle+Access.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "NSBundle+Access.swift"; sourceTree = "<group>"; };
 		D1890FAF84AFA0DA9CD8A18A62B6AE35 /* Pods-IssueReporter_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-IssueReporter_Example-frameworks.sh"; sourceTree = "<group>"; };
 		D88AAE1F92055A60CC2FC970D7D34634 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		D8F0D18F3095C2B5AB983FBC0375DA6E /* Pods-IssueReporter_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-IssueReporter_Example.modulemap"; sourceTree = "<group>"; };
+		D8F0D18F3095C2B5AB983FBC0375DA6E /* Pods-IssueReporter_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-IssueReporter_Example.modulemap"; sourceTree = "<group>"; };
 		E880CEEC66F13F497961D108A7AC3B25 /* IssueReporter-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "IssueReporter-dummy.m"; sourceTree = "<group>"; };
 		ED0E37BF3B043871B617C9ADFA7F02B0 /* UIColor+Custom.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UIColor+Custom.swift"; sourceTree = "<group>"; };
 		ED835FB4B8DDF25B447B630DD7089173 /* IssueReporter-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "IssueReporter-umbrella.h"; sourceTree = "<group>"; };
