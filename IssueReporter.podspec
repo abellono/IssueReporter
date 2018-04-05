@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "IssueReporter"
-  s.version          = "3.2.0"
+  s.version          = "4.0.0"
       s.summary      = "Shake your beta app to report issues to GitHub!"
   s.description      = <<-DESC
                       Submit issues to github through your development app by shaking your phone! Beta testers can use this tool to report bugs to you while they are testing your app.

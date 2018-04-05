@@ -110,7 +110,7 @@ internal class ReporterViewController: UIViewController {
 
     private func saveIssueInternal(name: String) {
 
-        UserDefaults.standard.set("tester_name", forKey: name)
+        UserDefaults.standard.set(name, forKey: "tester_name")
 
         issueManager.issue.title = titleTextField.text ?? ""
         issueManager.issue.issueDescription = descriptionTextView.text
