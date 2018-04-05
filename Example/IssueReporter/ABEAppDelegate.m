@@ -10,16 +10,46 @@
 
 @import IssueReporter;
 
+@interface ABEAppDelegate () <IssueReporterDelegate>
+@end
+
 @implementation ABEAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-    [Reporter setupWithRepositoryName:@"IssueReporter" owner:@"abellono" githubToken:@"long_github_token_here" imgurClientId:@"shorter_imgur_client_id"];
+    [Reporter setupWithRepositoryName:@"pure-ios-issues" owner:@"abellono" githubToken:@"4d08a844a452ebc894664b33c00609c2af32f890" imgurClientId:@"shorter_imgur_client_id"];
+
+    [Reporter setWithFileRepository:@"pure-ios-issues" owner:@"abellono"];
     
     // Set the delegate to provide extra debug information.
     // Reporter.delegate =
-    
+
+    Reporter.delegate = self;
+
     return YES;
 }
+
+#pragma mark - IssueReporterDelegate
+
+- (BOOL)shouldAskForTesterName {
+    return YES;
+}
+
+- (NSDictionary<NSString *,NSData *> *)debugFilesForIssueReporter {
+    // Files are uploaded to a the specified repository.
+
+    return @{@"test-file" : [NSJSONSerialization dataWithJSONObject:@{@"json" : @"object"} options:0 error:nil]};
+}
+
+- (NSDictionary<NSString *,NSString *> *)debugInformationForIssueReporter {
+    // Return extra debugging flags from the device, displayed in a header.
+
+    return @{};
+}
+
+- (void)didDismissIssueReporterWith:(BOOL)success {
+
+}
+
 
 @end

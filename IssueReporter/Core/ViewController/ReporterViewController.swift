@@ -96,7 +96,22 @@ internal class ReporterViewController: UIViewController {
     }
     
     @objc func saveIssue() {
-        
+
+        if let name = UserDefaults.standard.string(forKey: "tester_name") {
+            return saveIssueInternal(name: name)
+        }
+
+        if (Reporter.shouldPresentNameAlert()) {
+            return presentNameAlertBeforeSave()
+        } else {
+            saveIssueInternal(name: "No Name")
+        }
+    }
+
+    private func saveIssueInternal(name: String) {
+
+        UserDefaults.standard.set("tester_name", forKey: name)
+
         issueManager.issue.title = titleTextField.text ?? ""
         issueManager.issue.issueDescription = descriptionTextView.text
 
@@ -112,6 +127,26 @@ internal class ReporterViewController: UIViewController {
     func dismissIssueReporter(success: Bool) {
         view.endEditing(false)
         Reporter.dismissReporterView(with: success)
+    }
+
+    // Name Dialoge
+
+    func presentNameAlertBeforeSave() {
+        let alert = UIAlertController(title: "What is your first name?",
+                                      message: "So we can shoot you a message to further investigate, if need be.",
+                                      preferredStyle: .alert)
+
+        alert.addTextField(configurationHandler: nil)
+
+        alert.addAction(UIAlertAction(title: "Done", style: .default, handler: { [weak self] _ in
+            guard let name = alert.textFields?.first?.text else {
+                return
+            }
+
+            self?.saveIssueInternal(name: name)
+        }))
+
+        present(alert, animated: true)
     }
 }
 

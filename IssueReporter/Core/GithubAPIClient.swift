@@ -57,7 +57,11 @@ internal final class GithubAPI {
     }
 
     static func uploadFileRequest(for issue: Issue, with data: Data, at path: String) throws -> URLRequest {
-        guard let name = GithubAPIClient.githubRepositoryName, let owner = GithubAPIClient.githubRepositoryOwner else {
+
+        guard
+            let name = GithubAPIClient.githubFileRepositoryName ?? GithubAPIClient.githubRepositoryName,
+            let owner = GithubAPIClient.githubFileRepositoryOwner ?? GithubAPIClient.githubRepositoryOwner
+        else {
             let humanReadableDescription = GithubAPIClient.humanReadableDescriptionForMissingInformation()!
             throw IssueReporterError.missingInformation(name: humanReadableDescription)
         }
@@ -126,6 +130,9 @@ internal final class GithubAPIClient {
     static var githubToken: String?
     static var githubRepositoryName: String?
     static var githubRepositoryOwner: String?
+
+    static var githubFileRepositoryName: String?
+    static var githubFileRepositoryOwner: String?
 
     internal static func humanReadableDescriptionForMissingInformation() -> String? {
         if githubToken == nil {

@@ -10,19 +10,23 @@
 import Foundation
 import UIKit
 
-@objc public protocol ReporterDelegate {
+@objc public protocol IssueReporterDelegate {
 
     func debugInformationForIssueReporter() -> [String: String]
 
     func debugFilesForIssueReporter() -> [String: Data]
 
     func didDismissIssueReporter(with success: Bool)
+
+    // Behaviour
+
+    func shouldAskForTesterName() -> Bool
 }
 
-public class Reporter: NSObject {
+@objcMembers public class Reporter: NSObject {
 
     public static var enabled: Bool = true
-    public static var delegate: ReporterDelegate?
+    public static var delegate: IssueReporterDelegate?
 
     private weak static var reporterViewController: ReporterViewController?
 
@@ -35,13 +39,18 @@ public class Reporter: NSObject {
             "Current Device": UIDevice.current.model,
             "iOS Version": UIDevice.current.systemVersion
         ]
-        
+
         info["App Version"] = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
         info["Bundle Version"] = Bundle.main.infoDictionary?["CFBundleVersion"] as? String
+        info["Name"] = UserDefaults.standard.string(forKey: "tester_name")
 
         Reporter.delegate?.debugInformationForIssueReporter().forEach { info[$0] = $1 }
 
         return info
+    }
+
+    public class func shouldPresentNameAlert() -> Bool {
+        return delegate?.shouldAskForTesterName() ?? false
     }
 
     // Made private to make sure no-one creates their own Reporter instance
@@ -67,24 +76,28 @@ public class Reporter: NSObject {
         }
     }
 
+    public class func set(fileRepository name: String, owner: String) {
+        GithubAPIClient.githubFileRepositoryName = name
+        GithubAPIClient.githubFileRepositoryOwner = owner
+    }
+
     @objc public class func showReporterView() {
 
-        guard self.reporterViewController == nil && enabled else {
-            return
-        }
-
-        guard let rootViewController = UIApplication.shared.delegate?.window??.rootViewController else {
-            print("No root view controller")
+        guard
+            let rootViewController = UIApplication.shared.delegate?.window??.rootViewController,
+            enabled
+        else {
             return
         }
 
         let presentationTarget = presentingTargetForReporterViewController(cannidate: rootViewController)
-        let reporterViewController = ReporterViewController.instance(withIssueManager: IssueManager(referenceView: presentationTarget.view))
+        reporterViewController = ReporterViewController.instance(withIssueManager: IssueManager(referenceView: presentationTarget.view))
 
-        self.reporterViewController = reporterViewController
+        guard let reporterViewController = self.reporterViewController else { return }
+
         let navigationController = UINavigationController(rootViewController: reporterViewController)
-
         presentationTarget.present(navigationController, animated: true)
+
     }
 
     class func dismissReporterView(with success: Bool) {
