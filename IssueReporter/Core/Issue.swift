@@ -22,13 +22,8 @@ internal struct Issue {
     var files: [File] = []
     
     var textRepresentation : String {
-
-        let debugInformationDictionary = Reporter.debugInformationForIssueReporter()
-        let debugInformationString = debugInformationDictionary.map {
-            return "\($0.key) : \($0.value)"
-        }.joined(separator: "\n")
         
-        let base = "\(issueDescription) \n\n \(debugInformationString)"
+        let base = "\(issueDescription) \n\n \(standardDebugInformation) \n \(extraDebugInformation)"
 
         let fileURLs = files.filter { $0.state == .done }.map { $0.htmlURL!.absoluteString }.joined(separator: "\n")
         
@@ -41,5 +36,30 @@ internal struct Issue {
     var dictionaryRepresentation : [String : String] {
         return ["title" : title.isEmpty ? "no title" : title,
                 "body" : textRepresentation]
+    }
+    
+    private var extraDebugInformation : String {
+        return """
+        <details>
+        <summary>Extra Debugging Information</summary>
+        <table>
+            <tr>
+            <th>Key</th>
+            <th>Value</th>
+            </tr>
+            \(Reporter.additionalDebuggingInformation().map {
+                return "<tr><td>\($0.key)</td><td>\($0.value)</td></tr>"
+            }.joined(separator: "\n"))
+        </table>
+        </details>
+        """
+    }
+    
+    private var standardDebugInformation : String {
+        let debugInformationDictionary = Reporter.standardDebuggingInformation()
+        
+        return debugInformationDictionary.map {
+            return "\($0.key) : \($0.value)"
+        }.joined(separator: "\n")
     }
 }

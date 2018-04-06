@@ -32,7 +32,7 @@ import UIKit
 
     private static var notificationObserver: NSObjectProtocol?
 
-    public class func debugInformationForIssueReporter() -> [String: String] {
+    internal class func standardDebuggingInformation() -> [String: String] {
 
         var info = [
             "Current Localization": Locale.preferredLanguages[0],
@@ -44,9 +44,11 @@ import UIKit
         info["Bundle Version"] = Bundle.main.infoDictionary?["CFBundleVersion"] as? String
         info["Name"] = UserDefaults.standard.string(forKey: "tester_name")
 
-        Reporter.delegate?.debugInformationForIssueReporter().forEach { info[$0] = $1 }
-
         return info
+    }
+    
+    internal class func additionalDebuggingInformation() -> [String : String] {
+        return Reporter.delegate?.debugInformationForIssueReporter() ?? [:]
     }
 
     public class func shouldPresentNameAlert() -> Bool {
