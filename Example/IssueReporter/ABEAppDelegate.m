@@ -37,13 +37,11 @@
 
 - (NSDictionary<NSString *,NSData *> *)debugFilesForIssueReporter {
     // Files are uploaded to a the specified repository.
-
-    return @{@"test-file" : [NSJSONSerialization dataWithJSONObject:@{@"json" : @"object"} options:0 error:nil]};
+    return @{[NSUUID UUID].UUIDString : [NSJSONSerialization dataWithJSONObject:@{@"json" : @"object"} options:0 error:nil]};
 }
 
 - (NSDictionary<NSString *,NSString *> *)debugInformationForIssueReporter {
-    // Return extra debugging flags from the device, displayed in a header.
-
+    // Return extra debugging flags from the device, displayed in a table.
     return @{};
 }
 

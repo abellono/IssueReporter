@@ -1,16 +1,16 @@
 PODS:
-  - IssueReporter (3.0.1)
+  - IssueReporter (4.1.0)
 
 DEPENDENCIES:
   - IssueReporter (from `../`)
 
 EXTERNAL SOURCES:
   IssueReporter:
-    :path: ../
+    :path: "../"
 
 SPEC CHECKSUMS:
-  IssueReporter: af75ebabb19d2fc81a473360ffc265df6e2fbccf
+  IssueReporter: 105086e091b16c714dc46fdbaf6166bec5a428f5
 
 PODFILE CHECKSUM: e323b233ed51847fcff426f8ee50ffb116e868ec
 
-COCOAPODS: 1.4.0.beta.2
+COCOAPODS: 1.5.0
