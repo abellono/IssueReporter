@@ -35,9 +35,14 @@
     return YES;
 }
 
-- (NSDictionary<NSString *,NSData *> *)debugFilesForIssueReporter {
+- (NSDictionary<NSString *,NSData *> * _Nonnull)debugFilesForIssueReporter {
     // Files are uploaded to a the specified repository.
     return @{[NSUUID UUID].UUIDString : [NSJSONSerialization dataWithJSONObject:@{@"json" : @"object"} options:0 error:nil]};
+}
+
+- (void)debugFilesForIssueReporterWithCompletion:(void (^)(NSDictionary<NSString *, NSData *> *))completion {
+    // Load some data from disk, and call the completion handler with the name of the file and the data.
+    completion(@{[NSUUID UUID].UUIDString : [NSJSONSerialization dataWithJSONObject:@{@"json" : @"object"} options:0 error:nil]});
 }
 
 - (NSDictionary<NSString *,NSString *> *)debugInformationForIssueReporter {

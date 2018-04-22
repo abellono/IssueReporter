@@ -53,13 +53,13 @@ internal class IssueManager {
         let referenceImage = drawSnapshotOf(referenceView: referenceView)
         add(image: referenceImage)
 
-        if let debugFiles = Reporter.delegate?.debugFilesForIssueReporter() {
-            for (path, contents) in debugFiles {
-                addFile(at: path, with: contents)
+        Reporter.delegate?.debugFilesForIssueReporter { files in
+            for (path, contents) in files {
+                self.addFile(at: path, with: contents)
             }
-        }
 
-        persist(files: self.files)
+            self.persist(files: self.files)
+        }
     }
     
     private func drawSnapshotOf(referenceView view: UIView) -> UIImage {

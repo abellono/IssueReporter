@@ -14,7 +14,7 @@ import UIKit
 
     func debugInformationForIssueReporter() -> [String: String]
 
-    func debugFilesForIssueReporter() -> [String: Data]
+    func debugFilesForIssueReporter(completion: @escaping ([String: Data]) -> ())
 
     func didDismissIssueReporter(with success: Bool)
 
