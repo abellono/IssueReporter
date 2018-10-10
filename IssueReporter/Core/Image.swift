@@ -27,7 +27,7 @@ internal class Image {
         
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let strongSelf = self else { return }
-            strongSelf.imageData = UIImageJPEGRepresentation(strongSelf.image, CGFloat(strongSelf.compressionRatio))
+            strongSelf.imageData = strongSelf.image.jpegData(compressionQuality: CGFloat(strongSelf.compressionRatio))
         }
     }
     

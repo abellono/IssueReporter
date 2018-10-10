@@ -56,7 +56,7 @@ internal extension UIWindow {
         }
     }
 
-    @objc internal func abe_motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
+    @objc internal func abe_motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
         if let event = event, event.type == .motion, event.subtype == .motionShake {
             NotificationCenter.default.post(name: .onWindowShake, object: self)
         }

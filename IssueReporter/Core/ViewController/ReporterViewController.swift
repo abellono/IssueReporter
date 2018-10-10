@@ -156,7 +156,7 @@ extension ReporterViewController: IssueManagerDelegate {
         imageCollectionViewController?.collectionView?.reloadData()
         
         if issueManager.isUploading {
-            let spinner = UIActivityIndicatorView(activityIndicatorStyle: .white)
+            let spinner = UIActivityIndicatorView(style: .white)
             
             navigationItem.rightBarButtonItem = UIBarButtonItem(customView: spinner)
             navigationItem.rightBarButtonItem?.isEnabled = false
