@@ -40,7 +40,7 @@
     return @{[NSUUID UUID].UUIDString : [NSJSONSerialization dataWithJSONObject:@{@"json" : @"object"} options:0 error:nil]};
 }
 
-- (void)debugFilesForIssueReporterWithCompletion:(void (^)(NSDictionary<NSString *, NSData *> *))completion {
+- (void)debugFilesFor:(NSString * _Nonnull)issueIdentifier with:(void (^ _Nonnull)(NSDictionary<NSString *, NSData *> * _Nonnull))completion {
     // Load some data from disk, and call the completion handler with the name of the file and the data.
     completion(@{[NSUUID UUID].UUIDString : [NSJSONSerialization dataWithJSONObject:@{@"json" : @"object"} options:0 error:nil]});
 }
