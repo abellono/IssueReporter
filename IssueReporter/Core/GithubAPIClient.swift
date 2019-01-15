@@ -41,7 +41,7 @@ internal final class GithubAPI {
             let humanReadableDescription = GithubAPIClient.humanReadableDescriptionForMissingInformation()!
             throw IssueReporterError.missingInformation(name: humanReadableDescription)
         }
-        
+
         var request = try self.baseGithubRequest(method: "POST", path: "repos/\(owner)/\(name)/issues")
 
         do {
@@ -69,7 +69,7 @@ internal final class GithubAPI {
         var request = try self.baseGithubRequest(method: "PUT", path: "repos/\(owner)/\(name)/contents/\(path)")
 
         let parameters = [
-            "message": "Issue \"\(issue.title)\" file upload",
+            "message": "uploading file \(path) for issue \(issue.identifier)",
             "content": data.base64EncodedString()
         ]
 
@@ -97,7 +97,7 @@ internal final class GithubAPI {
         }
     }
 
-    static func handleReponseSuccess(code successCode: Int, data: Data?, response: URLResponse?, error: Error?) throws -> (HTTPURLResponse, Data) {
+    static func handleReponseSuccess(code successRange: Range<Int>, data: Data?, response: URLResponse?, error: Error?) throws -> (HTTPURLResponse, Data) {
         if let error = error {
             throw IssueReporterError.error(error: error)
         }
@@ -110,7 +110,9 @@ internal final class GithubAPI {
             throw IssueReporterError.invalid(name: "github token or github repository path")
         }
 
-        if response.statusCode != successCode {
+        if false == (successRange ~= response.statusCode) {
+            // not successful
+
             guard
                 let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
                 let errorMessage = json["message"] as? String
@@ -126,7 +128,7 @@ internal final class GithubAPI {
 }
 
 internal final class GithubAPIClient {
-    
+
     static var githubToken: String?
     static var githubRepositoryName: String?
     static var githubRepositoryOwner: String?
@@ -145,11 +147,11 @@ internal final class GithubAPIClient {
 
         return nil
     }
-    
+
     static let shared = GithubAPIClient()
-    
+
     private init() { }
-    
+
     func save(issue: Issue, callback queue: DispatchQueue = DispatchQueue.main,
               success: @escaping () -> (), failure: @escaping (IssueReporterError) -> ()) {
         let issueRequest: URLRequest
@@ -160,10 +162,10 @@ internal final class GithubAPIClient {
             GithubAPI.handle(error: error, with: failure, on: queue)
             return
         }
-        
+
         URLSession.shared.dataTask(with: issueRequest) { (data, response, error) in
             do {
-                let _ = try GithubAPI.handleReponseSuccess(code: 201, data: data, response: response, error: error)
+                let _ = try GithubAPI.handleReponseSuccess(code: 200..<300, data: data, response: response, error: error)
                 queue.async(execute: success)
             } catch {
                 GithubAPI.handle(error: error, with: failure, on: queue)
@@ -185,7 +187,7 @@ internal final class GithubAPIClient {
 
         URLSession.shared.dataTask(with: uploadRequest) { (data, response, error) in
             do {
-                let (_, data) = try GithubAPI.handleReponseSuccess(code: 201, data: data, response: response, error: error)
+                let (_, data) = try GithubAPI.handleReponseSuccess(code: 200..<300, data: data, response: response, error: error)
 
                 guard
                     let responseJSON = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],

@@ -32,8 +32,8 @@ internal class KeyboardLayoutConstraint: NSLayoutConstraint {
 
         offset = constant
 
-        NotificationCenter.default.addObserver(self, selector: #selector(KeyboardLayoutConstraint.keyboardWillShowNotification(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(KeyboardLayoutConstraint.keyboardWillHideNotification(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(KeyboardLayoutConstraint.keyboardWillShowNotification(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(KeyboardLayoutConstraint.keyboardWillHideNotification(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
     deinit {
@@ -44,29 +44,25 @@ internal class KeyboardLayoutConstraint: NSLayoutConstraint {
 
     @objc func keyboardWillShowNotification(_ notification: Notification) {
         if let userInfo = notification.userInfo {
-            if let frameValue = userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue {
+            if let frameValue = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
                 let frame = frameValue.cgRectValue
                 keyboardVisibleHeight = frame.size.height
             }
 
             updateConstant()
-            switch (userInfo[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber, userInfo[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber) {
-            case let (.some(duration), .some(curve)):
 
-                let options = UIViewAnimationOptions(rawValue: curve.uintValue)
+            guard
+                let duration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber,
+                let curve = userInfo[UIResponder.keyboardAnimationCurveUserInfoKey] as? NSNumber
+            else { return }
 
-                UIView.animate(
-                    withDuration: TimeInterval(duration.doubleValue),
-                    delay: 0,
-                    options: options,
-                    animations: {
-                        UIApplication.shared.keyWindow?.layoutIfNeeded()
-                        return
-                }, completion: nil)
-            default:
-
-                break
-            }
+            UIView.animate(
+                withDuration: TimeInterval(duration.doubleValue),
+                delay: 0,
+                options: UIView.AnimationOptions(rawValue: curve.uintValue),
+                animations: {
+                    UIApplication.shared.keyWindow?.layoutIfNeeded()
+            }, completion: nil)
         }
     }
 
@@ -76,22 +72,19 @@ internal class KeyboardLayoutConstraint: NSLayoutConstraint {
 
         if let userInfo = notification.userInfo {
 
-            switch (userInfo[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber, userInfo[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber) {
-            case let (.some(duration), .some(curve)):
+            guard
+                let duration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber,
+                let curve = userInfo[UIResponder.keyboardAnimationCurveUserInfoKey] as? NSNumber
+            else { return }
 
-                let options = UIViewAnimationOptions(rawValue: curve.uintValue)
-
-                UIView.animate(
-                    withDuration: TimeInterval(duration.doubleValue),
-                    delay: 0,
-                    options: options,
-                    animations: {
-                        UIApplication.shared.keyWindow?.layoutIfNeeded()
-                        return
-                }, completion: nil)
-            default:
-                break
-            }
+            UIView.animate(
+                withDuration: TimeInterval(duration.doubleValue),
+                delay: 0,
+                options: UIView.AnimationOptions(rawValue: curve.uintValue),
+                animations: {
+                    UIApplication.shared.keyWindow?.layoutIfNeeded()
+                    return
+            }, completion: nil)
         }
     }
 

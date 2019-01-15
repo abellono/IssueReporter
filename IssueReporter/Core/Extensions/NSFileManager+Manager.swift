@@ -15,38 +15,49 @@ internal extension FileManager {
     static let pngSuffix = ".png"
     
     class func eraseStoredPicturesFromDisk() {
-        do {
-            let options: DirectoryEnumerationOptions = [.skipsSubdirectoryDescendants , .skipsPackageDescendants, .skipsHiddenFiles]
-            let directory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-            let pictureDirectory = directory.appendingPathComponent(FileManager.documentsSubdirectoryName)
-        
-            for file in try FileManager.default.contentsOfDirectory(at: pictureDirectory, includingPropertiesForKeys: nil, options: options) {
-                if file.lastPathComponent.hasSuffix(FileManager.pngSuffix) {
-                    DispatchQueue.main.async {
-                        try? FileManager.default.removeItem(at: file)
+        DispatchQueue.global(qos: .userInitiated).async {
+            do {
+                let manager = FileManager()
+                let options: DirectoryEnumerationOptions = [.skipsSubdirectoryDescendants , .skipsPackageDescendants, .skipsHiddenFiles]
+                let directory = try manager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+                let pictureDirectory = directory.appendingPathComponent(FileManager.documentsSubdirectoryName)
+
+                for file in try manager.contentsOfDirectory(at: pictureDirectory, includingPropertiesForKeys: nil, options: options) {
+                    if file.lastPathComponent.hasSuffix(FileManager.pngSuffix) {
+                        DispatchQueue.global(qos: .userInitiated).async {
+                            try? FileManager.default.removeItem(at: file)
+                        }
                     }
                 }
+            } catch {
+                print("Error while deleting temporary files : \(error)")
             }
-        } catch {
-            print("Error while deleting temporary files : \(error)")
         }
     }
     
-    class func write(data: Data, completion: (URL) -> (), error _error: (Error) -> ()) {        
-        do {
-            let directory = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-            let pictureDirectory = directory.appendingPathComponent(FileManager.documentsSubdirectoryName)
+    class func write(data: Data,
+                     completion: @escaping (URL) -> (),
+                     errorBlock: @escaping (Error) -> ()) {
 
-            try FileManager.default.createDirectory(at: pictureDirectory, withIntermediateDirectories: true, attributes: nil)
+        DispatchQueue.global(qos: .userInitiated).async {
+            do {
+                let manager = FileManager()
+                let directory = try manager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+                let pictureDirectory = directory.appendingPathComponent(FileManager.documentsSubdirectoryName)
 
-            let saveLocation = pictureDirectory.randomURL(withExtension: FileManager.pngSuffix)
-        
-            try data.write(to: saveLocation)
-            
-            completion(saveLocation)
-        } catch {
-            _error(error)
-            return;
+                try manager.createDirectory(at: pictureDirectory, withIntermediateDirectories: true, attributes: nil)
+
+                let saveLocation = pictureDirectory.randomURL(withExtension: FileManager.pngSuffix)
+                try data.write(to: saveLocation)
+
+                DispatchQueue.main.async {
+                    completion(saveLocation)
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    errorBlock(error)
+                }
+            }
         }
     }
 }

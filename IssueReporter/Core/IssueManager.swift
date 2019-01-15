@@ -53,9 +53,9 @@ internal class IssueManager {
         let referenceImage = drawSnapshotOf(referenceView: referenceView)
         add(image: referenceImage)
 
-        Reporter.delegate?.debugFilesForIssueReporter { files in
-            for (path, contents) in files {
-                self.addFile(at: path, with: contents)
+        Reporter.delegate?.debugFiles(for: issue.identifier) { files in
+            for (name, contents) in files {
+                self.addFile(name: name, with: contents)
             }
 
             self.persist(files: self.files)
@@ -88,16 +88,16 @@ internal class IssueManager {
         persistToCloud(image: image, with: data)
     }
 
-    func addFile(at path: String, with contents: Data) {
-        let file = File(path: path, data: contents)
+    func addFile(name: String, with contents: Data) {
+        let file = File(name: name, data: contents)
         file.state = .uploading
         issue.files.append(file)
     }
 
     // MARK : File Persistance
 
-    func persist(files _files: [File]) {
-        var files = _files
+    func persist(files: [File]) {
+        var files = files
         guard let next = files.popLast() else {
             return
         }
@@ -108,7 +108,7 @@ internal class IssueManager {
     }
 
     func persist(file: File, completion: @escaping () -> ()) {
-        GithubAPIClient.shared.upload(file: file.data, for: issue, at: file.path, success: { [weak self] (url) in
+        GithubAPIClient.shared.upload(file: file.data, for: issue, at: file.name, success: { [weak self] (url) in
             guard let strongSelf = self else { return }
 
             file.htmlURL = url
@@ -146,7 +146,7 @@ internal class IssueManager {
         DispatchQueue.global(qos: .default).async {
             FileManager.write(data: data, completion: { url in
                 image.localImageURL = url
-            }, error: { error in
+            }, errorBlock: { error in
                 print("Error saving image or screenshot to disk. Error : \(error)")
             })
         }

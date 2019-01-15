@@ -39,11 +39,11 @@ extension ImageCollectionViewController: UIImagePickerControllerDelegate {
         picker.presentingViewController?.dismiss(animated: true)
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.presentingViewController?.dismiss(animated: true)
         
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            if let image = info[.originalImage] as? UIImage {
                 self?.issueManager.add(image: image)
             }
         }
@@ -135,4 +135,14 @@ extension ImageCollectionViewController  {
         cell.didErrorDuringUpload = image.state == .errored
         return cell
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
+	return input.rawValue
 }

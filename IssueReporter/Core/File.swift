@@ -9,13 +9,16 @@ import Foundation
 
 internal class File {
 
-    var path: String
+    var name: String
     var data: Data
     var state: State = .initial
     var htmlURL: URL? = nil
 
-    init(path: String, data: Data) {
-        self.path = path
+    init(name: String, data: Data) {
+        assert(data.count > 0)
+        assert(name.count > 0)
+        
+        self.name = name
         self.data = data
     }
 }

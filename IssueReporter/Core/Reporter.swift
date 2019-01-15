@@ -14,7 +14,7 @@ import UIKit
 
     func debugInformationForIssueReporter() -> [String: String]
 
-    func debugFilesForIssueReporter(completion: @escaping ([String: Data]) -> ())
+    func debugFiles(for issueIdentifier: String, with completion: @escaping ([String: Data]) -> ())
 
     func didDismissIssueReporter(with success: Bool)
 
@@ -86,26 +86,27 @@ import UIKit
     @objc public class func showReporterView() {
 
         guard
-            let rootViewController = UIApplication.shared.delegate?.window??.rootViewController,
-            enabled
+            enabled,
+            self.reporterViewController == nil,
+            let rootViewController = UIApplication.shared.delegate?.window??.rootViewController
         else {
             return
         }
 
         let presentationTarget = presentingTargetForReporterViewController(cannidate: rootViewController)
-        reporterViewController = ReporterViewController.instance(withIssueManager: IssueManager(referenceView: presentationTarget.view))
-
-        guard let reporterViewController = self.reporterViewController else { return }
+        let reporterViewController = ReporterViewController.instance(withIssueManager: IssueManager(referenceView: presentationTarget.view))
+        self.reporterViewController = reporterViewController
 
         let navigationController = UINavigationController(rootViewController: reporterViewController)
         presentationTarget.present(navigationController, animated: true)
-
     }
 
     class func dismissReporterView(with success: Bool) {
-        FileManager.eraseStoredPicturesFromDisk()
         self.reporterViewController?.presentingViewController?.dismiss(animated: true)
+
+        FileManager.eraseStoredPicturesFromDisk()
         self.delegate?.didDismissIssueReporter(with: success)
+        self.reporterViewController = nil
     }
 
     private class func presentingTargetForReporterViewController(cannidate: UIViewController) -> UIViewController {

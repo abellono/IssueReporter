@@ -15,7 +15,8 @@ internal enum State {
 }
 
 internal struct Issue {
-   
+
+    var identifier = NSUUID().uuidString
     var title = ""
     var issueDescription = " "
     var images: [Image] = []

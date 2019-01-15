@@ -50,7 +50,9 @@ internal class ReporterViewController: UIViewController {
         
         navigationController?.navigationBar.barTintColor = UIColor.blueNavigationBarColor()
         navigationController?.navigationBar.isTranslucent = false
+        
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor : UIColor.white]
+//        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
     }
     
     private func configureTextView() {
@@ -90,7 +92,7 @@ internal class ReporterViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let identifier = segue.identifier, identifier == "embed_segue" {
-            imageCollectionViewController = segue.destination as! ImageCollectionViewController
+            imageCollectionViewController = segue.destination as? ImageCollectionViewController
             imageCollectionViewController.issueManager = issueManager
         }
     }
@@ -152,18 +154,25 @@ internal class ReporterViewController: UIViewController {
 
 extension ReporterViewController: IssueManagerDelegate {
 
+    static let spinner = UIActivityIndicatorView(style: .white)
+
     internal func issueManagerUploadingStateDidChange(issueManager: IssueManager) {
         imageCollectionViewController?.collectionView?.reloadData()
+
+        if issueManager.isUploading == ReporterViewController.spinner.isAnimating {
+            return
+        }
         
         if issueManager.isUploading {
-            let spinner = UIActivityIndicatorView(activityIndicatorStyle: .white)
+            let spinner = UIActivityIndicatorView(style: .white)
             
             navigationItem.rightBarButtonItem = UIBarButtonItem(customView: spinner)
             navigationItem.rightBarButtonItem?.isEnabled = false
             
-            spinner.startAnimating()
+            ReporterViewController.spinner.startAnimating()
             
         } else {
+            ReporterViewController.spinner.stopAnimating()
             navigationItem.rightBarButtonItem = UIBarButtonItem.saveButton(self, action: #selector(ReporterViewController.saveIssue))
             navigationItem.rightBarButtonItem?.isEnabled = true
         }
