@@ -1,4 +1,3 @@
-
 Pod::Spec.new do |s|
   s.name             = "IssueReporter"
   s.version          = "5.0.1"
